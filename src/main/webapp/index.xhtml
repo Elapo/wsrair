@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{msgs['index.title']}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="formid">
+			<p:inputText id="simcardNumber" value="#{backingBean.simcard.number}">
+				<p:ajax update="msgSimcard" event="keyup"></p:ajax>
+			</p:inputText>
+			<p:message id="msgSimcard" for="simcardNumber"></p:message>
+			<p:commandButton value="Add SimCard" update="@form dtSim"
+				action="#{backingBean.addSimCard()}">
+			</p:commandButton>
+			
+		</h:form>
+
+		<p:dataTable id="dtSim" var="card" value="#{backingBean.allSimCard()}"
+			tableStyle="width:auto">
+			<p:column headerText="Id">
+				<h:outputText value="#{card.id}" />
+			</p:column>
+			<p:column headerText="Number">
+				<h:outputText value="#{card.number}" />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
+</html>

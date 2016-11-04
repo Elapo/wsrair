@@ -4,6 +4,8 @@
 ### Eclipse ###
 
 .metadata
+WebContent/
+target/
 bin/
 tmp/
 *.tmp
