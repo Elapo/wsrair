@@ -2,11 +2,4 @@
     <simcard id="1000" number="01020304" owner="shenno" />
     <simcard id="1001" number="04030201" owner="shenno" />
     <simcard id="1002" number="13232323" owner="shenno" />
-    <simcard id="1003" number="55455455" owner="shenno" />  
-    <simcard id="1004" number="88924555" owner="shenno" />
-    <simcard id="1005" number="56565555" owner="shenno" />  
-    <simcard id="1006" number="45646488" owner="shenno" />
-    <simcard id="1007" number="22222222" owner="shenno" />  
-    <simcard id="1008" number="15715744" owner="shenno" />
-    <simcard id="1010" number="98245566" owner="shenno" />  
 </dataset>
