@@ -1,5 +1,6 @@
 package com.realdolmen.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,11 +15,11 @@ public class Airport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String name;
-	
-	@ManyToOne
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "regionId")
 	private Region region;
 
@@ -47,6 +48,11 @@ public class Airport {
 	}
 
 	public Airport() {
+	}
+
+	public Airport(String name, Region region) {
+		this.name = name;
+		this.region = region;
 	}
 
 }

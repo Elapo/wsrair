@@ -9,22 +9,42 @@
 	<f:loadBundle basename="com.realdolmen.Messages" var="msgs" />
 
 	<h:head>
+		<!-- REMOVE --><link rel="stylesheet" type="text/css" href="../../resources/css/bootstrap.min.css" />
 		<title><ui:insert name="title">Placeholder</ui:insert></title>
-		<link href="./styling/bootstrap.min.css" rel="stylesheet" />
-        <script type="text/javascript" src="./styling/bootstrap.min.js"></script>
+		<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+		<h:outputScript library="js" name="bootstrap.min.js" />
 	</h:head>
 	<h:body>
-		<header>
-			<h1>
-				<ui:insert name="title">Placeholder</ui:insert>
-			</h1>
-		</header>
-		<div class="jumbotron">
-		<ui:insert name="content">
-  			Contentt
-  		</ui:insert>
-  		</div>
-		<p>Copyright 2016 Realdolmen</p>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<header>
+						<h:form>
+							<p:menubar>
+								<p:menuitem value="Home" action="index"
+									icon="ui-icon-home" />
+
+								<p:menuitem value="Find flight" action="findFlight"
+									icon="ui-icon-search" />
+
+								<f:facet name="options">
+									<p:menuitem></p:menuitem>
+									<p:commandButton type="button" value="Logout"
+										icon="ui-icon-extlink" />
+								</f:facet>
+							</p:menubar>
+						</h:form>
+					</header>
+					<div class="jumbotron">
+						<ui:insert name="content">Content</ui:insert>
+					</div>
+				</div>
+			</div>
+			<footer>
+			<p>Copyright 2016 Realdolmen</p>
+			</footer>
+		</div>
+		
 	</h:body>
 </f:view>
 </html>

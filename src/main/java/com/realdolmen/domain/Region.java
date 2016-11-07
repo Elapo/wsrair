@@ -12,7 +12,7 @@ public class Region {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String name;
 
@@ -33,6 +33,11 @@ public class Region {
 	}
 
 	public Region() {
+	}
+
+	public Region(String name) {
+		super();
+		this.name = name;
 	}
 
 }
