@@ -13,30 +13,30 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Flight {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="depAirportId")
+	@JoinColumn(name = "depAirportId")
 	private Airport departureLocation;
-	
+
 	private LocalDateTime departureDateTime;
-	
+
 	@ManyToOne
-	@JoinColumn(name="arrAirportId")
+	@JoinColumn(name = "arrAirportId")
 	private Airport arrivalLocation;
-	
+
 	private LocalDateTime arrivalDateTime;
-	
+
 	@OneToMany
 	private List<PricingRule> priceRules;
-	
+
 	@ManyToOne
-	@JoinColumn(name="partnerId")
+	@JoinColumn(name = "partnerId")
 	private Partner partner;
-	
+
 	@OneToMany
 	private List<FlightTravelCategory> flightTravelCategory;
 
@@ -95,7 +95,7 @@ public class Flight {
 	public void setPartner(Partner partner) {
 		this.partner = partner;
 	}
-	
+
 	public List<FlightTravelCategory> getFlightTravelCategory() {
 		return flightTravelCategory;
 	}
