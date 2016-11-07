@@ -19,7 +19,7 @@ public class FlightTravelCategory {
 	
 	private Double seatPrice;
 	private Integer maximumSeats;
-	//private Integer openSeats;
+	private Integer openSeats;
 
 	public Long getId() {
 		return id;
@@ -52,8 +52,18 @@ public class FlightTravelCategory {
 	public void setMaximumSeats(Integer maximumSeats) {
 		this.maximumSeats = maximumSeats;
 	}
+	
+	public Integer getOpenSeats() {
+		return openSeats;
+	}
+
+	public void setOpenSeats(Integer openSeats) {
+		this.openSeats = openSeats;
+	}
 
 	public FlightTravelCategory() {
 	}
 
+
+	
 }
