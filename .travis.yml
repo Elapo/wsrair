@@ -1,8 +1,10 @@
 language: java
 
 script: mvn -DargLine="-DdatabaseEngine=h2" clean verify
+
 notifications:
   email: false
+  slack: rair-bestteam:vFeB90JXODiCNEFApbH8BKCe
   
 jdk:
   - oraclejdk8
@@ -11,6 +13,3 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-      
-notifications:
-  slack: rair-bestteam:vFeB90JXODiCNEFApbH8BKCe
