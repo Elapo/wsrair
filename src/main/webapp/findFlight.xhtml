@@ -11,7 +11,8 @@
 		<h:outputText value="#{backingBean.userRole}"></h:outputText>
 		<h1>Laten we een vlucht zoeken</h1>
 
-		<p:dataTable var="flight" value="#{flightController.flights}">
+		<p:dataTable var="flight" value="#{flightController.flights}"
+			tableStyle="width:auto">
 			<p:column headerText="Id">
 				<h:outputText value="#{flight.id}" />
 			</p:column>
@@ -19,6 +20,33 @@
 			<p:column headerText="Departure">
 				<h:outputText value="#{flight.departureLocation.name}" />
 			</p:column>
+
+			<p:column headerText="Dep time (GMT)">
+				<h:outputText value="#{flight.departureDateTime}" escape="false">
+					<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Arrival">
+				<h:outputText value="#{flight.arrivalLocation.name}" />
+			</p:column>
+
+			<p:column headerText="Arrival time (GMT)">
+				<h:outputText value="#{flight.arrivalDateTime}" escape="false">
+					<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Edit + Pricerules">
+				<h:form>
+					<p:button outcome="manageFlight" value="Manage"
+						icon="ui-icon-pencil" >
+						<f:param name="flightId" value="#{flight.id}"></f:param>
+					</p:button>
+				</h:form>
+
+			</p:column>
+
 		</p:dataTable>
 	</ui:define>
 </ui:composition>

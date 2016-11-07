@@ -18,4 +18,12 @@ public class FlightRepository {
 		return entityManager.createQuery("from Flight f where f.partner.id = :id", Flight.class).setParameter("id", id)
 				.getResultList();
 	}
+
+	public Flight findFlightById(Long id) {
+		return entityManager.find(Flight.class, id);
+	}
+
+	public Flight update(Flight f) {
+		return entityManager.merge(f);
+	}
 }

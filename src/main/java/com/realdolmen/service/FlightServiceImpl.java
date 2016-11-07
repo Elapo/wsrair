@@ -15,10 +15,20 @@ public class FlightServiceImpl implements FlightService {
 
 	@EJB
 	private FlightRepository flightRepository;
-	
+
 	@Override
 	public List<Flight> findAllFlightsByPartnerId(long id) {
 		return flightRepository.findAllFlightsByPartnerId(id);
+	}
+
+	@Override
+	public Flight findFlightById(long id) {
+		return flightRepository.findFlightById(id);
+	}
+
+	@Override
+	public Flight update(Flight flight) {
+		return flightRepository.update(flight);
 	}
 
 }

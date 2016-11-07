@@ -9,6 +9,10 @@ import com.realdolmen.domain.Flight;
 @Remote
 public interface FlightService {
 
-		List<Flight> findAllFlightsByPartnerId(long id);
-	
+	List<Flight> findAllFlightsByPartnerId(long id);
+
+	Flight findFlightById(long id);
+
+	Flight update(Flight flight);
+
 }
