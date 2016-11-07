@@ -8,8 +8,7 @@ public class AirportTest extends JpaPersistenceTest {
 
 	@Test
 	public void canCreateAirportTest() throws Exception {
-		Region region = new Region("Belgie");
-		Airport a = new Airport("Zaventem", region);
+		Airport a = new Airport("Zaventem", Region.EUROPE);
 		entityManager().persist(a);
 		assertNotNull(a.getId());
 

@@ -56,7 +56,6 @@
          -->
         <class>com.realdolmen.domain.SimCard</class>
         <class>com.realdolmen.domain.Owner</class>
-        <class>com.realdolmen.domain.Region</class>
         <class>com.realdolmen.domain.Airport</class>
         <class>com.realdolmen.domain.Partner</class>
         <class>com.realdolmen.domain.User</class>

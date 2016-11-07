@@ -6,38 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity
-public class Region {
+public enum Region {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@NotNull
-	private String name;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Region() {
-	}
-
-	public Region(String name) {
-		super();
-		this.name = name;
-	}
-
+	AFRICA, NORTH_AMERICA, SOUTH_AMERICA, ASIA, EUROPE, OCEANIA, POLAR
 }
