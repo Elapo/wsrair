@@ -1,5 +1,6 @@
 <dataset>
-    <simcard id="1000" number="01020304" owner="shenno" />
-    <simcard id="1001" number="04030201" owner="shenno" />
-    <simcard id="1002" number="13232323" owner="shenno" />
+    <airport id="1000" name="Zaventem" airportCode="ZAV" country="Belgium" region="EUROPE" />
+    <airport id="1001" name="Charleroi" airportCode="CRL" country="Belgium" region="EUROPE" />
+    <airport id="2000" name="Charles De Gaules" airportCode="CDG" country="France" region="EUROPE" />
+    <airport id="3000" name="John F. Kennedy" airportCode="JFK" country="America" region="NORTH_AMERICA" />
 </dataset>

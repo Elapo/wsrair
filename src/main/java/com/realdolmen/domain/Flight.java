@@ -1,6 +1,6 @@
 package com.realdolmen.domain;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Flight {
@@ -22,13 +24,15 @@ public class Flight {
 	@JoinColumn(name = "depAirportId")
 	private Airport departureLocation;
 
-	private LocalDateTime departureDateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date departureDateTime;
 
 	@ManyToOne
 	@JoinColumn(name = "arrAirportId")
 	private Airport arrivalLocation;
 
-	private LocalDateTime arrivalDateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date arrivalDateTime;
 
 	@OneToMany
 	private List<PricingRule> priceRules;
@@ -56,11 +60,11 @@ public class Flight {
 		this.departureLocation = departureLocation;
 	}
 
-	public LocalDateTime getDepartureDateTime() {
+	public Date getDepartureDateTime() {
 		return departureDateTime;
 	}
 
-	public void setDepartureDateTime(LocalDateTime departureDateTime) {
+	public void setDepartureDateTime(Date departureDateTime) {
 		this.departureDateTime = departureDateTime;
 	}
 
@@ -72,11 +76,11 @@ public class Flight {
 		this.arrivalLocation = arrivalLocation;
 	}
 
-	public LocalDateTime getArrivalDateTime() {
+	public Date getArrivalDateTime() {
 		return arrivalDateTime;
 	}
 
-	public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+	public void setArrivalDateTime(Date arrivalDateTime) {
 		this.arrivalDateTime = arrivalDateTime;
 	}
 

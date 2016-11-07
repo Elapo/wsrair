@@ -1,12 +1,11 @@
 package com.realdolmen.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,8 +18,11 @@ public class Airport {
 	@NotNull
 	private String name;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "regionId")
+	private String airportCode;
+	
+	private String country;
+	
+	@Enumerated(EnumType.STRING)
 	private Region region;
 
 	public Long getId() {
@@ -45,6 +47,22 @@ public class Airport {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+	
+	public String getAirportCode() {
+		return airportCode;
+	}
+
+	public void setAirportCode(String airportCode) {
+		this.airportCode = airportCode;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public Airport() {

@@ -8,13 +8,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.realdolmen.domain.SimCard;
-import com.realdolmen.service.SimCardService;
-
 @Named
 @ApplicationScoped
 public class BackingBean implements Serializable {
 
+	/*
 	@Inject
 	private SimCardService service;
 
@@ -42,5 +40,6 @@ public class BackingBean implements Serializable {
 	public void setSimcard(SimCard simcard) {
 		this.simcard = simcard;
 	}
+	*/
 
 }

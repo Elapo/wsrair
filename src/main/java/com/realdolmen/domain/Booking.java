@@ -1,6 +1,7 @@
 package com.realdolmen.domain;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Booking {
@@ -28,7 +31,8 @@ public class Booking {
 	@Enumerated
 	private TravelCategory travelCategory;
 	
-	private LocalDateTime bookingDateTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date bookingDateTime;
 	
 	@Enumerated
 	private PaymentType paymentType;
@@ -67,11 +71,11 @@ public class Booking {
 		this.travelCategory = travelCategory;
 	}
 
-	public LocalDateTime getBookingDateTime() {
+	public Date getBookingDateTime() {
 		return bookingDateTime;
 	}
 
-	public void setBookingDateTime(LocalDateTime bookingDateTime) {
+	public void setBookingDateTime(Date bookingDateTime) {
 		this.bookingDateTime = bookingDateTime;
 	}
 
