@@ -9,6 +9,16 @@
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
 		<h1>Laten we een vlucht zoeken</h1>
+
+		<p:dataTable var="flight" value="#{flightController.flights}">
+			<p:column headerText="Id">
+				<h:outputText value="#{flight.id}" />
+			</p:column>
+
+			<p:column headerText="Departure">
+				<h:outputText value="#{flight.departureLocation}" />
+			</p:column>
+		</p:dataTable>
 	</ui:define>
 </ui:composition>
 </html>
