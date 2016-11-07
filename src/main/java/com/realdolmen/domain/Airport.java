@@ -1,5 +1,7 @@
 package com.realdolmen.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,7 +11,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Airport {
+public class Airport implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +21,9 @@ public class Airport {
 	private String name;
 
 	private String airportCode;
-	
+
 	private String country;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
@@ -48,7 +50,7 @@ public class Airport {
 	public void setRegion(Region region) {
 		this.region = region;
 	}
-	
+
 	public String getAirportCode() {
 		return airportCode;
 	}

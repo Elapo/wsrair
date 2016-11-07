@@ -13,8 +13,9 @@ public class FlightRepository {
 
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	public List<Flight> findAllFlightsByPartnerId(Long id){
-        return entityManager.createQuery("from Flight f where f.partner.id = :id", Flight.class).setParameter("id", id).getResultList();
-    }
+
+	public List<Flight> findAllFlightsByPartnerId(Long id) {
+		return entityManager.createQuery("from Flight f where f.partner.id = :id", Flight.class).setParameter("id", id)
+				.getResultList();
+	}
 }

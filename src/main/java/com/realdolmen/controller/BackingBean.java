@@ -1,45 +1,49 @@
 package com.realdolmen.controller;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
-@Named
-@ApplicationScoped
+import com.realdolmen.domain.Partner;
+import com.realdolmen.domain.Role;
+
+@SessionScoped
+@ManagedBean
 public class BackingBean implements Serializable {
-
-	/*
-	@Inject
-	private SimCardService service;
-
-	private SimCard simcard;
+	private String userName;
+	private Role userRole;
+	private Partner partner;
 
 	@PostConstruct
 	private void init() {
-		System.out.println("init new simcard");
-		simcard = new SimCard("12345678");
+		System.out.println("backingBEANNNN");
+		userRole = Role.EMPLOYEE;
 	}
 
-	public List<SimCard> allSimCard() {
-		return service.findAll();
+	public String getUserName() {
+		return userName;
 	}
 
-	public void addSimCard() {
-		System.out.println("add new simcard" + simcard.getNumber());
-		service.save(new SimCard(simcard));
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public SimCard getSimcard() {
-		return simcard;
+	public Role getUserRole() {
+		return userRole;
 	}
 
-	public void setSimcard(SimCard simcard) {
-		this.simcard = simcard;
+	public void setUserRole(Role userRole) {
+		this.userRole = userRole;
 	}
-	*/
+
+	public Partner getPartner() {
+		return partner;
+	}
+
+	public void setPartner(Partner partner) {
+		this.partner = partner;
+	}
 
 }

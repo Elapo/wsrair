@@ -1,6 +1,6 @@
 package com.realdolmen.domain;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,33 +15,33 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Flight {
-	
+public class Flight implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="depAirportId")
+	@JoinColumn(name = "depAirportId")
 	private Airport departureLocation;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date departureDateTime;
-	
+
 	@ManyToOne
-	@JoinColumn(name="arrAirportId")
+	@JoinColumn(name = "arrAirportId")
 	private Airport arrivalLocation;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date arrivalDateTime;
-	
+
 	@OneToMany
 	private List<PricingRule> priceRules;
-	
+
 	@ManyToOne
-	@JoinColumn(name="partnerId")
+	@JoinColumn(name = "partnerId")
 	private Partner partner;
-	
+
 	@OneToMany
 	private List<FlightTravelCategory> flightTravelCategory;
 
@@ -100,7 +100,7 @@ public class Flight {
 	public void setPartner(Partner partner) {
 		this.partner = partner;
 	}
-	
+
 	public List<FlightTravelCategory> getFlightTravelCategory() {
 		return flightTravelCategory;
 	}
