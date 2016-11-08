@@ -29,12 +29,12 @@
 									icon="ui-icon-search" />
 
 								<f:facet name="options">
-									<h:outputText value="Welcome, #{backingBean.userName}" rendered="#{backingBean.userName ne null}" />
+									<h:outputText value="Welcome, #{backingBean.userName} with role #{backingBean.userRole}" rendered="#{backingBean.userName ne null}" />
 									<p:button value="Login" icon="ui-icon-extlink"
 										outcome="login.xhtml?faces-redirect=true"
 										rendered="#{backingBean.userRole eq null}" />
-								   <p:button value="Logout" icon="ui-icon-extlink"
-										outcome="logout.xhtml?faces-redirect=true"
+								   <p:commandButton value="Logout" icon="ui-icon-extlink"
+										action="#{authController.logout()}"
 										rendered="#{backingBean.userRole ne null}" />
 								</f:facet>
 							</p:menubar>

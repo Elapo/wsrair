@@ -8,6 +8,7 @@ import javax.faces.bean.SessionScoped;
 
 import com.realdolmen.domain.Partner;
 import com.realdolmen.domain.Role;
+import com.realdolmen.domain.User;
 
 @SessionScoped
 @ManagedBean
@@ -18,9 +19,7 @@ public class BackingBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		System.out.println("init role");
-		userName = "Shenno";
-		userRole = Role.REGULAR;
+		System.out.println("backingbean init");
 	}
 
 	public String getUserName() {
@@ -45,6 +44,25 @@ public class BackingBean implements Serializable {
 
 	public void setPartner(Partner partner) {
 		this.partner = partner;
+	}
+
+	public void updateLoggedInUser(User u) {
+		this.resetUser();
+		this.userName = u.getUserName();
+		this.userRole = u.getRole();
+		if (this.userRole.equals(Role.PARTNER)) {
+			this.partner = u.getPartner();
+		}
+	}
+
+	public void logout() {
+		this.resetUser();
+	}
+
+	private void resetUser() {
+		this.userName = null;
+		this.userRole = null;
+		this.partner = null;
 	}
 
 }

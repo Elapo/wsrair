@@ -1,5 +1,8 @@
 package com.realdolmen.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,19 +13,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotNull
+
+	@NotBlank
+	@Email
+	@Column(unique = true)
 	private String userName;
-	
-	@NotNull
+
+	@NotBlank
 	private String password;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -38,7 +46,6 @@ public class User {
 	private String zip;
 	private String city;
 	private String phoneNumber;
-	private String email;
 
 	public Long getId() {
 		return id;
@@ -134,14 +141,6 @@ public class User {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public User() {

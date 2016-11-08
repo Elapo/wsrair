@@ -7,11 +7,32 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
-<ui:define name="title">Logiin</ui:define>
+	<ui:define name="title">Login</ui:define>
 	<ui:define name="content">
-		<h1>Login</h1>
+		<h3>Login</h3>
+		<h:form>
+			<p:messages id="messages" autoUpdate="true" showDetail="true"
+				closable="true" />
+			<p:panelGrid id="panel" columns="2">
+				<p:outputLabel for="userName" value="E-mail" />
+				<p:inputText id="userName" value="#{authController.loginEmail}" />
 
+				<p:outputLabel for="password" value="Password" />
+				<p:inputText id="password" value="#{authController.loginPassword}"
+					type="password" />
+
+				<p:commandButton value="Log in" action="#{authController.login()}"
+					update="@form" />
+				<p:commandButton value="Reset">
+					<p:ajax update="panel" resetValues="true" />
+				</p:commandButton>
+
+			</p:panelGrid>
+
+		</h:form>
+		<p>No account yet?<p:link value="Click here!" outcome="/register.xhtml?faces-redirect=true"></p:link></p>
 		
-		</ui:define>
+
+	</ui:define>
 </ui:composition>
 </html>

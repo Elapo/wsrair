@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,38 @@ public class SecurityFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		BackingBean b = (BackingBean) req.getSession().getAttribute("backingBean");
-		if (b.getUserRole().equals(Role.EMPLOYEE)) {
-			l.info("authed");
-			chain.doFilter(request, response);
-		}
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+		BackingBean b = (BackingBean) req.getSession().getAttribute("backingBean");
+		if (b == null || b.getUserRole() == null) {
+			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
+			return;
+		} /*
+			 * else if (b.getUserRole().equals(Role.EMPLOYEE)) { l.info(
+			 * "Employee authorized"); chain.doFilter(request, response); }
+			 */
+		String reqUri = req.getRequestURI();
+		String reqUriSplitted = reqUri.split("/")[3].toLowerCase();
+		Boolean hasRights = false;
+		switch (reqUriSplitted) {
+		case "regular":
+			hasRights = b.getUserRole().equals(Role.REGULAR);
+			break;
+		case "employee":
+			hasRights = b.getUserRole().equals(Role.EMPLOYEE);
+			break;
+		case "partner":
+			hasRights = b.getUserRole().equals(Role.PARTNER);
+			break;
+		default:
+			break;
+		}
+		if (hasRights) {
+			chain.doFilter(request, response);
+		} else {
+			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
+		}
+		// TODO redirect if not authed
 	}
 
 	@Override
