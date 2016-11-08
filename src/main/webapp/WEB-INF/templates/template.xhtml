@@ -17,19 +17,25 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
+				
 					<header>
 						<h:form>
 							<p:menubar>
-								<p:menuitem value="Home" action="index"
+								<p:menuitem value="Home" action="index?faces-redirect=true"
 									icon="ui-icon-home" />
 
-								<p:menuitem value="Find flight" action="findFlight.xhtml"
+								<p:menuitem value="Find flight"
+									action="findFlight.xhtml?faces-redirect=true"
 									icon="ui-icon-search" />
 
 								<f:facet name="options">
-									<p:menuitem></p:menuitem>
-									<p:commandButton type="button" value="Logout"
-										icon="ui-icon-extlink" />
+									<h:outputText value="Welcome, #{backingBean.userName}" rendered="#{backingBean.userName ne null}" />
+									<p:button value="Login" icon="ui-icon-extlink"
+										outcome="login.xhtml?faces-redirect=true"
+										rendered="#{backingBean.userRole eq null}" />
+								   <p:button value="Logout" icon="ui-icon-extlink"
+										outcome="logout.xhtml?faces-redirect=true"
+										rendered="#{backingBean.userRole ne null}" />
 								</f:facet>
 							</p:menubar>
 						</h:form>
@@ -40,10 +46,10 @@
 				</div>
 			</div>
 			<footer>
-			<p>Copyright 2016 Realdolmen</p>
+				<p>Copyright 2016 Realdolmen</p>
 			</footer>
 		</div>
-		
+
 	</h:body>
 </f:view>
 </html>

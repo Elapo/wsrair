@@ -18,8 +18,9 @@ public class BackingBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		System.out.println("backingBEANNNN");
-		userRole = Role.EMPLOYEE;
+		System.out.println("init role");
+		userName = "Shenno";
+		userRole = Role.REGULAR;
 	}
 
 	public String getUserName() {
