@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import com.realdolmen.domain.Flight;
 
 @Stateless
-public class FlightRepository {
+public class FlightRepository extends AbstractRepository<Flight>{
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -17,13 +17,5 @@ public class FlightRepository {
 	public List<Flight> findAllFlightsByPartnerId(Long id) {
 		return entityManager.createQuery("from Flight f where f.partner.id = :id", Flight.class).setParameter("id", id)
 				.getResultList();
-	}
-
-	public Flight findFlightById(Long id) {
-		return entityManager.find(Flight.class, id);
-	}
-
-	public Flight update(Flight f) {
-		return entityManager.merge(f);
 	}
 }

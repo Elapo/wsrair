@@ -5,19 +5,47 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-	<f:metadata>
-		<f:viewParam name="flightId" value="#{flightController.flightId}"></f:viewParam>
-		<f:event type="preRenderView" listener="#{flightController.loadData}" />
-	</f:metadata>
+<f:metadata>
+	<f:viewParam name="flightId" value="#{flightController.flightId}"></f:viewParam>
+	<f:event type="preRenderView" listener="#{flightController.loadData}" />
+</f:metadata>
 <ui:composition template="WEB-INF/templates/template.xhtml">
 
 	<ui:define name="content">
 
 		<h1>Manage flight</h1>
 		<h:form>
-		<p:inputText value="#{flightController.editFlight.arrivalLocation.name}"></p:inputText>
-		<p:commandButton update="@form" value="Submit"
-						action="#{flightController.updateFlight}" />
+		<!--  <p:inputText value="#{flightController.editFlight.id}"/> -->
+		
+		
+		<p:outputLabel for="departureLocation" value="Departure airport:" />
+			<p:selectOneMenu id="departureLocation"
+				value="#{flightController.editFlight.departureLocation}"
+				panelStyle="width:180px" effect="fade" var="a" style="width:160px"
+				filter="true" filterMatchMode="startsWith">
+				<f:selectItems value="#{flightController.airports}" var="airport"
+					itemLabel="#{airport.name}" itemValue="#{airport.id}"  />
+
+				<p:column>
+					<h:outputText value="#{flightController.getAirportById(a).name}" />
+				</p:column>
+			</p:selectOneMenu>
+
+			<p:outputLabel for="arrivalLocation" value="Arrival airport:" />
+			<p:selectOneMenu id="arrivalLocation"
+				value="#{flightController.editFlight.arrivalLocation}"
+				panelStyle="width:180px" effect="fade" var="a" style="width:160px"
+				filter="true" filterMatchMode="startsWith">
+				<f:selectItems value="#{flightController.airports}" var="airport"
+					itemLabel="#{airport.name}" itemValue="#{airport.id}"  />
+
+				<p:column>
+					<h:outputText value="#{flightController.getAirportById(a).name}" />
+				</p:column>
+			</p:selectOneMenu>
+
+			<p:commandButton update="@form" value="Submit"
+				action="#{flightController.updateFlight}" />
 		</h:form>
 	</ui:define>
 </ui:composition>
