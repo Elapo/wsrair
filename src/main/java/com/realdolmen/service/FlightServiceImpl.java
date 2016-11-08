@@ -7,6 +7,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.realdolmen.domain.Flight;
+import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.repository.FlightRepository;
 
 @Stateless
@@ -23,11 +24,11 @@ public class FlightServiceImpl implements FlightService {
 
 	@Override
 	public Flight findFlightById(long id) {
-		return flightRepository.findFlightById(id);
+		return flightRepository.findById(id);
 	}
 
 	@Override
-	public Flight update(Flight flight) {
+	public Flight update(Flight flight) throws ConcurrentUpdateException {
 		return flightRepository.update(flight);
 	}
 

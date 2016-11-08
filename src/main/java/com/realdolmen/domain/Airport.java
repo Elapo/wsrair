@@ -74,5 +74,10 @@ public class Airport implements Serializable {
 		this.name = name;
 		this.region = region;
 	}
+	
+	@Override
+    public String toString() {
+        return name;
+    }
 
 }

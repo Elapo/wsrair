@@ -18,9 +18,10 @@
 
 	<flight id="1000" depAirportId="1000" arrAirportId="1001"
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
-		partnerId="1000"/>
-		
-	<flight_flighttravelcategory flight_id="1000" flightTravelCategory_id="1000"/>
-	
-	<flight_pricingrule flight_id="1000" priceRules_id="1000"/>
+		partnerId="1000" />
+
+	<flight_flighttravelcategory flight_id="1000"
+		flightTravelCategory_id="1000" />
+
+	<flight_pricingrule flight_id="1000" priceRules_id="1000" />
 </dataset>
