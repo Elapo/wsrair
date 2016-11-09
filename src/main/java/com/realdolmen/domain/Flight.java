@@ -1,6 +1,7 @@
 package com.realdolmen.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,32 +19,34 @@ import javax.persistence.TemporalType;
 @Entity
 public class Flight implements Serializable {
 
+	private static final int MAX_AMOUNT_PRICINGRULES = 3;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "depAirportId")
 	private Airport departureLocation;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date departureDateTime;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "arrAirportId")
 	private Airport arrivalLocation;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date arrivalDateTime;
 
-	@OneToMany
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
 	private List<PricingRule> priceRules;
 
 	@ManyToOne
 	@JoinColumn(name = "partnerId")
 	private Partner partner;
 
-	@OneToMany
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
 	private List<FlightTravelCategory> flightTravelCategory;
 
 	public Long getId() {
@@ -111,6 +114,31 @@ public class Flight implements Serializable {
 	}
 
 	public Flight() {
+		List<FlightTravelCategory> flightTravelCategories = new ArrayList<FlightTravelCategory>();
+		
+		for (TravelCategory travelCategory : TravelCategory.values()){
+			FlightTravelCategory ftg = new FlightTravelCategory();
+			ftg.setMaximumSeats(0);
+			ftg.setOpenSeats(0);
+			ftg.setSeatPrice(0.0);
+			ftg.setTravelCategory(travelCategory);
+			ftg.setFlight(this);
+			flightTravelCategories.add(ftg);
+		}
+		
+		this.flightTravelCategory = flightTravelCategories;
+		
+		List<PricingRule> pricingRules = new ArrayList<PricingRule>();
+		
+		for (int i = 0; i < MAX_AMOUNT_PRICINGRULES; i++) {
+			PricingRule pricingRule = new PricingRule();
+			pricingRule.setDiscountValue(0.0);
+			pricingRule.setVolume(0);
+			pricingRule.setFlight(this);
+			
+			pricingRules.add(pricingRule);
+		}
+		
+		this.priceRules = pricingRules;
 	}
-
 }

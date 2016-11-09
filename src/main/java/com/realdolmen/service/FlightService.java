@@ -10,10 +10,13 @@ import com.realdolmen.exception.ConcurrentUpdateException;
 @Remote
 public interface FlightService {
 
-	List<Flight> findAllFlightsByPartnerId(long id);
+	List<Flight> findAllFlightsByPartnerId(Long id);
 
-	Flight findFlightById(long id);
+	Flight findById(Long id);
 
 	Flight update(Flight flight) throws ConcurrentUpdateException;
-
+	
+	Flight merge(Flight flight);
+	
+	Flight create(Flight flight);
 }

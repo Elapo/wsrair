@@ -8,8 +8,8 @@ import com.realdolmen.domain.Airport;
 
 @Stateless
 public class AirportRepository extends AbstractRepository<Airport> {
-	
-	@PersistenceContext
-	EntityManager entityManager;
 
+	public Airport getFirstAirport() {
+		return entityManager.createQuery("SELECT a FROM Airport a", Airport.class).setMaxResults(1).getSingleResult();
+	}
 }

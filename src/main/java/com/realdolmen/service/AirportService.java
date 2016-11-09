@@ -12,4 +12,6 @@ public interface AirportService {
 	List<Airport> findAllAirports();
 
 	Airport findById(Long id);
+	
+	Airport getFirstAirport();
 }

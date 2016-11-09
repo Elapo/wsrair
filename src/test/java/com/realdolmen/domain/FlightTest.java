@@ -12,5 +12,4 @@ public class FlightTest extends JpaPersistenceTest {
 		entityManager().persist(f);
 		assertNotNull(f.getId());
 	}
-
 }
