@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -85,8 +86,7 @@ public class AuthController implements Serializable {
 			User registeredUser = authService.createUser(registerUser);
 			backingBean.updateLoggedInUser(registeredUser);
 			return "index.xhtml?faces-redirect=true";
-
-		} catch (Exception e) {
+		} catch (EJBTransactionRolledbackException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "This e-mail is already in use."));
@@ -96,9 +96,8 @@ public class AuthController implements Serializable {
 
 	public String login() {
 		// TODO exception catchen en errormessage tonen
-		// TODO email(username) tolowercase
-		if (authService.login(this.loginEmail, this.loginPassword)) {
-			User u = authService.findUserByUserName(this.loginEmail);
+		User u = authService.login(this.loginEmail.toLowerCase(), this.loginPassword);
+		if (u != null) {
 			backingBean.updateLoggedInUser(u);
 			return "/index.xhtml?faces-redirect=true";
 		}

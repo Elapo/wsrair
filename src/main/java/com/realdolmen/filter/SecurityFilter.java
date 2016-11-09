@@ -38,10 +38,8 @@ public class SecurityFilter implements Filter {
 		if (b == null || b.getUserRole() == null) {
 			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
 			return;
-		} /*
-			 * else if (b.getUserRole().equals(Role.EMPLOYEE)) { l.info(
-			 * "Employee authorized"); chain.doFilter(request, response); }
-			 */
+		}
+
 		String reqUri = req.getRequestURI();
 		String reqUriSplitted = reqUri.split("/")[3].toLowerCase();
 		Boolean hasRights = false;
@@ -68,7 +66,6 @@ public class SecurityFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 
 	}
 

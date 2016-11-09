@@ -60,7 +60,11 @@ public class User implements Serializable {
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		if (userName == null) {
+			this.userName = null;
+			return;
+		}
+		this.userName = userName.toLowerCase();
 	}
 
 	public String getPassword() {

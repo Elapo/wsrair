@@ -20,13 +20,18 @@ public class AuthServiceImpl implements AuthService {
 		return userRepository.create(u);
 	}
 
-	// TODO return User instead of bool?
-	public Boolean login(String userName, String password) {
+	public User login(String userName, String password) {
 		User u = userRepository.findUserByUserName(userName);
-		password = this.encrypt(password);
-		return (u != null && u.getPassword().equals(password));
+		return u != null && u.getPassword().equals(encrypt(password)) ? u : null;
 	}
 
+	/**
+	 * Just a easy/simple encrypted, just to showcase passwords are not stored
+	 * unencrypted
+	 * 
+	 * @param String
+	 * @return Encrypted String
+	 */
 	private String encrypt(String password) {
 		char[] chars = password.toCharArray();
 		for (int i = 0; i < chars.length; i++) {

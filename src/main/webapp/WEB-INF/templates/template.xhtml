@@ -17,23 +17,22 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-				
 					<header>
 						<h:form>
 							<p:menubar>
-								<p:menuitem value="Home" action="index?faces-redirect=true"
+								<p:menuitem value="#{msgs['nav.home']}" action="index?faces-redirect=true"
 									icon="ui-icon-home" />
 
-								<p:menuitem value="Find flight"
+								<p:menuitem value="#{msgs['nav.findFlight']}"
 									action="findFlight.xhtml?faces-redirect=true"
 									icon="ui-icon-search" />
 
 								<f:facet name="options">
 									<h:outputText value="Welcome, #{backingBean.userName} with role #{backingBean.userRole}" rendered="#{backingBean.userName ne null}" />
-									<p:button value="Login" icon="ui-icon-extlink"
+									<p:button value="#{msgs['nav.login']}" icon="ui-icon-extlink"
 										outcome="login.xhtml?faces-redirect=true"
 										rendered="#{backingBean.userRole eq null}" />
-								   <p:commandButton value="Logout" icon="ui-icon-extlink"
+								   <p:commandButton value="#{msgs['nav.logout']}" icon="ui-icon-extlink"
 										action="#{authController.logout()}"
 										rendered="#{backingBean.userRole ne null}" />
 								</f:facet>

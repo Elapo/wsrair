@@ -19,87 +19,89 @@ import com.realdolmen.exception.ConcurrentUpdateException;
 
 public class AbstractRepository<T> {
 
-    @PersistenceContext
-    EntityManager entityManager;
+	@PersistenceContext
+	EntityManager entityManager;
 
-    private Logger logger = LoggerFactory.getLogger(AbstractRepository.class);
+	private Logger logger = LoggerFactory.getLogger(AbstractRepository.class);
 
-    private Class<T> entityClass;
+	private Class<T> entityClass;
 
-    public T create(T entity) {
-        entityManager.persist(entity);
-        return entity;
-    }
+	public T create(T entity) {
+		// TODO catch/throw unique email
+		entityManager.persist(entity);
+		return entity;
+	}
 
-    /*
-      @throws ConcurrentUpdateException when concurrent modification happens. In this case the state of the entity is reset.
-    */
-    public T update(T entity) throws ConcurrentUpdateException {
-        T updatedEntity = null;
-        try {
-            updatedEntity = entityManager.merge(entity);
-        } catch (PersistenceException e) {
-            if (e.getCause() instanceof StaleObjectStateException) {
-                logger.error(e.getMessage());
-                throw new ConcurrentUpdateException("Trying to update an entity that was already updated!");
-            } else {
-                logger.error("Exception occured " + e.getCause());
-            }
-        }
+	/*
+	 * @throws ConcurrentUpdateException when concurrent modification happens.
+	 * In this case the state of the entity is reset.
+	 */
+	public T update(T entity) throws ConcurrentUpdateException {
+		T updatedEntity = null;
+		try {
+			updatedEntity = entityManager.merge(entity);
+		} catch (PersistenceException e) {
+			if (e.getCause() instanceof StaleObjectStateException) {
+				logger.error(e.getMessage());
+				throw new ConcurrentUpdateException("Trying to update an entity that was already updated!");
+			} else {
+				logger.error("Exception occured " + e.getCause());
+			}
+		}
 
-        return updatedEntity;
-    }
+		return updatedEntity;
+	}
 
+	/*
+	 * @throws ConcurrentRemoveException when concurrent modification happens.
+	 * Remove does not happen twice.
+	 */
+	public void delete(T entity) throws ConcurrentRemoveException {
+		try {
+			entityManager.remove(entityManager.merge(entity));
+		} catch (IllegalArgumentException e) {
+			logger.error(e.getMessage());
+			throw new ConcurrentRemoveException("Trying to remove an entity that was already deleted!");
+		}
+	}
 
+	/*
+	 * @throws ConcurrentRemoveException when concurrent modification happens.
+	 * Remove does not happen twice.
+	 */
+	public void deleteById(Integer id) throws ConcurrentRemoveException {
+		try {
+			entityManager.remove(entityManager.find(getEntityClass(), id));
+		} catch (IllegalArgumentException e) {
+			logger.error(e.getMessage());
+			throw new ConcurrentRemoveException("Trying to remove an entity that was already deleted!");
+		}
+	}
 
-    /*
-        @throws ConcurrentRemoveException when concurrent modification happens. Remove does not happen twice.
-      */
-    public void delete(T entity) throws ConcurrentRemoveException {
-        try {
-            entityManager.remove(entityManager.merge(entity));
-        } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
-            throw new ConcurrentRemoveException("Trying to remove an entity that was already deleted!");
-        }
-    }
+	public T findById(Long id) {
+		return entityManager.find(getEntityClass(), id);
+	}
 
-    /*
-        @throws ConcurrentRemoveException when concurrent modification happens. Remove does not happen twice.
-      */
-    public void deleteById(Integer id) throws ConcurrentRemoveException {
-        try {
-            entityManager.remove(entityManager.find(getEntityClass(), id));
-        } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
-            throw new ConcurrentRemoveException("Trying to remove an entity that was already deleted!");
-        }
-    }
+	public List<T> findAll() {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(getEntityClass());
+		cq.select(cq.from(getEntityClass()));
+		return entityManager.createQuery(cq).getResultList();
 
-    public T findById(Long id) {
-        return entityManager.find(getEntityClass(), id);
-    }
+	}
 
-    public List<T> findAll() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(getEntityClass());
-        cq.select(cq.from(getEntityClass()));
-        return entityManager.createQuery(cq).getResultList();
+	@SuppressWarnings("unchecked")
+	private Class<T> getEntityClass() {
+		if (entityClass == null) {
+			Type type = this.getClass().getGenericSuperclass();
+			ParameterizedType paramType = (ParameterizedType) type;
+			entityClass = (Class<T>) paramType.getActualTypeArguments()[0];
+		}
+		return entityClass;
+	}
 
-    }
-
-    @SuppressWarnings("unchecked")
-    private Class<T> getEntityClass() {
-        if (entityClass == null) {
-            Type type = this.getClass().getGenericSuperclass();
-            ParameterizedType paramType = (ParameterizedType) type;
-            entityClass = (Class<T>) paramType.getActualTypeArguments()[0];
-        }
-        return entityClass;
-    }
-
-    public EntityManager entityManager() {
-        return this.entityManager;
-    }
+	public EntityManager entityManager() {
+		return this.entityManager;
+	}
 
 }

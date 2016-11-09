@@ -11,6 +11,6 @@ public interface AuthService {
 
 	User findUserByUserName(String userName);
 
-	Boolean login(String userName, String password);
+	User login(String userName, String password);
 
 }
