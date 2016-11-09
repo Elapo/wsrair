@@ -57,4 +57,9 @@ public class FlightServiceImpl implements FlightService {
 		return flightRepository.attach(flight);
 	}
 
+	@Override
+	public List<Flight> findAll() {
+		return flightRepository.findAll();
+	}
+
 }

@@ -37,9 +37,9 @@
 				</h:outputText>
 			</p:column>
 
-			<p:column headerText="Edit + Pricerules">
+			<p:column headerText="Configured">
 				<h:form>
-					<p:button outcome="manageFlight" value="Manage"
+					<p:button outcome="filtered/partner/manageFlight" value="Manage"
 						icon="ui-icon-pencil" >
 						<f:param name="flightId" value="#{flight.id}"></f:param>
 					</p:button>
@@ -49,7 +49,7 @@
 		</p:dataTable>
 		
 		<h:form>
-			<p:button outcome="manageFlight" value="Create new flight" icon="fa fa-fw fa-plane"/>
+			<p:button outcome="filtered/partner/manageFlight" value="Create new flight" icon="fa fa-fw fa-plane"/>
 			<f:param name="flightId" value=""></f:param>
 		</h:form>
 	</ui:define>

@@ -1,5 +1,6 @@
 package com.realdolmen.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -38,6 +40,9 @@ public class FlightController implements Serializable {
 	private PartnerService partnerService;
 	@EJB
 	private BookingService bookingService;
+	@ManagedProperty(value = "#{backingBean}")
+	private BackingBean backingBean;
+	
 
 	private List<Flight> flights;
 	private List<Airport> airports;
@@ -48,8 +53,11 @@ public class FlightController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		// UPDATE WITH USER PARTNERID
-		flights = flightService.findAllFlightsByPartnerId(1000L);
+		if (backingBean.getPartner() != null) {
+			flights = flightService.findAllFlightsByPartnerId(backingBean.getPartner().getId());
+		} else {
+			flights = flightService.findAll();
+		}
 	}
 
 	public List<Flight> getFlights() {
@@ -99,6 +107,16 @@ public class FlightController implements Serializable {
 	public void setTravelCategories(List<TravelCategory> travelCategories) {
 		this.travelCategories = travelCategories;
 	}
+	
+	
+
+	public BackingBean getBackingBean() {
+		return backingBean;
+	}
+
+	public void setBackingBean(BackingBean backingBean) {
+		this.backingBean = backingBean;
+	}
 
 	public String persistFlight() throws ConcurrentUpdateException {
 
@@ -132,7 +150,7 @@ public class FlightController implements Serializable {
 
 	public String createFlight() {
 		flightService.create(editFlight);
-		return "findFlight.xhtml?faces-redirect=true";
+		return "/findFlight.xhtml?faces-redirect=true";
 	}
 
 	public String updateFlight() throws ConcurrentUpdateException {
@@ -151,15 +169,17 @@ public class FlightController implements Serializable {
 		}
 
 		flightService.merge(editFlight);
-		return "findFlight.xhtml?faces-redirect=true";
+		System.out.println(FacesContext.getCurrentInstance().getExternalContext().toString());
+		return "/findFlight.xhtml?faces-redirect=true";
 	}
 
-	public void loadData() {
+	public void loadData() throws IOException {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			if (flightId != null) {
 				this.editFlight = flightService.findById(flightId);
-				System.out.println(editFlight.getPriceRules().size());
-				System.out.println(editFlight.getFlightTravelCategory().size());
+				if (!backingBean.getPartner().getId().equals(editFlight.getPartner().getId())){
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/rair/findFlight.xhtml?faces-redirect=true");
+				}
 			} else {
 				Airport dummyAirport = airportService.getFirstAirport();
 				this.editFlight = new Flight();
@@ -167,8 +187,7 @@ public class FlightController implements Serializable {
 				editFlight.setArrivalLocation(dummyAirport);
 				editFlight.setDepartureDateTime(new Date());
 				editFlight.setArrivalDateTime(new Date());
-				// UPDATE WITH USER AGENTID
-				editFlight.setPartner(partnerService.findById(1000L));
+				editFlight.setPartner(partnerService.findById(backingBean.getPartner().getId()));
 			}
 			airports = airportService.findAllAirports();
 			travelCategories = Arrays.asList(TravelCategory.values());

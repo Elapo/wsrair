@@ -20,17 +20,17 @@
 					<header>
 						<h:form>
 							<p:menubar>
-								<p:menuitem value="#{msgs['nav.home']}" action="index?faces-redirect=true"
+								<p:menuitem value="#{msgs['nav.home']}" action="/index?faces-redirect=true"
 									icon="ui-icon-home" />
 
 								<p:menuitem value="#{msgs['nav.findFlight']}"
-									action="findFlight.xhtml?faces-redirect=true"
+									action="/findFlight.xhtml?faces-redirect=true"
 									icon="ui-icon-search" />
 
 								<f:facet name="options">
 									<h:outputText value="Welcome, #{backingBean.userName} with role #{backingBean.userRole}" rendered="#{backingBean.userName ne null}" />
 									<p:button value="#{msgs['nav.login']}" icon="ui-icon-extlink"
-										outcome="login.xhtml?faces-redirect=true"
+										outcome="/login.xhtml?faces-redirect=true"
 										rendered="#{backingBean.userRole eq null}" />
 								   <p:commandButton value="#{msgs['nav.logout']}" icon="ui-icon-extlink"
 										action="#{authController.logout()}"

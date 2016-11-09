@@ -9,25 +9,36 @@
 		country="America" region="NORTH_AMERICA" />
 
 
-	<partner id="1000" name="Transavia" description="Blah" />
+	<partner id="1000" name="Transavia" description="Blah Trans" />
+	<partner id="2000" name="Lufthansa" description="Blah Luft" />
 
 	<flight id="1000" depAirportId="1000" arrAirportId="1001"
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="1000" />
 
-	<pricingRule id="1000" volume="2" discountValue="5.0" flightId="1000"/>
-	<pricingRule id="1001" volume="4" discountValue="7.5" flightId="1000"/>
-	<pricingRule id="1002" volume="0" discountValue="0.0" flightId="1000"/>
+	<pricingRule id="1000" volume="2" discountValue="5.0"
+		flightId="1000" />
+	<pricingRule id="1001" volume="4" discountValue="7.5"
+		flightId="1000" />
+	<pricingRule id="1002" volume="0" discountValue="0.0"
+		flightId="1000" />
 
 	<flightTravelCategory id="1000" travelCategory="REGULAR"
-		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="1000"/>
-	
+		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="1000" />
+
 	<flightTravelCategory id="1001" travelCategory="PREMIUM"
-		seatPrice="70.0" maximumSeats="10" openSeats="5" flightId="1000"/>
-		
-	<booking id="1000" flightId="1000" travelCategory="REGULAR"/>
-	<booking id="1001" flightId="1000" travelCategory="REGULAR"/>
-	<booking id="1002" flightId="1000" travelCategory="REGULAR"/>
-	
-	<booking id="1100" flightId="1000" travelCategory="PREMIUM"/>
+		seatPrice="70.0" maximumSeats="10" openSeats="5" flightId="1000" />
+
+	<booking id="1000" flightId="1000" travelCategory="REGULAR" />
+	<booking id="1001" flightId="1000" travelCategory="REGULAR" />
+	<booking id="1002" flightId="1000" travelCategory="REGULAR" />
+
+	<booking id="1100" flightId="1000" travelCategory="PREMIUM" />
+
+	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
+		partnerId="1000" />
+	<user id="1001" userName="parluft@rair.com" password="123" role="PARTNER"
+		partnerId="2000" />
+	<user id="1100" userName="employee@rair.com" password="123" role="EMPLOYEE" />
+
 </dataset>
