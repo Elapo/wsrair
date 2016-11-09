@@ -1,14 +1,18 @@
 package com.realdolmen.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class FlightTravelCategory {
+public class FlightTravelCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,10 @@ public class FlightTravelCategory {
 	
 	@Enumerated(EnumType.STRING)
 	private TravelCategory travelCategory;
+	
+	@ManyToOne
+	@JoinColumn(name = "flightId")
+	private Flight flight;
 	
 	private Double seatPrice;
 	private Integer maximumSeats;
@@ -59,6 +67,14 @@ public class FlightTravelCategory {
 
 	public void setOpenSeats(Integer openSeats) {
 		this.openSeats = openSeats;
+	}
+
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
 	}
 
 	public FlightTravelCategory() {

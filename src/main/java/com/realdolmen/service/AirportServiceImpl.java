@@ -23,5 +23,10 @@ public class AirportServiceImpl implements AirportService {
 	@Override
 	public Airport findById(Long id) {
 		return airportRepository.findById(id);
+	}
+
+	@Override
+	public Airport getFirstAirport() {
+		return airportRepository.getFirstAirport();
 	}	
 }

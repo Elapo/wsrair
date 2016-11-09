@@ -50,7 +50,9 @@ public class AbstractRepository<T> {
         return updatedEntity;
     }
 
-
+    public T attach(T entity) {
+        return entityManager.merge(entity);
+    }
 
     /*
         @throws ConcurrentRemoveException when concurrent modification happens. Remove does not happen twice.

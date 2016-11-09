@@ -13,39 +13,109 @@
 
 	<ui:define name="content">
 
-		<h1>Manage flight</h1>
-		<h:form>
-		<!--  <p:inputText value="#{flightController.editFlight.id}"/> -->
-		
-		
-		<p:outputLabel for="departureLocation" value="Departure airport:" />
-			<p:selectOneMenu id="departureLocation"
-				value="#{flightController.editFlight.departureLocation}"
-				panelStyle="width:180px" effect="fade" var="a" style="width:160px"
-				filter="true" filterMatchMode="startsWith">
-				<f:selectItems value="#{flightController.airports}" var="airport"
-					itemLabel="#{airport.name}" itemValue="#{airport.id}"  />
+		<h1>
+			Manage flight #
+			<p:outputLabel value="#{flightController.editFlight.id}" />
+		</h1>
 
-				<p:column>
-					<h:outputText value="#{flightController.getAirportById(a).name}" />
-				</p:column>
-			</p:selectOneMenu>
+		<h:form id="flightUpdateForm">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
 
-			<p:outputLabel for="arrivalLocation" value="Arrival airport:" />
-			<p:selectOneMenu id="arrivalLocation"
-				value="#{flightController.editFlight.arrivalLocation}"
-				panelStyle="width:180px" effect="fade" var="a" style="width:160px"
-				filter="true" filterMatchMode="startsWith">
-				<f:selectItems value="#{flightController.airports}" var="airport"
-					itemLabel="#{airport.name}" itemValue="#{airport.id}"  />
+			<p:tabView>
+				<p:tab title="Flight details">
+					<p:panelGrid columns="4" layout="grid">
+						<p:outputLabel for="departureLocation" value="Departure airport:" />
+						<p:selectOneMenu id="departureLocation"
+							value="#{flightController.editFlight.departureLocation}"
+							panelStyle="width:180px" effect="fade"
+							style="width:160px" filter="true" filterMatchMode="startsWith"
+							converter="#{airportConverter}">
+							<f:selectItems value="#{flightController.airports}" var="airport"
+								itemLabel="#{airport.name}" itemValue="#{airport}" />
 
-				<p:column>
-					<h:outputText value="#{flightController.getAirportById(a).name}" />
-				</p:column>
-			</p:selectOneMenu>
+							<!-- <p:column>
+								<h:outputText value="#{a.name}" />
+							</p:column> -->
+						</p:selectOneMenu>
+
+						<p:outputLabel for="arrivalLocation" value="Arrival airport:" />
+						<p:selectOneMenu id="arrivalLocation"
+							value="#{flightController.editFlight.arrivalLocation}"
+							panelStyle="width:180px" effect="fade"
+							style="width:160px" filter="true" filterMatchMode="startsWith"
+							converter="#{airportConverter}">
+							<f:selectItems value="#{flightController.airports}" var="airport"
+								itemLabel="#{airport.name}" itemValue="#{airport}" />
+
+							<!-- <p:column>
+								<h:outputText value="#{a.name}" />
+							</p:column> -->
+						</p:selectOneMenu>
+
+						<p:outputLabel for="departureDateTime" value="Departure Time:" />
+						<p:calendar id="departureDateTime"
+							value="#{flightController.editFlight.departureDateTime}"
+							pattern="MM/dd/yyyy HH:mm"
+							mindate="#{flightController.currentDate}" />
+
+						<p:outputLabel for="arrivalDateTime" value="Arrival Time:" />
+						<p:calendar id="arrivalDateTime"
+							value="#{flightController.editFlight.arrivalDateTime}"
+							pattern="MM/dd/yyyy HH:mm"
+							mindate="#{flightController.currentDate}" />
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="Travel categories">
+					<p:dataTable var="category"
+						value="#{flightController.editFlight.flightTravelCategory}">
+						<p:column headerText="Category">
+							<h:outputText value="#{category.travelCategory}" />
+						</p:column>
+
+						<p:column headerText="Seat price">
+							<p:inputNumber id="seatPrice" value="#{category.seatPrice}"
+								symbol="  EUR" symbolPosition="s" decimalSeparator=","
+								decimalPlaces="2" thousandSeparator="." minValue="0.0"
+								required="true"></p:inputNumber>
+						</p:column>
+
+						<p:column headerText="Maximum &#35; of Seats" escapes="true">
+							<p:inputNumber id="maximumSeats" value="#{category.maximumSeats}"
+								decimalPlaces="0" required="true"></p:inputNumber>
+						</p:column>
+
+						<p:column headerText="Current &#35; of bookings" escapes="true">
+							<h:outputText
+								value="#{flightController.getAmountOfBookingsPerCategory(category.travelCategory)}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+
+				<p:tab title="Price rules">
+					<p:dataTable var="priceRule"
+						value="#{flightController.editFlight.priceRules}">
+						<p:column headerText="Discount rules (max. 3)">
+							<h:outputText value="For every "></h:outputText>
+							<p:inputNumber id="volume" value="#{priceRule.volume}"
+								minValue="0"
+								decimalPlaces="0" size="3"></p:inputNumber>
+							<h:outputText value=" tickets, a discount of "></h:outputText>
+							<p:inputNumber id="discount" maxValue="100.0" symbol="%"
+								symbolPosition="s" minValue="0.0" decimalPlaces="2"
+								value="#{priceRule.discountValue}" size="6"></p:inputNumber>
+							<h:outputText value=" is applied."></h:outputText>
+						</p:column>
+					</p:dataTable>
+					<h:outputText
+						value="In case of duplicate amounts, the lowest discount will be applied!"></h:outputText>
+				</p:tab>
+			</p:tabView>
+
 
 			<p:commandButton update="@form" value="Submit"
-				action="#{flightController.updateFlight}" />
+				action="#{flightController.persistFlight}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

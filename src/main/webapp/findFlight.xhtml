@@ -46,8 +46,12 @@
 				</h:form>
 
 			</p:column>
-
 		</p:dataTable>
+		
+		<h:form>
+			<p:button outcome="manageFlight" value="Create new flight" icon="fa fa-fw fa-plane"/>
+			<f:param name="flightId" value=""></f:param>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

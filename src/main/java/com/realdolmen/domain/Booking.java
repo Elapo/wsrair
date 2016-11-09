@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,13 +29,13 @@ public class Booking {
 	@JoinColumn(name="flightId")
 	private Flight flight;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private TravelCategory travelCategory;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bookingDateTime;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 	private Boolean locked;
 	private Double finalPrice;
