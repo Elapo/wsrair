@@ -23,7 +23,9 @@ public class AirportConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		System.out.println(value.getClass().getName());
 		Airport airport = (Airport) value;
+		System.out.println(airport.getAirportCode());
 		return airport.getId() != null ? String.valueOf(airport.getId()) : null;
 	}
 
