@@ -16,6 +16,4 @@ public class FlightRepository extends AbstractRepository<Flight> {
 		return entityManager.createQuery("from Flight f where f.partner.id = :id", Flight.class).setParameter("id", id)
 				.getResultList();
 	}
-
-
 }

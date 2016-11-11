@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:metadata>
+	<f:viewParam name="flightId" value="#{bookingController.flightId}"></f:viewParam>
+	<f:event type="preRenderView" listener="#{bookingController.loadData}" />
+</f:metadata>
+<ui:composition template="WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+
+		<h1>
+			Book flight #
+			<p:outputLabel value="#{bookingController.bookFlight.id}" />
+		</h1>
+
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" />
+
+		<h:form id="bookForm">
+			<p:tabView id="allTab">
+				<p:tab title="Flight details" id="tabflightDetails">
+					<p:panel id="panelFlightBase">
+						<p:panelGrid columns="4" layout="grid">
+							<p:outputLabel value="Departure airport:" />
+							<p:outputLabel
+								value="#{bookingController.bookFlight.departureLocation}" />
+
+							<p:outputLabel value="Arrival airport:" />
+							<p:outputLabel
+								value="#{bookingController.bookFlight.arrivalLocation}" />
+
+							<p:outputLabel value="Departure Time:" />
+							<p:outputLabel
+								value="#{bookingController.bookFlight.departureDateTime}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</p:outputLabel>
+
+							<p:outputLabel value="Arrival Time:" />
+							<p:outputLabel
+								value="#{bookingController.bookFlight.arrivalDateTime}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</p:outputLabel>
+						</p:panelGrid>
+					</p:panel>
+					<p:panel id="panelTicketBase">
+						<p:dataTable var="category"
+							value="#{bookingController.bookFlight.flightTravelCategory}"
+							id="ticketTable">
+							<p:column headerText="Seat category">
+								<h:outputText value="#{category.travelCategory}" />
+							</p:column>
+
+							<p:column headerText="Seat price">
+								<p:outputLabel
+									value="#{bookingController.displayPricePerCategory[category]}  EUR"
+									decimalSeparator="," decimalPlaces="2" thousandSeparator="." />
+							</p:column>
+
+							<p:column headerText="Available seats">
+								<p:outputLabel value="#{category.openSeats}" />
+							</p:column>
+
+							<p:column headerText="Seats to book">
+								<p:inputNumber id="amountOfSeats"
+									value="#{bookingController.amountPerCategory[category]}"
+									decimalPlaces="0" maxValue="#{category.openSeats}" converter="integerHashMapConverter">
+
+									<p:ajax update="bookForm:allTab:calculationTable" />
+								</p:inputNumber>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="paymentTypePanel">
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Payment type:" for="paymentType" />
+							<p:selectOneMenu id="paymentType"
+								value="#{bookingController.paymentType}">
+								<f:selectItems value="#{bookingController.paymentTypes}"
+									var="paymentType" itemValue="#{paymentType}" />
+								<p:ajax update="bookForm:allTab:calculationTable" />
+							</p:selectOneMenu>
+						</p:panelGrid>
+					</p:panel>
+					<p:panel id="calculationPanel">
+						<p:dataTable id="calculationTable" var="category"
+							value="#{bookingController.bookFlight.flightTravelCategory}">
+							<p:column headerText="Cost overview">
+								<p:outputLabel id="finalPriceDescriptionLabel"
+									value="For category #{category.travelCategory}, #{bookingController.amountPerCategory[category]} seats were chosen." />
+
+								<p:outputLabel id="priceRuleLabel"
+									value="Because you purchased more than #{bookingController.amountPerCategory[category]} tickets, a discount of #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category]).discountValue}% will be applied."
+									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category]) ne null}" />
+								<p:outputLabel id="paymentTypeLabel"
+									value="Because you are paying with Credit Card a discount of #{bookingController.preferredPaymentDiscount}% will be applied."
+									rendered="#{bookingController.paymentType eq bookingController.preferredPaymentType}" />
+								<p:outputLabel id="finalPriceLabel"
+									value="The total price is #{bookingController.getCombinedPrice(category, bookingController.amountPerCategory[category])} EUR." />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Flight company">
+					<p:panelGrid columns="2" layout="grid">
+						<p:outputLabel value="Partner:" />
+						<p:outputLabel
+							value="#{bookingController.bookFlight.partner.name}" />
+
+						<p:outputLabel value="Description:" />
+						<p:outputLabel
+							value="#{bookingController.bookFlight.partner.description}" />
+
+					</p:panelGrid>
+				</p:tab>
+			</p:tabView>
+
+
+			<p:commandButton update="@form" value="Submit"
+				action="#{bookingController.persistBooking}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -37,21 +37,32 @@
 				</h:outputText>
 			</p:column>
 
-			<p:column headerText="Configured">
+			<p:column headerText="Configured"
+				rendered="#{backingBean.partner != null}">
 				<h:form>
 					<p:button outcome="filtered/partner/manageFlight" value="Manage"
-						icon="ui-icon-pencil" >
+						icon="ui-icon-pencil">
 						<f:param name="flightId" value="#{flight.id}"></f:param>
 					</p:button>
 				</h:form>
+			</p:column>
 
+			<p:column headerText="Book" rendered="#{backingBean.partner == null}">
+				<h:form>
+					<p:button outcome="bookFlight" value="Book!"
+						icon="fa fa-plane">
+						<f:param name="flightId" value="#{flight.id}"></f:param>
+					</p:button>
+				</h:form>
 			</p:column>
 		</p:dataTable>
-		
-		<h:form>
-			<p:button outcome="filtered/partner/manageFlight" value="Create new flight" icon="fa fa-fw fa-plane"/>
-			<f:param name="flightId" value=""></f:param>
-		</h:form>
+
+		<p:outputPanel rendered="#{backingBean.partner != null}">
+			<h:form>
+				<p:button outcome="filtered/partner/manageFlight"
+					value="Create new flight" icon="fa fa-plane" />
+			</h:form>
+		</p:outputPanel>
 	</ui:define>
 </ui:composition>
 </html>

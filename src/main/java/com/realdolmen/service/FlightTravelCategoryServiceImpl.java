@@ -4,6 +4,8 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import com.realdolmen.domain.FlightTravelCategory;
+import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.repository.FlightTravelCategoryRepository;
 
 @Stateless
@@ -16,6 +18,11 @@ public class FlightTravelCategoryServiceImpl implements FlightTravelCategoryServ
 	@Override
 	public Integer savedMaxSeatsByTravelCategoryId(Long id) {
 		return flightTravelCategoryServiceRepository.savedMaxSeatsByTravelCategoryId(id);
+	}
+
+	@Override
+	public FlightTravelCategory update(FlightTravelCategory ftg) throws ConcurrentUpdateException {
+		return flightTravelCategoryServiceRepository.update(ftg);
 	}
 
 }

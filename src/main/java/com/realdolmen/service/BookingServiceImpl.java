@@ -40,4 +40,9 @@ public class BookingServiceImpl implements BookingService {
 		return matchCount;
 	}
 
+	@Override
+	public Booking create(Booking booking) {
+		return bookingRepository.create(booking);
+	}
+
 }

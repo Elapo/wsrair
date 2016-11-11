@@ -10,6 +10,7 @@ import com.realdolmen.domain.TravelCategory;
 @Remote
 public interface BookingService {
 
+	Booking create(Booking booking);
 	List<Booking> findAllBookingsByFlightId(Long flightId); 
 	Integer countBookingsByFlightId(Long flightId);
 	Integer countBookingByFlightIdAndCategory(Long flightId, TravelCategory category);

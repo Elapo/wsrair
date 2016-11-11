@@ -17,7 +17,6 @@ public class AirportConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		System.out.println(Long.parseLong(value));
 		return airportService.findById(Long.parseLong(value));
 	}
 

@@ -26,6 +26,8 @@ public class FlightTravelCategory implements Serializable {
 	private Flight flight;
 	
 	private Double seatPrice;
+	private Double overruledPrice;
+	private Double commission;
 	private Integer maximumSeats;
 	private Integer openSeats;
 
@@ -76,8 +78,26 @@ public class FlightTravelCategory implements Serializable {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
+	
+	public Double getOverruledPrice() {
+		return overruledPrice;
+	}
+
+	public void setOverruledPrice(Double overruledPrice) {
+		this.overruledPrice = overruledPrice;
+	}
+
+	public Double getCommission() {
+		return commission;
+	}
+
+	public void setCommission(Double commission) {
+		this.commission = commission;
+	}
 
 	public FlightTravelCategory() {
+		overruledPrice = 0.0;
+		commission = 10.0;
 	}
 
 
