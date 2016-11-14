@@ -228,6 +228,7 @@ public class BookingController implements Serializable {
 			
 			// Persist
 			for (Booking booking : backingBean.getBookingsToBeConfirmed()) {
+				booking.setUser(authService.findUserByUserName(backingBean.getUserName()));
 				bookingService.create(booking);
 			}
 		} catch (ConcurrentUpdateException e) {
