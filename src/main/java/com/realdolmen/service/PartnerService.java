@@ -1,5 +1,7 @@
 package com.realdolmen.service;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
 import com.realdolmen.domain.Partner;
@@ -8,4 +10,6 @@ import com.realdolmen.domain.Partner;
 public interface PartnerService {
 
 	Partner findById(Long id);
+
+	List<Partner> findAll();
 }

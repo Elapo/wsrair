@@ -1,6 +1,6 @@
 package com.realdolmen.domain;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -15,26 +15,26 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Booking {
+public class Booking implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="flightId")
+	@JoinColumn(name = "flightId")
 	private Flight flight;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TravelCategory travelCategory;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bookingDateTime;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 	private Boolean locked;

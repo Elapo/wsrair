@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +47,7 @@ public class Flight implements Serializable {
 	@JoinColumn(name = "partnerId")
 	private Partner partner;
 
-	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<FlightTravelCategory> flightTravelCategory;
 
 	public Long getId() {
@@ -115,8 +116,8 @@ public class Flight implements Serializable {
 
 	public Flight() {
 		List<FlightTravelCategory> flightTravelCategories = new ArrayList<FlightTravelCategory>();
-		
-		for (TravelCategory travelCategory : TravelCategory.values()){
+
+		for (TravelCategory travelCategory : TravelCategory.values()) {
 			FlightTravelCategory ftg = new FlightTravelCategory();
 			ftg.setMaximumSeats(0);
 			ftg.setOpenSeats(0);
@@ -125,20 +126,20 @@ public class Flight implements Serializable {
 			ftg.setFlight(this);
 			flightTravelCategories.add(ftg);
 		}
-		
+
 		this.flightTravelCategory = flightTravelCategories;
-		
+
 		List<PricingRule> pricingRules = new ArrayList<PricingRule>();
-		
+
 		for (int i = 0; i < MAX_AMOUNT_PRICINGRULES; i++) {
 			PricingRule pricingRule = new PricingRule();
 			pricingRule.setDiscountValue(0.0);
 			pricingRule.setVolume(0);
 			pricingRule.setFlight(this);
-			
+
 			pricingRules.add(pricingRule);
 		}
-		
+
 		this.priceRules = pricingRules;
 	}
 }

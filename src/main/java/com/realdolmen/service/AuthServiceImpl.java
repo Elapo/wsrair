@@ -51,4 +51,9 @@ public class AuthServiceImpl implements AuthService {
 		return userRepository.findUserByUserName(userName);
 	}
 
+	@Override
+	public User merge(User u) {
+		return userRepository.attach(u);
+	}
+
 }

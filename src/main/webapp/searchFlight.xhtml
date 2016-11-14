@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">Search flight</ui:define>
+	<ui:define name="content">
+		<h3>Search a flight</h3>
+
+		<h:form>
+			<p:panelGrid class="ui-noborder" columns="4">
+				<p:outputLabel for="departure" value="Departure:" />
+				<p:selectOneMenu id="departure" effect="fold"
+					value="#{searchController.searchQuery.depId}" style="width:150px"
+					filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Departure" itemValue="#{null}"></f:selectItem>
+					<f:selectItems value="#{searchController.airports}" var="airport"
+						itemLabel="#{airport.country} (#{airport.airportCode})"
+						itemValue="#{airport.id}"></f:selectItems>
+					<p:ajax process="@this" partialSubmit="true" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="arrival" value="Arrival:" />
+				<p:selectOneMenu id="arrival" effect="fold"
+					value="#{searchController.searchQuery.arrId}" style="width:150px"
+					filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Arrival" itemValue="#{null}"></f:selectItem>
+					<f:selectItems value="#{searchController.airports}" var="airport"
+						itemLabel="#{airport.country} (#{airport.airportCode})"
+						itemValue="#{airport.id}"></f:selectItems>
+					<p:ajax process="@this" partialSubmit="true" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="travelCat" value="Travel Category:" />
+				<p:selectOneMenu id="travelCat" effect="fold"
+					value="#{searchController.searchQuery.tCategory}"
+					style="width:150px">
+					<f:selectItems value="#{searchController.categories}" var="cat"
+						itemLabel="#{cat}" itemValue="#{cat}"></f:selectItems>
+					<p:ajax process="@this" partialSubmit="true" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="partner" value="Prefered airline:" />
+				<p:selectOneMenu id="partner" effect="fold"
+					value="#{searchController.searchQuery.partnerId}"
+					style="width:150px" filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Partner" itemValue="#{null}"></f:selectItem>
+					<f:selectItems value="#{searchController.partners}" var="partner"
+						itemLabel="#{partner.name}" itemValue="#{partner.id}"></f:selectItems>
+					<p:ajax process="@this" partialSubmit="true" />
+				</p:selectOneMenu>
+
+				<h:outputLabel for="tickets" value="Tickets: " />
+				<p:spinner id="tickets"
+					value="#{searchController.searchQuery.tickets}" min="1" max="100"
+					size="5">
+					<p:ajax process="@this" />
+				</p:spinner>
+
+				<h:outputLabel for="depDate" value="Departure date:" />
+				<p:calendar id="depDate" effect="fold"
+					value="#{searchController.searchQuery.depDate}"
+					pattern="dd/MM/yyyy HH:mm" mindate="#{searchController.today}">
+					<p:ajax process="@this" />
+				</p:calendar>
+			</p:panelGrid>
+			<p:commandButton value="Search" action="#{searchController.query()}"
+				update="holder" />
+		</h:form>
+		<h:panelGroup id="holder" layout="block">
+			<p:dataTable id="searchResults" paginator="true" rows="5"
+				rendered="#{searchController.checkResults()}"
+				value="#{searchController.foundFlights}" var="flight">
+				<p:column headerText="Flight ID">
+					<h:outputText
+						value="#{flight.arrivalLocation.airportCode}-#{flight.id}" />
+				</p:column>
+				<p:column headerText="Departure location">
+					<h:outputText value="#{flight.departureLocation.name}" />
+				</p:column>
+				<p:column headerText="Arrival location">
+					<h:outputText value="#{flight.arrivalLocation.name}" />
+				</p:column>
+				<p:column headerText="Departure">
+					<h:outputText value="#{flight.departureDateTime}" escape="false">
+						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Arrival">
+					<h:outputText value="#{flight.arrivalDateTime}" escape="false">
+						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Airline">
+					<h:outputText value="#{flight.partner.name}" />
+				</p:column>
+				<p:column headerText="Base price">
+					<h:outputText value="#{searchController.basePrice(flight)}">
+						<f:convertNumber pattern="€ 0.00" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

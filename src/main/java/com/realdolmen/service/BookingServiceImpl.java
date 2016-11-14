@@ -40,4 +40,9 @@ public class BookingServiceImpl implements BookingService {
 		return matchCount;
 	}
 
+	@Override
+	public List<Booking> findAllBookingsByUserId(Long userId) {
+		return bookingRepository.findAllBookingsByUserId(userId);
+	}
+
 }

@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import com.realdolmen.domain.Flight;
 import com.realdolmen.domain.FlightTravelCategory;
 import com.realdolmen.domain.PricingRule;
+import com.realdolmen.domain.SearchQuery;
 import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.repository.FlightRepository;
 import com.realdolmen.repository.FlightTravelCategoryRepository;
@@ -20,10 +21,10 @@ public class FlightServiceImpl implements FlightService {
 
 	@EJB
 	private FlightRepository flightRepository;
-	
+
 	@EJB
 	private PricingRuleRepository pricingRuleRepository;
-	
+
 	@EJB
 	private FlightTravelCategoryRepository flightTravelCategoryRepository;
 
@@ -37,7 +38,8 @@ public class FlightServiceImpl implements FlightService {
 		Flight matchingFlight = flightRepository.findById(id);
 		List<PricingRule> priceRules = pricingRuleRepository.findPricingRulesByFlightId(id);
 		matchingFlight.setPriceRules(priceRules);
-		List<FlightTravelCategory> flightTravelCategories = flightTravelCategoryRepository.findFlightTravelCategoriesByFlightId(id);
+		List<FlightTravelCategory> flightTravelCategories = flightTravelCategoryRepository
+				.findFlightTravelCategoriesByFlightId(id);
 		matchingFlight.setFlightTravelCategory(flightTravelCategories);
 		return matchingFlight;
 	}
@@ -60,6 +62,11 @@ public class FlightServiceImpl implements FlightService {
 	@Override
 	public List<Flight> findAll() {
 		return flightRepository.findAll();
+	}
+
+	@Override
+	public List<Flight> findAllFlightsBySearchCriteria(SearchQuery q) {
+		return flightRepository.findAllFlightsBySearchCriteria(q);
 	}
 
 }
