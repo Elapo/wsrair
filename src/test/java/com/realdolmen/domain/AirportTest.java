@@ -11,7 +11,6 @@ public class AirportTest extends JpaPersistenceTest {
 		Airport a = new Airport("Zaventem", Region.EUROPE);
 		entityManager().persist(a);
 		assertNotNull(a.getId());
-
 	}
 
 }

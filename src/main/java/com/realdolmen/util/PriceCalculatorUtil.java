@@ -14,6 +14,7 @@ public final class PriceCalculatorUtil {
 
 	private static Double preferredPaymentDiscount = 5.0;
 	private static PaymentType preferredPaymentType = PaymentType.CREDIT_CARD;
+	private static Double minimumMargin = 1.00;
 
 	public static Double getPreferredPaymentDiscount() {
 		return preferredPaymentDiscount;
@@ -21,6 +22,10 @@ public final class PriceCalculatorUtil {
 
 	public static PaymentType getPreferredPaymentType() {
 		return preferredPaymentType;
+	}
+
+	public static Double getMinimumMargin() {
+		return minimumMargin;
 	}
 
 	public static PricingRule pricingRuleToApply(Integer amountOfSeats, List<PricingRule> allRules) {
@@ -39,8 +44,9 @@ public final class PriceCalculatorUtil {
 	}
 
 	public static Double getIndividualPrice(FlightTravelCategory ftg, List<PricingRule> allRules, Integer amount,
-			Double displayPrice, PaymentType paymentType) {
+			PaymentType paymentType) {
 		if (ftg != null && amount != null) {
+			Double displayPrice = getDisplayPrice(ftg);
 			Double modifier = 0.0;
 			Double prefDiscount = 0.0;
 
@@ -61,8 +67,8 @@ public final class PriceCalculatorUtil {
 	}
 
 	public static Double getCombinedPrice(FlightTravelCategory ftg, List<PricingRule> allRules, Integer amount,
-			Double displayPrice, PaymentType paymentType) {
-		return getIndividualPrice(ftg, allRules, amount, displayPrice, paymentType) * amount;
+			PaymentType paymentType) {
+		return getIndividualPrice(ftg, allRules, amount, paymentType) * amount;
 	}
 
 	public static Double getDisplayPrice(FlightTravelCategory ftg) {
@@ -80,8 +86,25 @@ public final class PriceCalculatorUtil {
 
 	private static Double roundTwoDecimals(Double d) {
 		BigDecimal bigDecimal = new BigDecimal(d);
-        BigDecimal roundedWithScale = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal roundedWithScale = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return roundedWithScale.doubleValue();
 	}
 
+	public static Double minimumCommissionPercentage() {
+		Double minimumPercent = (-10000.00 * preferredPaymentDiscount) / (100 * (preferredPaymentDiscount - 100));
+		return roundTwoDecimals(minimumPercent);
+
+	}
+
+	public static Double minimumCommissionPercentageWithMargin() {
+		return roundTwoDecimals(minimumCommissionPercentage() + minimumMargin);
+	}
+
+	public static Double minimumBaseIncrease(Double partnerSeatPrice) {
+		return roundTwoDecimals(partnerSeatPrice * minimumCommissionPercentage() / 100);
+	}
+
+	public static Double minimumBaseIncreaseWithMargin(Double partnerSeatPrice) {
+		return roundTwoDecimals(partnerSeatPrice * minimumCommissionPercentageWithMargin() / 100);
+	}
 }

@@ -18,9 +18,9 @@
 
 	<pricingRule id="1000" volume="4" discountValue="5.0"
 		flightId="1000" />
-	<pricingRule id="1001" volume="4" discountValue="7.5"
+	<pricingRule id="1001" volume="5" discountValue="7.5"
 		flightId="1000" />
-	<pricingRule id="1002" volume="4" discountValue="6.0"
+	<pricingRule id="1002" volume="6" discountValue="6.0"
 		flightId="1000" />
 
 	<flightTravelCategory id="1000" travelCategory="REGULAR"

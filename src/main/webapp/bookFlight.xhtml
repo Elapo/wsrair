@@ -57,7 +57,7 @@
 
 							<p:column headerText="Seat price">
 								<p:outputLabel
-									value="#{bookingController.displayPricePerCategory[category]}  EUR"
+									value="#{bookingController.displayPricePerCategory[category.travelCategory]}  EUR"
 									decimalSeparator="," decimalPlaces="2" thousandSeparator="." />
 							</p:column>
 
@@ -67,8 +67,9 @@
 
 							<p:column headerText="Seats to book">
 								<p:inputNumber id="amountOfSeats"
-									value="#{bookingController.amountPerCategory[category]}"
-									decimalPlaces="0" maxValue="#{category.openSeats}" converter="integerHashMapConverter">
+									value="#{bookingController.amountPerCategory[category.travelCategory]}"
+									decimalPlaces="0" maxValue="#{category.openSeats}"
+									converter="integerHashMapConverter">
 
 									<p:ajax update="bookForm:allTab:calculationTable" />
 								</p:inputNumber>
@@ -91,16 +92,20 @@
 							value="#{bookingController.bookFlight.flightTravelCategory}">
 							<p:column headerText="Cost overview">
 								<p:outputLabel id="finalPriceDescriptionLabel"
-									value="For category #{category.travelCategory}, #{bookingController.amountPerCategory[category]} seats were chosen." />
-
+									value="For category #{category.travelCategory}, #{bookingController.amountPerCategory[category.travelCategory]} seats were chosen." />
+								<h:outputText value="&lt;br/&gt;" escape="false" />
 								<p:outputLabel id="priceRuleLabel"
-									value="Because you purchased more than #{bookingController.amountPerCategory[category]} tickets, a discount of #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category]).discountValue}% will be applied."
-									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category]) ne null}" />
+									value="- Because you purchased more than #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]).volume} tickets, a discount of #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]).discountValue}% will be applied."
+									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]) ne null}" />
+								<h:outputText value="&lt;br/&gt;" escape="false"
+									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]) ne null}" />
 								<p:outputLabel id="paymentTypeLabel"
-									value="Because you are paying with Credit Card a discount of #{bookingController.preferredPaymentDiscount}% will be applied."
+									value="- Because you are paying with Credit Card a discount of #{bookingController.preferredPaymentDiscount}% will be applied."
+									rendered="#{bookingController.paymentType eq bookingController.preferredPaymentType}" />
+								<h:outputText value="&lt;br/&gt;" escape="false"
 									rendered="#{bookingController.paymentType eq bookingController.preferredPaymentType}" />
 								<p:outputLabel id="finalPriceLabel"
-									value="The total price is #{bookingController.getCombinedPrice(category, bookingController.amountPerCategory[category])} EUR." />
+									value="The total price is #{bookingController.getCombinedPrice(category, bookingController.amountPerCategory[category.travelCategory])} EUR." />
 							</p:column>
 						</p:dataTable>
 					</p:panel>

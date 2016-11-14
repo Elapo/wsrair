@@ -22,4 +22,10 @@ public class FlightTravelCategoryRepository extends AbstractRepository<FlightTra
 				.createQuery("SELECT ftg.maximumSeats FROM FlightTravelCategory ftg WHERE ftg.id = :id", Integer.class)
 				.setParameter("id", id).getSingleResult();
 	}
+	
+	public Integer availableSeatsLeftByFlightTravelCategory(Long id){
+		return entityManager
+				.createQuery("SELECT ftg.openSeats FROM FlightTravelCategory ftg WHERE ftg.id = :id", Integer.class)
+				.setParameter("id", id).getSingleResult();
+	}
 }

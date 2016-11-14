@@ -38,7 +38,7 @@
 			</p:column>
 
 			<p:column headerText="Configured"
-				rendered="#{backingBean.partner != null}">
+				rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
 				<h:form>
 					<p:button outcome="filtered/partner/manageFlight" value="Manage"
 						icon="ui-icon-pencil">
@@ -47,7 +47,7 @@
 				</h:form>
 			</p:column>
 
-			<p:column headerText="Book" rendered="#{backingBean.partner == null}">
+			<p:column headerText="Book" rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
 				<h:form>
 					<p:button outcome="bookFlight" value="Book!"
 						icon="fa fa-plane">
@@ -57,7 +57,7 @@
 			</p:column>
 		</p:dataTable>
 
-		<p:outputPanel rendered="#{backingBean.partner != null}">
+		<p:outputPanel rendered="#{backingBean.userRole eq 'PARTNER'}">
 			<h:form>
 				<p:button outcome="filtered/partner/manageFlight"
 					value="Create new flight" icon="fa fa-plane" />

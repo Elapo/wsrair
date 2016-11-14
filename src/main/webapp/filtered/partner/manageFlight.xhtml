@@ -28,42 +28,38 @@
 						<p:outputLabel for="departureLocation" value="Departure airport:" />
 						<p:selectOneMenu id="departureLocation"
 							value="#{flightController.editFlight.departureLocation}"
-							panelStyle="width:180px" effect="fade"
-							style="width:160px" filter="true" filterMatchMode="startsWith"
-							converter="#{airportConverter}">
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith"
+							converter="#{airportConverter}"
+							disabled="#{backingBean.partner eq null}">
 							<f:selectItems value="#{flightController.airports}" var="airport"
 								itemLabel="#{airport.name}" itemValue="#{airport}" />
-
-							<!-- <p:column>
-								<h:outputText value="#{a.name}" />
-							</p:column> -->
 						</p:selectOneMenu>
 
 						<p:outputLabel for="arrivalLocation" value="Arrival airport:" />
 						<p:selectOneMenu id="arrivalLocation"
 							value="#{flightController.editFlight.arrivalLocation}"
-							panelStyle="width:180px" effect="fade"
-							style="width:160px" filter="true" filterMatchMode="startsWith"
-							converter="#{airportConverter}">
+							panelStyle="width:180px" effect="fade" style="width:160px"
+							filter="true" filterMatchMode="startsWith"
+							converter="#{airportConverter}"
+							disabled="#{backingBean.partner eq null}">
 							<f:selectItems value="#{flightController.airports}" var="airport"
 								itemLabel="#{airport.name}" itemValue="#{airport}" />
-
-							<!-- <p:column>
-								<h:outputText value="#{a.name}" />
-							</p:column> -->
 						</p:selectOneMenu>
 
 						<p:outputLabel for="departureDateTime" value="Departure Time:" />
 						<p:calendar id="departureDateTime"
 							value="#{flightController.editFlight.departureDateTime}"
 							pattern="MM/dd/yyyy HH:mm"
-							mindate="#{flightController.currentDate}" />
+							mindate="#{flightController.currentDate}"
+							disabled="#{backingBean.partner eq null}" />
 
 						<p:outputLabel for="arrivalDateTime" value="Arrival Time:" />
 						<p:calendar id="arrivalDateTime"
 							value="#{flightController.editFlight.arrivalDateTime}"
 							pattern="MM/dd/yyyy HH:mm"
-							mindate="#{flightController.currentDate}" />
+							mindate="#{flightController.currentDate}"
+							disabled="#{backingBean.partner eq null}" />
 					</p:panelGrid>
 				</p:tab>
 
@@ -78,17 +74,18 @@
 							<p:inputNumber id="seatPrice" value="#{category.seatPrice}"
 								symbol="  EUR" symbolPosition="s" decimalSeparator=","
 								decimalPlaces="2" thousandSeparator="." minValue="0.0"
-								required="true"></p:inputNumber>
+								required="true" disabled="#{backingBean.partner eq null}"></p:inputNumber>
 						</p:column>
 
 						<p:column headerText="Maximum &#35; of Seats" escapes="true">
 							<p:inputNumber id="maximumSeats" value="#{category.maximumSeats}"
-								decimalPlaces="0" required="true"></p:inputNumber>
+								decimalPlaces="0" required="true"
+								disabled="#{backingBean.partner eq null}"></p:inputNumber>
 						</p:column>
 
 						<p:column headerText="Current &#35; of bookings" escapes="true">
 							<h:outputText
-								value="#{flightController.getAmountOfBookingsPerCategory(category.travelCategory)}">
+								value="#{flightController.getAmountOfBookingsPerCategory(category.travelCategory)}" />
 						</p:column>
 					</p:dataTable>
 				</p:tab>
@@ -97,19 +94,71 @@
 					<p:dataTable var="priceRule"
 						value="#{flightController.editFlight.priceRules}">
 						<p:column headerText="Discount rules (max. 3)">
-							<h:outputText value="For every "></h:outputText>
+							<h:outputText value="For every " />
 							<p:inputNumber id="volume" value="#{priceRule.volume}"
-								minValue="0"
-								decimalPlaces="0" size="3"></p:inputNumber>
-							<h:outputText value=" tickets, a discount of "></h:outputText>
+								minValue="0" decimalPlaces="0" size="3"
+								disabled="#{backingBean.partner eq null}"></p:inputNumber>
+							<h:outputText value=" tickets, a discount of " />
 							<p:inputNumber id="discount" maxValue="100.0" symbol="%"
 								symbolPosition="s" minValue="0.0" decimalPlaces="2"
-								value="#{priceRule.discountValue}" size="6"></p:inputNumber>
-							<h:outputText value=" is applied."></h:outputText>
+								value="#{priceRule.discountValue}" size="6"
+								disabled="#{backingBean.partner eq null}"></p:inputNumber>
+							<h:outputText value=" is applied." />
 						</p:column>
 					</p:dataTable>
 					<h:outputText
-						value="In case of duplicate amounts, the lowest discount will be applied!"></h:outputText>
+						value="In case of duplicate amounts, the lowest discount will be applied!" />
+				</p:tab>
+
+				<!-- rendered ONLY if role is EMPLOYEE -->
+				<p:tab title="RAir Rules">
+					<p:panel>
+						<p:dataTable var="category"
+							value="#{flightController.editFlight.flightTravelCategory}">
+							<p:column headerText="Category">
+								<h:outputText value="#{category.travelCategory}" />
+							</p:column>
+
+							<p:column headerText="Seatprice">
+								<h:outputText value="#{category.seatPrice}" symbol="  EUR"
+									symbolPosition="s" decimalSeparator="," decimalPlaces="2"
+									thousandSeparator="." />
+							</p:column>
+
+							<p:column headerText="Commission percentage">
+								<p:inputNumber id="commissionPercent"
+									value="#{category.commission}" minValue="0" decimalPlaces="2"
+									symbol=" %" symbolPosition="s"
+									disabled="#{backingBean.partner eq null}"></p:inputNumber>
+							</p:column>
+
+							<p:column headerText="Added seat price">
+								<p:inputNumber id="seatPriceIncrement"
+									value="#{category.overruledPrice}" minValue="0" decimalPlaces="2"
+									symbol=" EUR" symbolPosition="s"
+									disabled="#{backingBean.partner eq null}"></p:inputNumber>
+							</p:column>
+						</p:dataTable>
+
+						<h:outputText
+							value="The commission will only be applied if the added seat price is 0.00 EUR!" />
+					</p:panel>
+					<p:panel>
+						<p:dataTable var="category"
+							value="#{flightController.editFlight.flightTravelCategory}">
+
+							<p:column headerText="Information">
+								<h:outputText
+									value="For category #{category.travelCategory}, please take the following into account:" />
+								<h:outputText value="&lt;br/&gt;" escape="false" />
+								<h:outputText
+									value="- The minimum commission should be #{flightController.minimumCommissionPercentage()}% to break even or #{flightController.minimumCommissionPercentageWithMargin()}% to make a minimum profit of #{flightController.getMinimumMargin()}%. " />
+								<h:outputText value="&lt;br/&gt;" escape="false" />
+								<h:outputText
+									value="- The minimum added seat price should be #{flightController.minimumBaseIncrease(category.seatPrice)} EUR to break even or #{flightController.minimumBaseIncreaseWithMargin(category.seatPrice)} EUR to make a minimum profit of #{flightController.getMinimumMargin()}%. " />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
 				</p:tab>
 			</p:tabView>
 

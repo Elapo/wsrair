@@ -38,6 +38,7 @@ public class Booking implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
+	
 	private Boolean locked;
 	private Double finalPrice;
 

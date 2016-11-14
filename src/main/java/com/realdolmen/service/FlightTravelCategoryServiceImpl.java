@@ -25,4 +25,9 @@ public class FlightTravelCategoryServiceImpl implements FlightTravelCategoryServ
 		return flightTravelCategoryServiceRepository.update(ftg);
 	}
 
+	@Override
+	public Integer availableSeatsLeftByFlightTravelCategory(Long id) {
+		return flightTravelCategoryServiceRepository.availableSeatsLeftByFlightTravelCategory(id);
+	}
+
 }
