@@ -178,7 +178,7 @@ public class FlightController implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			if (flightId != null) {
 				this.editFlight = flightService.findById(flightId);
-				if (!backingBean.getPartner().getId().equals(editFlight.getPartner().getId())){
+				if (!(backingBean.getPartner() == null) && !backingBean.getPartner().getId().equals(editFlight.getPartner().getId())){
 					FacesContext.getCurrentInstance().getExternalContext().redirect("/rair/findFlight.xhtml?faces-redirect=true");
 				}
 			} else {

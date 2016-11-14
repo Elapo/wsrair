@@ -41,7 +41,12 @@
 				rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
 				<h:form>
 					<p:button outcome="filtered/partner/manageFlight" value="Manage"
-						icon="ui-icon-pencil">
+						icon="ui-icon-pencil" rendered="#{backingBean.userRole eq 'PARTNER'}">
+						<f:param name="flightId" value="#{flight.id}"></f:param>
+					</p:button>
+					
+					<p:button outcome="filtered/employee/manageFlight" value="Manage"
+						icon="ui-icon-pencil" rendered="#{backingBean.userRole eq 'EMPLOYEE'}">
 						<f:param name="flightId" value="#{flight.id}"></f:param>
 					</p:button>
 				</h:form>
@@ -60,7 +65,7 @@
 		<p:outputPanel rendered="#{backingBean.userRole eq 'PARTNER'}">
 			<h:form>
 				<p:button outcome="filtered/partner/manageFlight"
-					value="Create new flight" icon="fa fa-plane" />
+					value="Create new flight" icon="fa fa-plane"/>
 			</h:form>
 		</p:outputPanel>
 	</ui:define>

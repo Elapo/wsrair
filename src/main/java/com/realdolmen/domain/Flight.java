@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.realdolmen.util.PriceCalculatorUtil;
+
 @Entity
 public class Flight implements Serializable {
 
@@ -122,6 +124,8 @@ public class Flight implements Serializable {
 			ftg.setMaximumSeats(0);
 			ftg.setOpenSeats(0);
 			ftg.setSeatPrice(0.0);
+			ftg.setOverruledPrice(0.0);
+			ftg.setCommission(PriceCalculatorUtil.minimumCommissionPercentageWithMargin());
 			ftg.setTravelCategory(travelCategory);
 			ftg.setFlight(this);
 			flightTravelCategories.add(ftg);

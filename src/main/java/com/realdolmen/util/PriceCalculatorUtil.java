@@ -14,7 +14,7 @@ public final class PriceCalculatorUtil {
 
 	private static Double preferredPaymentDiscount = 5.0;
 	private static PaymentType preferredPaymentType = PaymentType.CREDIT_CARD;
-	private static Double minimumMargin = 1.00;
+	private static Double minimumMargin = 10.00;
 
 	public static Double getPreferredPaymentDiscount() {
 		return preferredPaymentDiscount;
