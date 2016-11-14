@@ -47,7 +47,7 @@ public class FlightRepositoryTest extends JpaPersistenceTest {
 		Date date = calendar.getTime();
 		SearchQuery q = new SearchQuery(1000L, 1001L, null, 1, date, TravelCategory.REGULAR);
 		List<Flight> flights = fr.findAllFlightsBySearchCriteria(q);
-		assertEquals(2, flights.size());
+		assertEquals(1, flights.size());
 		assertEquals(1000, flights.get(0).getId().longValue());
 		assertEquals(2000, flights.get(1).getId().longValue());
 

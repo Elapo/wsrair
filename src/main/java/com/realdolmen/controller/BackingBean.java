@@ -85,13 +85,13 @@ public class BackingBean implements Serializable {
 
 	public void logout() {
 		this.resetUser();
+		this.bookingsToBeConfirmed.clear();
 	}
 
 	private void resetUser() {
 		this.userName = null;
 		this.userRole = null;
 		this.partner = null;
-		this.bookingsToBeConfirmed.clear();
 	}
 
 }
