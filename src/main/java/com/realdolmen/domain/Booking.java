@@ -37,7 +37,7 @@ public class Booking implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
-	
+
 	private Boolean locked;
 	private Double finalPrice;
 
@@ -107,6 +107,10 @@ public class Booking implements Serializable {
 
 	public Booking() {
 		super();
+	}
+
+	public String sHashCode() {
+		return String.valueOf(this.id);
 	}
 
 }

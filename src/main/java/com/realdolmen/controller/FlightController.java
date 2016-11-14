@@ -191,6 +191,7 @@ public class FlightController implements Serializable {
 				this.editFlight = flightService.findById(flightId);
 				if (!(backingBean.getPartner() == null)
 						&& !backingBean.getPartner().getId().equals(editFlight.getPartner().getId())) {
+
 					FacesContext.getCurrentInstance().getExternalContext()
 							.redirect("/rair/findFlight.xhtml?faces-redirect=true");
 				}

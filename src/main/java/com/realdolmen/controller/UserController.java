@@ -1,5 +1,6 @@
 package com.realdolmen.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import com.realdolmen.domain.Booking;
 import com.realdolmen.domain.User;
@@ -28,6 +31,9 @@ public class UserController implements Serializable {
 
 	User loggedInUser;
 	List<Booking> bookings;
+
+	Long bookingId;
+	Booking bookingToPrint;
 
 	@PostConstruct
 	private void init() {
@@ -59,9 +65,36 @@ public class UserController implements Serializable {
 		this.bookings = bookings;
 	}
 
+	public Booking getBookingToPrint() {
+		return bookingToPrint;
+	}
+
+	public void setBookingToPrint(Booking bookingToPrint) {
+		this.bookingToPrint = bookingToPrint;
+	}
+
+	public Long getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
+	}
+
 	public void updateUser() {
 		System.out.println("update");
 		authService.merge(this.loggedInUser);
+	}
+
+	public void loadBooking() throws IOException {
+		Booking b = bookingService.find(bookingId);
+		if (b != null && b.getUser() != null && b.getUser().getUserName().equals(backingBean.getUserName())) {
+			bookingToPrint = b;
+			return;
+		}
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+
 	}
 
 }

@@ -11,10 +11,14 @@ import com.realdolmen.domain.TravelCategory;
 public interface BookingService {
 
 	Booking create(Booking booking);
-	
-	List<Booking> findAllBookingsByFlightId(Long flightId); 
+
+	Booking find(Long id);
+
+	List<Booking> findAllBookingsByFlightId(Long flightId);
+
 	List<Booking> findAllBookingsByUserId(Long userId);
-	
+
 	Integer countBookingsByFlightId(Long flightId);
+
 	Integer countBookingByFlightIdAndCategory(Long flightId, TravelCategory category);
 }
