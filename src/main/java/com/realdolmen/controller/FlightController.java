@@ -25,6 +25,7 @@ import com.realdolmen.service.BookingService;
 import com.realdolmen.service.FlightService;
 import com.realdolmen.service.FlightTravelCategoryService;
 import com.realdolmen.service.PartnerService;
+import com.realdolmen.util.PriceCalculatorUtil;
 
 @ViewScoped
 @ManagedBean
@@ -236,5 +237,25 @@ public class FlightController implements Serializable {
 			totalAmount += ftg.getMaximumSeats();
 		}
 		return totalAmount;
+	}
+	
+	public Double minimumCommissionPercentage() {
+		return PriceCalculatorUtil.minimumCommissionPercentage();
+	}
+	
+	public Double minimumCommissionPercentageWithMargin(){
+		return PriceCalculatorUtil.minimumCommissionPercentageWithMargin();
+	}
+
+	public Double minimumBaseIncrease(Double partnerSeatPrice){
+		return PriceCalculatorUtil.minimumBaseIncrease(partnerSeatPrice);
+	}
+	
+	public Double minimumBaseIncreaseWithMargin(Double partnerSeatPrice) {
+		return PriceCalculatorUtil.minimumBaseIncreaseWithMargin(partnerSeatPrice);
+	}
+	
+	public Double getMinimumMargin() {
+		return PriceCalculatorUtil.getMinimumMargin();
 	}
 }

@@ -45,4 +45,8 @@ public class BookingServiceImpl implements BookingService {
 		return bookingRepository.findAllBookingsByUserId(userId);
 	}
 
+	@Override	
+	public Booking create(Booking booking) {
+		return bookingRepository.create(booking);
+	}
 }

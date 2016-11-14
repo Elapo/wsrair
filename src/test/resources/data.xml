@@ -22,24 +22,28 @@
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="2000" />
 
-	<pricingRule id="1000" volume="2" discountValue="5.0"
+	<pricingRule id="1000" volume="4" discountValue="5.0"
 		flightId="1000" />
-	<pricingRule id="1001" volume="4" discountValue="7.5"
+	<pricingRule id="1001" volume="5" discountValue="7.5"
 		flightId="1000" />
-	<pricingRule id="1002" volume="0" discountValue="0.0"
+	<pricingRule id="1002" volume="6" discountValue="6.0"
 		flightId="1000" />
 
 	<flightTravelCategory id="1000" travelCategory="REGULAR"
-		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="1000" />
+		seatPrice="50.0" overruledPrice="10.0"  commission="10.0" maximumSeats="60" openSeats="57" flightId="1000" />
 
 	<flightTravelCategory id="1001" travelCategory="PREMIUM"
-		seatPrice="70.0" maximumSeats="10" openSeats="5" flightId="1000" />
+		seatPrice="70.0" overruledPrice="0.0"  commission="10.0" maximumSeats="10" openSeats="9" flightId="1000" />
 		
 	<flightTravelCategory id="1002" travelCategory="REGULAR"
 		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="2000" />
 
 	
-	
+	<booking id="1000" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="ENDORSED" userId="500"/>
+	<booking id="1001" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD" userId="500"/>
+	<booking id="1002" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD"/>
+
+	<booking id="1100" bookingDateTime="2016-11-11 17:36:17" finalPrice="77.5" flightId="1000" travelCategory="PREMIUM" paymentType="ENDORSED"/>
 
 	<user id="500" userName="shenno.w@gmail.com" password="123" role="REGULAR" />
 	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
@@ -47,10 +51,4 @@
 	<user id="1001" userName="parluft@rair.com" password="123" role="PARTNER"
 		partnerId="2000" />
 	<user id="1100" userName="employee@rair.com" password="123" role="EMPLOYEE" />
-	
-	<booking id="1000" flightId="1000" travelCategory="REGULAR" userId="500" />
-	<booking id="1001" flightId="1000" travelCategory="REGULAR" userId="500" />
-	<booking id="1002" flightId="1000" travelCategory="REGULAR" />
-	<booking id="1100" flightId="1000" travelCategory="PREMIUM" />
-
 </dataset>
