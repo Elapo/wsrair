@@ -1,6 +1,7 @@
 package com.realdolmen.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import com.realdolmen.domain.PaymentType;
 import com.realdolmen.domain.PricingRule;
 import com.realdolmen.domain.TravelCategory;
 import com.realdolmen.exception.ConcurrentUpdateException;
+import com.realdolmen.service.AuthService;
 import com.realdolmen.service.BookingService;
 import com.realdolmen.service.FlightService;
 import com.realdolmen.service.FlightTravelCategoryService;
@@ -34,6 +36,8 @@ public class BookingController implements Serializable {
 	private BookingService bookingService;
 	@EJB
 	private FlightTravelCategoryService flightTravelCategoryService;
+	@EJB
+	private AuthService authService;
 	@ManagedProperty(value = "#{backingBean}")
 	private BackingBean backingBean;
 
@@ -151,42 +155,87 @@ public class BookingController implements Serializable {
 				this.amountPerCategory.get(ftg.getTravelCategory()), this.paymentType);
 	}
 
-	public String persistBooking() throws ConcurrentUpdateException {
+	public String confirmBooking() {
+		List<Booking> bookingsToConfirm = new ArrayList<Booking>();
 
+		for (FlightTravelCategory ftg : bookFlight.getFlightTravelCategory()) {
+			Integer amountOfCategory = this.amountPerCategory.get(ftg.getTravelCategory());
+
+			if (amountOfCategory > flightTravelCategoryService.availableSeatsLeftByFlightTravelCategory(ftg.getId())) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Warning!", "The request amount of tickets is no longer available. Please try again."));
+				return null;
+			}
+
+			for (Integer i = 0; i < amountOfCategory; i++) {
+				Booking booking = new Booking();
+				booking.setFinalPrice(PriceCalculatorUtil.getIndividualPrice(ftg, bookFlight.getPriceRules(),
+						amountOfCategory, this.paymentType));
+				booking.setFlight(bookFlight);
+				booking.setPaymentType(this.paymentType);
+				booking.setTravelCategory(ftg.getTravelCategory());
+				booking.setBookingDateTime(new Date());
+
+				bookingsToConfirm.add(booking);
+			}
+		}
+		backingBean.setBookingsToBeConfirmed(bookingsToConfirm);
+		return "/filtered/regular/confirm.xhtml?faces-redirect=true";
+	}
+
+	public String persistBooking() throws ConcurrentUpdateException {
 		try {
-			for (FlightTravelCategory ftg : bookFlight.getFlightTravelCategory()) {
-				if (amountPerCategory.get(ftg.getTravelCategory()) <= flightTravelCategoryService
+
+			Boolean updateFlag = false;
+			
+			// Init amount
+			HashMap<TravelCategory, Integer> ticketsPerCategory = new HashMap<>();
+			for (TravelCategory tc : TravelCategory.values()) {
+				ticketsPerCategory.put(tc, 0);
+			}
+			// Fill amount
+			for (Booking booking : backingBean.getBookingsToBeConfirmed()) {
+				ticketsPerCategory.put(booking.getTravelCategory(),
+						ticketsPerCategory.get(booking.getTravelCategory()) + 1);
+			}
+			// Check persistence possiblity via checksum
+			for( FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight().getFlightTravelCategory()) {
+				
+				if (ticketsPerCategory.get(ftg.getTravelCategory()) <= flightTravelCategoryService
 						.availableSeatsLeftByFlightTravelCategory(ftg.getId())) {
-					ftg.setOpenSeats(ftg.getOpenSeats() - this.amountPerCategory.get(ftg.getTravelCategory()));
-					flightTravelCategoryService.update(ftg);
+					updateFlag = true;
 				} else {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Warning!", "The request amount of tickets is no longer available. Please try again."));
-					return null;
+					updateFlag = false;
+				}
+				
+			}
+			
+			// Update seat count
+			if (updateFlag) {
+				for( FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight().getFlightTravelCategory()) {
+					if (ticketsPerCategory.get(ftg.getTravelCategory()) <= flightTravelCategoryService
+							.availableSeatsLeftByFlightTravelCategory(ftg.getId())) {
+						ftg.setOpenSeats(ftg.getOpenSeats() - ticketsPerCategory.get(ftg.getTravelCategory()));
+						flightTravelCategoryService.update(ftg);
+					} else {
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",
+								"The request amount of tickets is no longer available! Please try again."));
+						return "/bookFlight.xhtml?faces-redirect=true";
+					}
+					
 				}
 			}
-			for (FlightTravelCategory ftg : bookFlight.getFlightTravelCategory()) {
-				Integer amountOfCategory = this.amountPerCategory.get(ftg.getTravelCategory());
-				for (Integer i = 0; i < amountOfCategory; i++) {
-					Booking booking = new Booking();
-					booking.setFinalPrice(PriceCalculatorUtil.getIndividualPrice(ftg, bookFlight.getPriceRules(),
-							amountOfCategory, paymentType));
-					booking.setFlight(bookFlight);
-					booking.setPaymentType(paymentType);
-					booking.setTravelCategory(ftg.getTravelCategory());
-					booking.setBookingDateTime(new Date());
-					// TODO: Implement User
-					// booking.setUser(backingBean.getUser);
-
-					bookingService.create(booking);
-				}
+			
+			// Persist
+			for (Booking booking : backingBean.getBookingsToBeConfirmed()) {
+				bookingService.create(booking);
 			}
 		} catch (ConcurrentUpdateException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",
 					"Something went wrong! Please try again."));
-			return null;
+			return "/bookFlight.xhtml?faces-redirect=true";
 		}
-		return "/findFlight.xhtml?faces-redirect=true";
+		return "/filtered/regular/thankYou.xhtml?faces-redirect=true";
 	}
 
 }

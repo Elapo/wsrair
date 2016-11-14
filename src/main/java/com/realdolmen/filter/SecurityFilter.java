@@ -1,6 +1,7 @@
 package com.realdolmen.filter;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -36,7 +37,11 @@ public class SecurityFilter implements Filter {
 
 		BackingBean b = (BackingBean) req.getSession().getAttribute("backingBean");
 		if (b == null || b.getUserRole() == null) {
-			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
+			String requestURI = req.getRequestURI();
+			String queryString = req.getQueryString();
+			String encodedURL = URLEncoder.encode(requestURI + "?" + queryString, "UTF-8");
+			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml?originalURL=" + encodedURL);
+			// httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
 			return;
 		}
 
@@ -59,7 +64,12 @@ public class SecurityFilter implements Filter {
 		if (hasRights) {
 			chain.doFilter(request, response);
 		} else {
-			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml");
+			// httpResponse.sendRedirect(req.getContextPath() +
+			// "/login.xhtml");+
+			String requestURI = req.getRequestURI();
+			String queryString = req.getQueryString();
+			String encodedURL = URLEncoder.encode(requestURI + "?" + queryString, "UTF-8");
+			httpResponse.sendRedirect(req.getContextPath() + "/login.xhtml?originalURL=" + encodedURL);
 		}
 		// TODO redirect if not authed
 	}

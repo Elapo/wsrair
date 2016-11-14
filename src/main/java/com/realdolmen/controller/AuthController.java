@@ -1,5 +1,6 @@
 package com.realdolmen.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -9,7 +10,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 
 import com.realdolmen.domain.Role;
 import com.realdolmen.domain.User;
@@ -30,9 +34,43 @@ public class AuthController implements Serializable {
 	String loginEmail;
 	String loginPassword;
 
+	String originalURL;
+
 	@PostConstruct
 	private void init() {
 		registerUser = new User();
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+		String forwardedRequestURI = (String) externalContext.getRequestMap()
+				.get(RequestDispatcher.FORWARD_REQUEST_URI);
+
+		if ((this.originalURL = request.getParameter("originalURL")) != null) {
+			// If the user was redirected, retrieve the originalURL from the
+			// request's "originalURL" parameter
+			return;
+
+		} else if (forwardedRequestURI == null) {
+			// If the user logged in directly from the top bar, simply redirect
+			// to the originalURL recorded by UserSessionBean
+			this.originalURL = backingBean.getOriginalURL();
+			if (originalURL == null) {
+				// Redirect to home page in case the user didn't surf any pages
+				// before logging in
+				this.originalURL = request.getContextPath();
+			}
+
+		} else {
+			System.out.println("forwarded");
+			// If the user was forwarded to the login page, re-build the orignal
+			// requestURL
+			this.originalURL = forwardedRequestURI;
+			String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
+
+			if (originalQuery != null) {
+				this.originalURL += "?" + originalQuery;
+			}
+		}
+		// this.originalURL = backingBean.getOriginalURL();
 	}
 
 	public BackingBean getBackingBean() {
@@ -94,12 +132,13 @@ public class AuthController implements Serializable {
 		return null;
 	}
 
-	public String login() {
+	public String login() throws IOException {
 		// TODO exception catchen en errormessage tonen
 		User u = authService.login(this.loginEmail.toLowerCase(), this.loginPassword);
 		if (u != null) {
 			backingBean.updateLoggedInUser(u);
-			return "/index.xhtml?faces-redirect=true";
+			// return "/index.xhtml?faces-redirect=true";
+			FacesContext.getCurrentInstance().getExternalContext().redirect(originalURL);
 		}
 		return null;
 

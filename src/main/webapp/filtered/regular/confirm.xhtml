@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="../../WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<h1>Confirm booking</h1>
+
+		<p:panel>
+			<h2>Ticket overview</h2>
+			<p:dataTable value="#{backingBean.bookingsToBeConfirmed}"
+				var="booking">
+				<p:column headerText="Flight number">
+					<h:outputText
+						value="#{booking.flight.arrivalLocation.airportCode}-#{booking.flight.id}" />
+				</p:column>
+				<p:column headerText="Category">
+					<h:outputText value="#{booking.travelCategory}" />
+				</p:column>
+				<p:column headerText="Price">
+					<h:outputText value="#{booking.finalPrice}  EUR" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<p:panel
+			rendered="#{backingBean.bookingsToBeConfirmed[0].paymentType eq 'CREDIT_CARD'}">
+			<h2>Payment detail</h2>
+			<p:outputLabel for="creditCardNumber" value="Credit Card Number" />
+			<p:inputMask id="creditCardNumber" value=""
+				mask="9999 9999 9999 9999" />
+
+			<p:outputLabel for="expDate" value="Expiry Date" />
+			<p:inputMask id="expDate" mask="99/99" />
+
+			<p:outputLabel for="ccv" value="CCV" />
+			<p:inputMask id="ccv" value="" size="3" />
+		</p:panel>
+		
+		<p:commandButton value="Submit"
+				action="#{bookingController.persistBooking}" disabled="#{backingBean.bookingsToBeConfirmed.size() eq 0}"/>
+	</ui:define>
+</ui:composition>
+</html>

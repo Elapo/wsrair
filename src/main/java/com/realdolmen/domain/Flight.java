@@ -111,7 +111,7 @@ public class Flight implements Serializable {
 	public List<FlightTravelCategory> getFlightTravelCategory() {
 		return flightTravelCategory;
 	}
-
+	
 	public void setFlightTravelCategory(List<FlightTravelCategory> flightTravelCategory) {
 		this.flightTravelCategory = flightTravelCategory;
 	}

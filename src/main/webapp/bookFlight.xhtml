@@ -5,17 +5,18 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
 <f:metadata>
 	<f:viewParam name="flightId" value="#{bookingController.flightId}"></f:viewParam>
 	<f:event type="preRenderView" listener="#{bookingController.loadData}" />
 </f:metadata>
 <ui:composition template="WEB-INF/templates/template.xhtml">
-
 	<ui:define name="content">
 
 		<h1>
 			Book flight #
-			<p:outputLabel value="#{bookingController.bookFlight.id}" />
+			<p:outputLabel
+				value="#{bookingController.bookFlight.arrivalLocation.airportCode}-#{bookingController.bookFlight.id}" />
 		</h1>
 
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
@@ -25,6 +26,7 @@
 			<p:tabView id="allTab">
 				<p:tab title="Flight details" id="tabflightDetails">
 					<p:panel id="panelFlightBase">
+						<h3>Flight details</h3>
 						<p:panelGrid columns="4" layout="grid">
 							<p:outputLabel value="Departure airport:" />
 							<p:outputLabel
@@ -48,6 +50,7 @@
 						</p:panelGrid>
 					</p:panel>
 					<p:panel id="panelTicketBase">
+						<h3>Ticket details</h3>
 						<p:dataTable var="category"
 							value="#{bookingController.bookFlight.flightTravelCategory}"
 							id="ticketTable">
@@ -77,6 +80,7 @@
 						</p:dataTable>
 					</p:panel>
 					<p:panel id="paymentTypePanel">
+						<h3>Payment details</h3>
 						<p:panelGrid columns="2">
 							<p:outputLabel value="Payment type:" for="paymentType" />
 							<p:selectOneMenu id="paymentType"
@@ -88,6 +92,7 @@
 						</p:panelGrid>
 					</p:panel>
 					<p:panel id="calculationPanel">
+						<h3>Cost details</h3>
 						<p:dataTable id="calculationTable" var="category"
 							value="#{bookingController.bookFlight.flightTravelCategory}">
 							<p:column headerText="Cost overview">
@@ -112,22 +117,20 @@
 				</p:tab>
 
 				<p:tab title="Flight company">
-					<p:panelGrid columns="2" layout="grid">
-						<p:outputLabel value="Partner:" />
-						<p:outputLabel
-							value="#{bookingController.bookFlight.partner.name}" />
+					<p:panel>
+						<h2><p:outputLabel
+							value="#{bookingController.bookFlight.partner.name}" /></h2>
 
-						<p:outputLabel value="Description:" />
 						<p:outputLabel
 							value="#{bookingController.bookFlight.partner.description}" />
 
-					</p:panelGrid>
+					</p:panel>
 				</p:tab>
 			</p:tabView>
 
 
 			<p:commandButton update="@form" value="Submit"
-				action="#{bookingController.persistBooking}" />
+				action="#{bookingController.confirmBooking}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

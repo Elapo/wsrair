@@ -16,9 +16,9 @@
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="1000" />
 	<flight id="1001" depAirportId="1000" arrAirportId="2000"
-		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
+		departureDateTime="2016-11-16 00:00:00" arrivalDateTime="2016-11-16 08:00:00"
 		partnerId="1000" />
-	<flight id="2000" depAirportId="1000" arrAirportId="1001"
+	<flight id="2000" depAirportId="3000" arrAirportId="1001"
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="2000" />
 

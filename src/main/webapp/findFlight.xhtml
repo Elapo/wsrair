@@ -11,33 +11,41 @@
 		<h:outputText value="#{backingBean.userRole}"></h:outputText>
 		<h1>Laten we een vlucht zoeken</h1>
 
-		<p:dataTable var="flight" value="#{flightController.flights}"
-			tableStyle="width:auto">
-			<p:column headerText="Id">
-				<h:outputText value="#{flight.id}" />
-			</p:column>
+		<h:form>
+			<p:dataTable var="flight" value="#{flightController.flights}"
+				tableStyle="width:auto"
+				filteredValue="#{flightController.filteredFlights}">
 
-			<p:column headerText="Departure">
-				<h:outputText value="#{flight.departureLocation.name}" />
-			</p:column>
+				<p:column headerText="Id" sortBy="#{flight.id}"
+					filterBy="#{flight.id}" filterMatchMode="startsWith">
+					<h:outputText value="#{flight.id}" />
+				</p:column>
 
-			<p:column headerText="Dep time (GMT)">
-				<h:outputText value="#{flight.departureDateTime}" escape="false">
-					<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
-				</h:outputText>
-			</p:column>
+				<p:column headerText="Departure"
+					sortBy="#{flight.departureLocation.name}" filterBy="#{flight.departureLocation.name}" filterMatchMode="contains">
+					<h:outputText value="#{flight.departureLocation.name}" />
+				</p:column>
 
-			<p:column headerText="Arrival">
-				<h:outputText value="#{flight.arrivalLocation.name}" />
-			</p:column>
+				<p:column headerText="Departure time &lt;br/&gt;(GMT)" escape="false"
+					sortBy="#{flight.departureDateTime}">
+					<h:outputText value="#{flight.departureDateTime}" escape="false">
+						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+					</h:outputText>
+				</p:column>
 
-			<p:column headerText="Arrival time (GMT)">
-				<h:outputText value="#{flight.arrivalDateTime}" escape="false">
-					<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
-				</h:outputText>
-			</p:column>
+				<p:column headerText="Arrival"
+					sortBy="#{flight.arrivalLocation.name}" filterBy="#{flight.arrivalLocation.name}" filterMatchMode="contains">
+					<h:outputText value="#{flight.arrivalLocation.name}" />
+				</p:column>
 
-			<p:column headerText="Configured"
+				<p:column headerText="Arrival time &lt;br/&gt;(GMT)" escape="false"
+					sortBy="#{flight.arrivalDateTime}">
+					<h:outputText value="#{flight.arrivalDateTime}" escape="false">
+						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Configured"
 				rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
 				<h:form>
 					<p:button outcome="filtered/partner/manageFlight" value="Manage"
@@ -52,15 +60,16 @@
 				</h:form>
 			</p:column>
 
-			<p:column headerText="Book" rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
-				<h:form>
-					<p:button outcome="bookFlight" value="Book!"
-						icon="fa fa-plane">
-						<f:param name="flightId" value="#{flight.id}"></f:param>
-					</p:button>
-				</h:form>
-			</p:column>
-		</p:dataTable>
+				<p:column headerText="Book"
+					rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
+					<h:form>
+						<p:button outcome="bookFlight" value="Book!" icon="fa fa-plane">
+							<f:param name="flightId" value="#{flight.id}"></f:param>
+						</p:button>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 
 		<p:outputPanel rendered="#{backingBean.userRole eq 'PARTNER'}">
 			<h:form>
