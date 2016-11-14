@@ -103,6 +103,14 @@
 						<f:convertNumber pattern="€ 0.00" />
 					</h:outputText>
 				</p:column>
+				<p:column headerText="Book" rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
+				<h:form>
+					<p:button outcome="bookFlight" value="Book!"
+						icon="fa fa-plane">
+						<f:param name="flightId" value="#{flight.id}"></f:param>
+					</p:button>
+				</h:form>
+			</p:column>
 			</p:dataTable>
 		</h:panelGroup>
 	</ui:define>

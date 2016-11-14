@@ -43,7 +43,6 @@ public class FlightController implements Serializable {
 	private BookingService bookingService;
 	@ManagedProperty(value = "#{backingBean}")
 	private BackingBean backingBean;
-	
 
 	private List<Flight> flights;
 	private List<Airport> airports;
@@ -108,8 +107,6 @@ public class FlightController implements Serializable {
 	public void setTravelCategories(List<TravelCategory> travelCategories) {
 		this.travelCategories = travelCategories;
 	}
-	
-	
 
 	public BackingBean getBackingBean() {
 		return backingBean;
@@ -157,8 +154,9 @@ public class FlightController implements Serializable {
 	public String updateFlight() throws ConcurrentUpdateException {
 
 		for (FlightTravelCategory ftg : this.editFlight.getFlightTravelCategory()) {
-			int amountOfBookings = bookingService.countBookingByFlightIdAndCategory(editFlight.getId(), ftg.getTravelCategory());
-			if (ftg.getMaximumSeats() < amountOfBookings ) {
+			int amountOfBookings = bookingService.countBookingByFlightIdAndCategory(editFlight.getId(),
+					ftg.getTravelCategory());
+			if (ftg.getMaximumSeats() < amountOfBookings) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 								"The new value for maximum number of seats cannot be lower than amount of bookings already made for category "
@@ -178,8 +176,9 @@ public class FlightController implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			if (flightId != null) {
 				this.editFlight = flightService.findById(flightId);
-				if (!backingBean.getPartner().getId().equals(editFlight.getPartner().getId())){
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/rair/findFlight.xhtml?faces-redirect=true");
+				if (!backingBean.getPartner().getId().equals(editFlight.getPartner().getId())) {
+					FacesContext.getCurrentInstance().getExternalContext()
+							.redirect("/rair/findFlight.xhtml?faces-redirect=true");
 				}
 			} else {
 				Airport dummyAirport = airportService.getFirstAirport();
@@ -238,23 +237,23 @@ public class FlightController implements Serializable {
 		}
 		return totalAmount;
 	}
-	
+
 	public Double minimumCommissionPercentage() {
 		return PriceCalculatorUtil.minimumCommissionPercentage();
 	}
-	
-	public Double minimumCommissionPercentageWithMargin(){
+
+	public Double minimumCommissionPercentageWithMargin() {
 		return PriceCalculatorUtil.minimumCommissionPercentageWithMargin();
 	}
 
-	public Double minimumBaseIncrease(Double partnerSeatPrice){
+	public Double minimumBaseIncrease(Double partnerSeatPrice) {
 		return PriceCalculatorUtil.minimumBaseIncrease(partnerSeatPrice);
 	}
-	
+
 	public Double minimumBaseIncreaseWithMargin(Double partnerSeatPrice) {
 		return PriceCalculatorUtil.minimumBaseIncreaseWithMargin(partnerSeatPrice);
 	}
-	
+
 	public Double getMinimumMargin() {
 		return PriceCalculatorUtil.getMinimumMargin();
 	}
