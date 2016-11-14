@@ -65,7 +65,7 @@
 							rendered="#{userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
 						<h:outputText style="color:red"
 							value="Not everything is filled in, please continue."
-							rendered="#{not userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
+							rendered="#{not (userController.loggedInUser.requiredFieldsFilledIn())}"></h:outputText>
 					</h:panelGroup>
 				</p:tab>
 				<p:tab title="Manage bookings">
