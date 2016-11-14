@@ -38,17 +38,15 @@
 	<flightTravelCategory id="1002" travelCategory="REGULAR"
 		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="2000" />
 
-	
-	<booking id="1000" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="ENDORSED" userId="500"/>
-	<booking id="1001" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD" userId="500"/>
-	<booking id="1002" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD"/>
-
-	<booking id="1100" bookingDateTime="2016-11-11 17:36:17" finalPrice="77.5" flightId="1000" travelCategory="PREMIUM" paymentType="ENDORSED"/>
-
 	<user id="500" userName="shenno.w@gmail.com" password="123" role="REGULAR" />
 	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
 		partnerId="1000" />
 	<user id="1001" userName="parluft@rair.com" password="123" role="PARTNER"
 		partnerId="2000" />
 	<user id="1100" userName="employee@rair.com" password="123" role="EMPLOYEE" />
+	
+	<booking id="1000" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="ENDORSED" userId="500"/>
+	<booking id="1001" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD" userId="500"/>
+	<booking id="1002" bookingDateTime="2016-11-11 17:35:17" finalPrice="47.5" flightId="1000" travelCategory="REGULAR" paymentType="CREDIT_CARD"/>
+	<booking id="1100" bookingDateTime="2016-11-11 17:36:17" finalPrice="77.5" flightId="1000" travelCategory="PREMIUM" paymentType="ENDORSED"/>
 </dataset>
