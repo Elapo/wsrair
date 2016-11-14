@@ -53,7 +53,6 @@ public class FlightRepository extends AbstractRepository<Flight> {
 		String query = "SELECT f FROM Flight f INNER JOIN f.flightTravelCategory ftc"
 				+ " WHERE f.departureLocation.id = :depId"
 				+ " AND f.arrivalLocation.id = :arrId"
-				+ " AND f.departureLocation.id = :depId"
 				+ " AND f.departureDateTime BETWEEN :depDateMinusOne AND :depDatePlusOne"
 				+ " AND ftc.travelCategory = :tC"
 				+ " AND ftc.openSeats >= :tickets"

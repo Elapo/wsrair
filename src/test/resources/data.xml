@@ -42,20 +42,18 @@
 	<flightTravelCategory id="1001" travelCategory="PREMIUM"
 		seatPrice="70.0" overruledPrice="0.0" commission="10.0" maximumSeats="10"
 		openSeats="9" flightId="1000" />
-
 	<flightTravelCategory id="1100" travelCategory="REGULAR"
 		seatPrice="75.0" overruledPrice="0.0" commission="10.0" maximumSeats="40"
-		openSeats="40" flightId="1000" />
+		openSeats="40" flightId="1001" />
 	<flightTravelCategory id="1101" travelCategory="PREMIUM"
 		seatPrice="75.0" overruledPrice="20.0" commission="10.0" maximumSeats="10"
-		openSeats="10" flightId="1000" />
-
+		openSeats="10" flightId="1001" />
 	<flightTravelCategory id="1200" travelCategory="REGULAR"
 		seatPrice="50.0" overruledPrice="0.0" commission="10.0" maximumSeats="60"
 		openSeats="60" flightId="2000" />
 	<flightTravelCategory id="1201" travelCategory="PREMIUM"
 		seatPrice="70.0" overruledPrice="0.0" commission="10.0" maximumSeats="20"
-		openSeats="20" flightId="1000" />
+		openSeats="20" flightId="2000" />
 
 	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
 		partnerId="1000" />

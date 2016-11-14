@@ -49,8 +49,6 @@ public class FlightRepositoryTest extends JpaPersistenceTest {
 		List<Flight> flights = fr.findAllFlightsBySearchCriteria(q);
 		assertEquals(1, flights.size());
 		assertEquals(1000, flights.get(0).getId().longValue());
-		assertEquals(2000, flights.get(1).getId().longValue());
-
 	}
 
 }
