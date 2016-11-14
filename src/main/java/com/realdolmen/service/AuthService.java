@@ -13,4 +13,6 @@ public interface AuthService {
 
 	User login(String userName, String password);
 
+	User merge(User u);
+
 }

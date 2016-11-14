@@ -38,16 +38,19 @@
 	<flightTravelCategory id="1002" travelCategory="REGULAR"
 		seatPrice="50.0" maximumSeats="60" openSeats="60" flightId="2000" />
 
-	<booking id="1000" flightId="1000" travelCategory="REGULAR" />
-	<booking id="1001" flightId="1000" travelCategory="REGULAR" />
-	<booking id="1002" flightId="1000" travelCategory="REGULAR" />
+	
+	
 
-	<booking id="1100" flightId="1000" travelCategory="PREMIUM" />
-
+	<user id="500" userName="shenno.w@gmail.com" password="123" role="REGULAR" />
 	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
 		partnerId="1000" />
 	<user id="1001" userName="parluft@rair.com" password="123" role="PARTNER"
 		partnerId="2000" />
 	<user id="1100" userName="employee@rair.com" password="123" role="EMPLOYEE" />
+	
+	<booking id="1000" flightId="1000" travelCategory="REGULAR" userId="500" />
+	<booking id="1001" flightId="1000" travelCategory="REGULAR" userId="500" />
+	<booking id="1002" flightId="1000" travelCategory="REGULAR" />
+	<booking id="1100" flightId="1000" travelCategory="PREMIUM" />
 
 </dataset>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="../../WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<h3>Manage account</h3>
+		<h:form>
+
+			<p:tabView>
+				<p:tab title="Manage information">
+					<p:panelGrid columns="2">
+						<p:outputLabel for="email" value="E-mail:"></p:outputLabel>
+						<p:inputText id="email"
+							value="#{userController.loggedInUser.userName}" disabled="true"></p:inputText>
+
+						<p:outputLabel for="firstname" value="First name:"></p:outputLabel>
+						<p:inputText id="firstname"
+							value="#{userController.loggedInUser.firstName}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="lastname" value="Last name:"></p:outputLabel>
+						<p:inputText id="lastname"
+							value="#{userController.loggedInUser.lastName}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="street" value="Street:"></p:outputLabel>
+						<p:inputText id="street"
+							value="#{userController.loggedInUser.street}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="hnumber" value="House number:"></p:outputLabel>
+						<p:inputText id="hnumber"
+							value="#{userController.loggedInUser.houseNumber}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="zip" value="Zipcode:"></p:outputLabel>
+						<p:inputText id="zip" value="#{userController.loggedInUser.zip}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="city" value="City:"></p:outputLabel>
+						<p:inputText id="city" value="#{userController.loggedInUser.city}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+
+						<p:outputLabel for="phone" value="Phone:"></p:outputLabel>
+						<p:inputText id="phone"
+							value="#{userController.loggedInUser.phoneNumber}">
+							<p:ajax listener="#{userController.updateUser()}" update="holder" />
+						</p:inputText>
+					</p:panelGrid>
+
+					<h:panelGroup id="holder" layout="block">
+						<h:outputText style="color:green"
+							value="Everything is filled in, thanks!"
+							rendered="#{userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
+						<h:outputText style="color:red"
+							value="Not everything is filled in, please continue."
+							rendered="#{not userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Manage bookings">
+					<p:dataTable value="#{userController.bookings}" var="booking">
+						<p:column headerText="Booking number">#{booking.id}</p:column>
+						<p:column headerText="Flight number">#{booking.flight.arrivalLocation.airportCode}-#{booking.flight.id}</p:column>
+
+					</p:dataTable>
+
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

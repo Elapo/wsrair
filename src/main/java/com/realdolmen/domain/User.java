@@ -150,4 +150,18 @@ public class User implements Serializable {
 	public User() {
 	}
 
+	public Boolean requiredFieldsFilledIn() {
+		return verifyAllStringsNotNullOrEmpty(this.userName, this.firstName, this.lastName, this.street,
+				this.houseNumber, this.zip, this.city, this.phoneNumber);
+	}
+
+	private Boolean verifyAllStringsNotNullOrEmpty(String... s) {
+		for (String string : s) {
+			if (string == null || string.trim().isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
