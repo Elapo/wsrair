@@ -6,8 +6,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:view>
-	<ui:param name="originalURL" value="#{request.requestURI}?#{request.queryString}" />
-	<f:event rendered="#{backingBean.userName eq null}" type="preRenderView" listener="#{backingBean.recordOriginalURL(originalURL)}" />
 	<f:loadBundle basename="com.realdolmen.Messages" var="msgs" />
 
 	<h:head>

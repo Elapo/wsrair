@@ -6,6 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
+	<ui:param name="originalURL" value="#{request.requestURI}?#{request.queryString}" />
+	<f:event rendered="#{backingBean.userName eq null}" type="preRenderView" listener="#{backingBean.recordOriginalURL(originalURL)}" />
 	<f:viewParam name="flightId" value="#{flightController.flightId}"></f:viewParam>
 	<f:event type="preRenderView" listener="#{flightController.loadData}" />
 </f:metadata>

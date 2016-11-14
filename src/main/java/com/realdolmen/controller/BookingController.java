@@ -178,7 +178,8 @@ public class BookingController implements Serializable {
 					// TODO: Implement User
 					// booking.setUser(backingBean.getUser);
 
-					bookingService.create(booking);
+					// bookingService.create(booking);
+					backingBean.getBookingsToBeConfirmed().add(booking);
 				}
 			}
 		} catch (ConcurrentUpdateException e) {
@@ -186,7 +187,8 @@ public class BookingController implements Serializable {
 					"Something went wrong! Please try again."));
 			return null;
 		}
-		return "/findFlight.xhtml?faces-redirect=true";
+		// return "/findFlight.xhtml?faces-redirect=true";
+		return "/filtered/regular/confirm.xhtml?faces-redirect=true";
 	}
 
 }

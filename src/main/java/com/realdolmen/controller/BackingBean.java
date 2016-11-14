@@ -1,11 +1,14 @@
 package com.realdolmen.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import com.realdolmen.domain.Booking;
 import com.realdolmen.domain.Partner;
 import com.realdolmen.domain.Role;
 import com.realdolmen.domain.User;
@@ -16,10 +19,19 @@ public class BackingBean implements Serializable {
 	private String userName;
 	private Role userRole;
 	private Partner partner;
+	private List<Booking> bookingsToBeConfirmed;
+
+	private String originalURL;
+
+	public void recordOriginalURL(String originalURL) {
+		this.originalURL = originalURL;
+		System.out.println("URI" + originalURL);
+	}
 
 	@PostConstruct
 	private void init() {
 		System.out.println("backingbean init");
+		bookingsToBeConfirmed = new ArrayList<>();
 	}
 
 	public String getUserName() {
@@ -46,6 +58,22 @@ public class BackingBean implements Serializable {
 		this.partner = partner;
 	}
 
+	public String getOriginalURL() {
+		return originalURL;
+	}
+
+	public void setOriginalURL(String originalURL) {
+		this.originalURL = originalURL;
+	}
+
+	public List<Booking> getBookingsToBeConfirmed() {
+		return bookingsToBeConfirmed;
+	}
+
+	public void setBookingsToBeConfirmed(List<Booking> bookingsToBeConfirmed) {
+		this.bookingsToBeConfirmed = bookingsToBeConfirmed;
+	}
+
 	public void updateLoggedInUser(User u) {
 		this.resetUser();
 		this.userName = u.getUserName();
@@ -63,6 +91,7 @@ public class BackingBean implements Serializable {
 		this.userName = null;
 		this.userRole = null;
 		this.partner = null;
+		this.bookingsToBeConfirmed.clear();
 	}
 
 }
