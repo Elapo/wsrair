@@ -63,15 +63,15 @@
 	<user id="1100" userName="employee@rair.com" password="123" role="EMPLOYEE" />
 
 	<booking id="1000" bookingDateTime="2016-11-11 17:35:17"
-		finalPrice="47.5" flightId="1000" travelCategory="REGULAR"
+		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
 		paymentType="ENDORSED" userId="500" />
 	<booking id="1001" bookingDateTime="2016-11-11 17:35:17"
-		finalPrice="47.5" flightId="1000" travelCategory="REGULAR"
+		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
 		paymentType="CREDIT_CARD" userId="500" />
 	<booking id="1002" bookingDateTime="2016-11-11 17:35:17"
-		finalPrice="47.5" flightId="1000" travelCategory="REGULAR"
+		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
 		paymentType="CREDIT_CARD" />
 	<booking id="1100" bookingDateTime="2016-11-11 17:36:17"
-		finalPrice="77.5" flightId="1000" travelCategory="PREMIUM"
+		finalPrice="77.5" purchasePrice="70" flightId="1000" travelCategory="PREMIUM"
 		paymentType="ENDORSED" />
 </dataset>

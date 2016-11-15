@@ -40,6 +40,7 @@ public class Booking implements Serializable {
 
 	private Boolean locked;
 	private Double finalPrice;
+	private Double purchasePrice;
 
 	public Long getId() {
 		return id;
@@ -103,6 +104,14 @@ public class Booking implements Serializable {
 
 	public void setFinalPrice(Double finalPrice) {
 		this.finalPrice = finalPrice;
+	}
+
+	public Double getPurchasePrice() {
+		return purchasePrice;
+	}
+
+	public void setPurchasePrice(Double purchasePrice) {
+		this.purchasePrice = purchasePrice;
 	}
 
 	public Booking() {

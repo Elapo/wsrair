@@ -175,7 +175,8 @@ public class BookingController implements Serializable {
 				booking.setPaymentType(this.paymentType);
 				booking.setTravelCategory(ftg.getTravelCategory());
 				booking.setBookingDateTime(new Date());
-
+				booking.setPurchasePrice(PriceCalculatorUtil.getPurchasePrice(ftg, bookFlight.getPriceRules(),
+						amountOfCategory));
 				bookingsToConfirm.add(booking);
 			}
 		}

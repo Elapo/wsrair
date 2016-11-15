@@ -2,9 +2,11 @@ package com.realdolmen.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,10 +16,21 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartSeries;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
+
 import com.realdolmen.domain.Airport;
+import com.realdolmen.domain.Booking;
 import com.realdolmen.domain.Flight;
 import com.realdolmen.domain.FlightTravelCategory;
 import com.realdolmen.domain.PricingRule;
+import com.realdolmen.domain.Role;
 import com.realdolmen.domain.TravelCategory;
 import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.service.AirportService;
@@ -51,6 +64,7 @@ public class FlightController implements Serializable {
 	private Flight editFlight;
 	private Date currentDate = new Date();
 	private List<TravelCategory> travelCategories;
+	private LineChartModel lineModelPrices;
 
 	@PostConstruct
 	public void init() {
@@ -61,6 +75,7 @@ public class FlightController implements Serializable {
 			flights = flightService.findAll();
 			filteredFlights = flights;
 		}
+		createLineModels(filteredFlights);
 	}
 
 	public List<Flight> getFlights() {
@@ -118,6 +133,7 @@ public class FlightController implements Serializable {
 	public void setFilteredFlights(List<Flight> filteredFlights) {
 		if (filteredFlights != null) {
 			this.filteredFlights = filteredFlights;
+			createLineModels(filteredFlights);
 		}
 	}
 
@@ -127,6 +143,10 @@ public class FlightController implements Serializable {
 
 	public void setBackingBean(BackingBean backingBean) {
 		this.backingBean = backingBean;
+	}
+
+	public LineChartModel getLineModelPrices() {
+		return lineModelPrices;
 	}
 
 	public String persistFlight() throws ConcurrentUpdateException {
@@ -181,7 +201,6 @@ public class FlightController implements Serializable {
 		}
 
 		flightService.merge(editFlight);
-		System.out.println(FacesContext.getCurrentInstance().getExternalContext().toString());
 		return "/findFlight.xhtml?faces-redirect=true";
 	}
 
@@ -271,5 +290,90 @@ public class FlightController implements Serializable {
 
 	public Double getMinimumMargin() {
 		return PriceCalculatorUtil.getMinimumMargin();
+	}
+
+	private void createLineModels(List<Flight> filteredFlights) {
+		lineModelPrices = initCategoryModel(filteredFlights);
+		lineModelPrices.setTitle("Booking Prices");
+		lineModelPrices.setLegendPosition("e");
+		lineModelPrices.setShowPointLabels(true);
+		lineModelPrices.setShowDatatip(false);
+		lineModelPrices.getAxes().put(AxisType.X, new CategoryAxis("Flight"));
+		Axis yAxis = lineModelPrices.getAxis(AxisType.Y);
+		yAxis.setMin(0);
+		yAxis.setLabel("Price (EUR)");
+
+	}
+
+	private LineChartModel initCategoryModel(List<Flight> filteredFlights) {
+		LineChartModel model = new LineChartModel();
+		int minIndex = -1, maxIndex = -1;
+		List<Booking> bookings = new ArrayList<>();
+
+		LineChartSeries bookingMinPrice = new LineChartSeries();
+		bookingMinPrice.setLabel("Mininimum Price");
+
+		LineChartSeries bookingMaxPrice = new LineChartSeries();
+		bookingMaxPrice.setLabel("Maximum Price");
+
+		LineChartSeries bookingAvgPrice = new LineChartSeries();
+		bookingAvgPrice.setLabel("Average Price");
+
+		BarChartSeries bookingAvgMargin = new BarChartSeries();
+		bookingAvgMargin.setLabel("Average Maring");
+
+		for (Flight flight : filteredFlights) {
+			Double minFinalPrice = 0.0;
+			Double maxFinalPrice = 0.0;
+			Double avgFinalPrice = 0.0;
+			Double avgMargin = 0.0;
+
+			bookings = bookingService.findAllBookingsByFlightId(flight.getId());
+
+			if (!bookings.isEmpty()) {
+				Double totalPriceSum = 0.0, totalMarginSum = 0.0;
+
+				final ListIterator<Booking> itr = bookings.listIterator();
+				Booking min = itr.next(); // first element as the current
+											// minimum
+				Booking max = min;
+				minIndex = itr.previousIndex();
+				totalPriceSum += min.getFinalPrice();
+				totalMarginSum += min.getFinalPrice() - min.getPurchasePrice();
+
+				while (itr.hasNext()) {
+					final Booking curr = itr.next();
+					if (curr.getFinalPrice() < min.getFinalPrice()) {
+						min = curr;
+						minIndex = itr.previousIndex();
+					}
+					if (curr.getFinalPrice() > max.getFinalPrice()) {
+						max = curr;
+						maxIndex = itr.previousIndex();
+					}
+					totalPriceSum += curr.getFinalPrice();
+					totalMarginSum += curr.getFinalPrice() - curr.getPurchasePrice();
+				}
+
+				minFinalPrice = bookings.get(minIndex).getFinalPrice();
+				maxFinalPrice = bookings.get(maxIndex).getFinalPrice();
+				avgFinalPrice = totalPriceSum / bookings.size();
+				avgMargin = totalMarginSum / bookings.size();
+
+			}
+			bookingMinPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), minFinalPrice);
+			bookingMaxPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), maxFinalPrice);
+			bookingAvgPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), avgFinalPrice);
+			bookingAvgMargin.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), avgMargin);
+		}
+
+		model.addSeries(bookingAvgPrice);
+		model.addSeries(bookingMaxPrice);
+		model.addSeries(bookingMinPrice);
+		if (backingBean.getUserRole() != null && Role.EMPLOYEE.equals(backingBean.getUserRole())) {
+			model.addSeries(bookingAvgMargin);
+		}
+
+		return model;
 	}
 }
