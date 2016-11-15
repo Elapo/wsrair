@@ -14,11 +14,13 @@ import com.realdolmen.domain.Airport;
 import com.realdolmen.domain.Flight;
 import com.realdolmen.domain.FlightTravelCategory;
 import com.realdolmen.domain.Partner;
+import com.realdolmen.domain.PaymentType;
 import com.realdolmen.domain.SearchQuery;
 import com.realdolmen.domain.TravelCategory;
 import com.realdolmen.service.AirportService;
 import com.realdolmen.service.FlightService;
 import com.realdolmen.service.PartnerService;
+import com.realdolmen.util.PriceCalculatorUtil;
 
 @ViewScoped
 @ManagedBean
@@ -113,7 +115,8 @@ public class SearchController implements Serializable {
 		List<FlightTravelCategory> ftcList = f.getFlightTravelCategory();
 		for (FlightTravelCategory ftc : ftcList) {
 			if (ftc.getTravelCategory().equals(searchQuery.gettCategory())) {
-				return ftc.getSeatPrice();
+				return PriceCalculatorUtil.getCombinedPrice(ftc, f.getPriceRules(), searchQuery.getTickets(),
+						PaymentType.ENDORSED);
 			}
 		}
 		return null;

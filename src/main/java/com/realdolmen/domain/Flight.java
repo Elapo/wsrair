@@ -46,7 +46,7 @@ public class Flight implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date arrivalDateTime;
 
-	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<PricingRule> priceRules;
 
 	@ManyToOne

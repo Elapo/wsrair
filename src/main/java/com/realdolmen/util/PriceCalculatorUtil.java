@@ -68,7 +68,7 @@ public final class PriceCalculatorUtil {
 
 	public static Double getCombinedPrice(FlightTravelCategory ftg, List<PricingRule> allRules, Integer amount,
 			PaymentType paymentType) {
-		return getIndividualPrice(ftg, allRules, amount, paymentType) * amount;
+		return roundTwoDecimals(getIndividualPrice(ftg, allRules, amount, paymentType) * amount);
 	}
 
 	public static Double getDisplayPrice(FlightTravelCategory ftg) {
@@ -78,20 +78,20 @@ public final class PriceCalculatorUtil {
 		} else {
 			fPrice = ftg.getSeatPrice() + ftg.getOverruledPrice();
 		}
-		return fPrice;
+		return roundTwoDecimals(fPrice);
 	}
 
 	public static Double getPurchasePrice(FlightTravelCategory ftg, List<PricingRule> allRules, Integer amount) {
 		Double seatPrice = ftg.getSeatPrice();
 		Double modifier = 0.0;
 		PricingRule pRule = pricingRuleToApply(amount, allRules);
-		
+
 		if (pRule != null) {
 			modifier = pRule.getDiscountValue();
 		}
 		return seatPrice - (seatPrice * modifier / 100);
 	}
-	
+
 	private PriceCalculatorUtil() {
 	}
 
