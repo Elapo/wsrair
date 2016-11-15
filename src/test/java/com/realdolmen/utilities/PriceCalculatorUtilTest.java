@@ -18,7 +18,7 @@ public class PriceCalculatorUtilTest {
 		System.out.println(PriceCalculatorUtil.minimumCommissionPercentageWithMargin());
 		
 		System.out.println(PriceCalculatorUtil.minimumBaseIncrease(50.0));
-		System.out.println(PriceCalculatorUtil.minimumBaseIncreaseWithMargin(50.0));
+		System.out.println(PriceCalculatorUtil.minimumBaseIncreaseWithMargin(100.0));
 		
 		
 		List<PricingRule> allRules = new ArrayList<PricingRule>();

@@ -133,7 +133,7 @@ public class Booking implements Serializable {
 	}
 
 	public String sHashCode() {
-		return String.valueOf(this.id);
+		return String.valueOf(this.id + "000");
 	}
 
 }

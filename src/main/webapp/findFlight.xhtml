@@ -17,7 +17,7 @@
 						paginator="true" rows="10">
 
 						<p:column headerText="Id" sortBy="#{flight.id}"
-							filterBy="#{flight.id}" filterMatchMode="startsWith">
+							filterBy="#{flight.arrivalLocation.airportCode}-#{flight.id}" filterMatchMode="contains">
 							<h:outputText
 								value="#{flight.arrivalLocation.airportCode}-#{flight.id}" />
 						</p:column>
