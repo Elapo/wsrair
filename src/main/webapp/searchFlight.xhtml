@@ -12,7 +12,7 @@
 		<h3>Search a flight</h3>
 
 		<h:form>
-			<p:panelGrid class="ui-noborder" columns="4">
+			<p:panelGrid class="ui-noborder" columns="4" layout="grid">
 				<p:outputLabel for="departure" value="Departure:" />
 				<p:selectOneMenu id="departure" effect="fold"
 					value="#{searchController.searchQuery.depId}" style="width:150px"
@@ -68,12 +68,11 @@
 					<p:ajax process="@this" />
 				</p:calendar>
 			</p:panelGrid>
-			<p:commandButton value="Search" action="#{searchController.query()}"
-				update="holder" />
+			<p:commandButton styleClass="button" value="Search"
+				action="#{searchController.query()}" update="holder" />
 		</h:form>
 		<h:panelGroup id="holder" layout="block">
-			<p:dataTable id="searchResults" paginator="true" rows="5"
-				rendered="#{searchController.checkResults()}"
+			<p:dataTable id="searchResults" paginator="true" rows="5" emptyMessage="No flights found."
 				value="#{searchController.foundFlights}" var="flight">
 				<p:column headerText="Flight ID">
 					<h:outputText
@@ -103,14 +102,15 @@
 						<f:convertNumber pattern="€ 0.00" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Book" rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
-				<h:form>
-					<p:button outcome="bookFlight" value="Book!"
-						icon="fa fa-plane">
-						<f:param name="flightId" value="#{flight.id}"></f:param>
-					</p:button>
-				</h:form>
-			</p:column>
+				<p:column headerText="Book"
+					rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
+					<h:form>
+						<p:button styleClass="button" outcome="bookFlight" value="Book!"
+							icon="fa fa-plane">
+							<f:param name="flightId" value="#{flight.id}"></f:param>
+						</p:button>
+					</h:form>
+				</p:column>
 			</p:dataTable>
 		</h:panelGroup>
 	</ui:define>

@@ -8,9 +8,7 @@
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
-		<h:outputText value="#{backingBean.userRole}"></h:outputText>
-		<h1>Laten we een vlucht zoeken</h1>
-
+		<h1>Overview flights</h1>
 		<h:form>
 			<p:dataTable var="flight" value="#{flightController.flights}"
 				tableStyle="width:auto"
@@ -48,12 +46,12 @@
 				<p:column headerText="Configured"
 				rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
 				<h:form>
-					<p:button outcome="filtered/partner/manageFlight" value="Manage"
+					<p:button styleClass="button" outcome="filtered/partner/manageFlight" value="Manage"
 						icon="ui-icon-pencil" rendered="#{backingBean.userRole eq 'PARTNER'}">
 						<f:param name="flightId" value="#{flight.id}"></f:param>
 					</p:button>
 					
-					<p:button outcome="filtered/employee/manageFlight" value="Manage"
+					<p:button styleClass="button" outcome="filtered/employee/manageFlight" value="Manage"
 						icon="ui-icon-pencil" rendered="#{backingBean.userRole eq 'EMPLOYEE'}">
 						<f:param name="flightId" value="#{flight.id}"></f:param>
 					</p:button>
@@ -63,7 +61,7 @@
 				<p:column headerText="Book"
 					rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
 					<h:form>
-						<p:button outcome="bookFlight" value="Book!" icon="fa fa-plane">
+						<p:button styleClass="button" outcome="bookFlight" value="Book!" icon="fa fa-plane">
 							<f:param name="flightId" value="#{flight.id}"></f:param>
 						</p:button>
 					</h:form>
@@ -73,7 +71,7 @@
 
 		<p:outputPanel rendered="#{backingBean.userRole eq 'PARTNER'}">
 			<h:form>
-				<p:button outcome="filtered/partner/manageFlight"
+				<p:button styleClass="button" outcome="filtered/partner/manageFlight"
 					value="Create new flight" icon="fa fa-plane"/>
 			</h:form>
 		</p:outputPanel>

@@ -21,16 +21,16 @@
 				<p:inputText id="password" value="#{authController.loginPassword}"
 					type="password" />
 
-				<p:commandButton value="#{msgs['login.submit']}" action="#{authController.login()}"
+				<p:commandButton styleClass="button" value="#{msgs['login.submit']}" action="#{authController.login()}"
 					update="@form" />
-				<p:commandButton value="#{msgs['login.reset']}">
+				<p:commandButton styleClass="button" value="#{msgs['login.reset']}">
 					<p:ajax update="panel" resetValues="true" />
 				</p:commandButton>
 
 			</p:panelGrid>
 
 		</h:form>
-		<p>#{msgs['login.register']}<p:link value="#{msgs['login.click']}" outcome="/register.xhtml?faces-redirect=true"></p:link></p>
+		<p>#{msgs['login.register']} <p:link value="#{msgs['login.click']}" outcome="/register.xhtml?faces-redirect=true"></p:link></p>
 	</ui:define>
 </ui:composition>
 </html>

@@ -8,6 +8,7 @@
 		<locale-config>
 			<default-locale>en</default-locale>
 			<supported-locale>nl_BE</supported-locale>
+			<supported-locale>nl</supported-locale>
 		</locale-config>
 	</application>
 

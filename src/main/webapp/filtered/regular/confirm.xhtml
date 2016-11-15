@@ -40,7 +40,7 @@
 			<p:inputMask id="ccv" value="" size="3" />
 		</p:panel>
 		
-		<p:commandButton value="Submit"
+		<p:commandButton value="Submit" styleClass="button"
 				action="#{bookingController.persistBooking}" disabled="#{backingBean.bookingsToBeConfirmed.size() eq 0}"/>
 	</ui:define>
 </ui:composition>

@@ -23,8 +23,8 @@
 				<p:outputLabel for="cPassword" value="Confirm password" />
 				<p:inputText id="cPassword" value="#{authController.confirmPassword}" type="password" />
 
-				<p:commandButton value="Register" action="#{authController.register()}" update="@form" />
-				<p:commandButton value="Reset">
+				<p:commandButton styleClass="button" value="Register" action="#{authController.register()}" update="@form" />
+				<p:commandButton styleClass="button" value="Reset">
 					<p:ajax update="panel" resetValues="true" />
 				</p:commandButton>
 			</p:panelGrid>
