@@ -296,13 +296,14 @@ public class FlightController implements Serializable {
 		lineModelPrices = initCategoryModel(filteredFlights);
 		lineModelPrices.setTitle("Booking Prices");
 		lineModelPrices.setLegendPosition("e");
-		lineModelPrices.setShowPointLabels(true);
+		lineModelPrices.setAnimate(true);
+		lineModelPrices.setShowPointLabels(false);
 		lineModelPrices.setShowDatatip(false);
+		lineModelPrices.setResetAxesOnResize(true);
 		lineModelPrices.getAxes().put(AxisType.X, new CategoryAxis("Flight"));
 		Axis yAxis = lineModelPrices.getAxis(AxisType.Y);
 		yAxis.setMin(0);
 		yAxis.setLabel("Price (EUR)");
-
 	}
 
 	private LineChartModel initCategoryModel(List<Flight> filteredFlights) {
@@ -320,7 +321,7 @@ public class FlightController implements Serializable {
 		bookingAvgPrice.setLabel("Average Price");
 
 		BarChartSeries bookingAvgMargin = new BarChartSeries();
-		bookingAvgMargin.setLabel("Average Maring");
+		bookingAvgMargin.setLabel("Average Margin");
 
 		for (Flight flight : filteredFlights) {
 			Double minFinalPrice = 0.0;
@@ -338,6 +339,7 @@ public class FlightController implements Serializable {
 											// minimum
 				Booking max = min;
 				minIndex = itr.previousIndex();
+				maxIndex = minIndex;
 				totalPriceSum += min.getFinalPrice();
 				totalMarginSum += min.getFinalPrice() - min.getPurchasePrice();
 
@@ -361,14 +363,15 @@ public class FlightController implements Serializable {
 				avgMargin = totalMarginSum / bookings.size();
 
 			}
-			bookingMinPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), minFinalPrice);
+			bookingMinPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(),
+					Double.valueOf(minFinalPrice));
 			bookingMaxPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), maxFinalPrice);
 			bookingAvgPrice.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), avgFinalPrice);
 			bookingAvgMargin.set(flight.getArrivalLocation().getAirportCode() + "-" + flight.getId(), avgMargin);
 		}
 
-		model.addSeries(bookingAvgPrice);
 		model.addSeries(bookingMaxPrice);
+		model.addSeries(bookingAvgPrice);
 		model.addSeries(bookingMinPrice);
 		if (backingBean.getUserRole() != null && Role.EMPLOYEE.equals(backingBean.getUserRole())) {
 			model.addSeries(bookingAvgMargin);

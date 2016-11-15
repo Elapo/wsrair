@@ -1,5 +1,6 @@
 package com.realdolmen.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,19 +132,25 @@ public class BookingController implements Serializable {
 		this.backingBean = backingBean;
 	}
 
-	public void loadData() {
-		this.bookFlight = flightService.findById(flightId);
-		if (!FacesContext.getCurrentInstance().isPostback()) {
-			this.paymentTypes = Arrays.asList(PaymentType.values());
-			this.paymentType = PaymentType.CREDIT_CARD;
+	public void loadData() throws IOException {
+		if (flightId != null) {
+			this.bookFlight = flightService.findById(flightId);
+			if (!FacesContext.getCurrentInstance().isPostback()) {
+				this.paymentTypes = Arrays.asList(PaymentType.values());
+				this.paymentType = PaymentType.CREDIT_CARD;
 
-			for (FlightTravelCategory ftg : bookFlight.getFlightTravelCategory()) {
-				this.displayPricePerCategory.put(ftg.getTravelCategory(), PriceCalculatorUtil.getDisplayPrice(ftg));
-				this.amountPerCategory.put(ftg.getTravelCategory(), 0);
-				this.finalPricePerCategory.put(ftg.getTravelCategory(),
-						PriceCalculatorUtil.getIndividualPrice(ftg, bookFlight.getPriceRules(), 0, this.paymentType));
+				for (FlightTravelCategory ftg : bookFlight.getFlightTravelCategory()) {
+					this.displayPricePerCategory.put(ftg.getTravelCategory(), PriceCalculatorUtil.getDisplayPrice(ftg));
+					this.amountPerCategory.put(ftg.getTravelCategory(), 0);
+					this.finalPricePerCategory.put(ftg.getTravelCategory(), PriceCalculatorUtil.getIndividualPrice(ftg,
+							bookFlight.getPriceRules(), 0, this.paymentType));
+				}
 			}
+		} else {
+			FacesContext.getCurrentInstance().getExternalContext()
+			.redirect("/rair/searchFlight.xhtml?faces-redirect=true");
 		}
+
 	}
 
 	public PricingRule pricingRuleToApply(Integer amountOfSeats) {
@@ -175,8 +182,8 @@ public class BookingController implements Serializable {
 				booking.setPaymentType(this.paymentType);
 				booking.setTravelCategory(ftg.getTravelCategory());
 				booking.setBookingDateTime(new Date());
-				booking.setPurchasePrice(PriceCalculatorUtil.getPurchasePrice(ftg, bookFlight.getPriceRules(),
-						amountOfCategory));
+				booking.setPurchasePrice(
+						PriceCalculatorUtil.getPurchasePrice(ftg, bookFlight.getPriceRules(), amountOfCategory));
 				bookingsToConfirm.add(booking);
 			}
 		}
@@ -188,7 +195,7 @@ public class BookingController implements Serializable {
 		try {
 
 			Boolean updateFlag = false;
-			
+
 			// Init amount
 			HashMap<TravelCategory, Integer> ticketsPerCategory = new HashMap<>();
 			for (TravelCategory tc : TravelCategory.values()) {
@@ -200,33 +207,35 @@ public class BookingController implements Serializable {
 						ticketsPerCategory.get(booking.getTravelCategory()) + 1);
 			}
 			// Check persistence possiblity via checksum
-			for( FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight().getFlightTravelCategory()) {
-				
+			for (FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight()
+					.getFlightTravelCategory()) {
+
 				if (ticketsPerCategory.get(ftg.getTravelCategory()) <= flightTravelCategoryService
 						.availableSeatsLeftByFlightTravelCategory(ftg.getId())) {
 					updateFlag = true;
 				} else {
 					updateFlag = false;
 				}
-				
+
 			}
-			
+
 			// Update seat count
 			if (updateFlag) {
-				for( FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight().getFlightTravelCategory()) {
+				for (FlightTravelCategory ftg : backingBean.getBookingsToBeConfirmed().get(0).getFlight()
+						.getFlightTravelCategory()) {
 					if (ticketsPerCategory.get(ftg.getTravelCategory()) <= flightTravelCategoryService
 							.availableSeatsLeftByFlightTravelCategory(ftg.getId())) {
 						ftg.setOpenSeats(ftg.getOpenSeats() - ticketsPerCategory.get(ftg.getTravelCategory()));
 						flightTravelCategoryService.update(ftg);
 					} else {
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",
-								"The request amount of tickets is no longer available! Please try again."));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Warning!", "The request amount of tickets is no longer available! Please try again."));
 						return "/bookFlight.xhtml?faces-redirect=true";
 					}
-					
+
 				}
 			}
-			
+
 			// Persist
 			for (Booking booking : backingBean.getBookingsToBeConfirmed()) {
 				booking.setUser(authService.findUserByUserName(backingBean.getUserName()));
