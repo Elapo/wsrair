@@ -7,7 +7,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.realdolmen.domain.Booking;
+import com.realdolmen.domain.BookingStatus;
 import com.realdolmen.domain.TravelCategory;
+import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.repository.BookingRepository;
 
 @Stateless
@@ -53,5 +55,15 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public Booking find(Long id) {
 		return bookingRepository.findById(id);
+	}
+
+	@Override
+	public List<Booking> findBookingsByUserIdWithoutStatusType(Long userId, BookingStatus bStatus) {
+		return bookingRepository.findBookingsByUserIdWithoutStatusType(userId, bStatus);
+	}
+
+	@Override
+	public Booking update(Booking booking) throws ConcurrentUpdateException {
+		return bookingRepository.update(booking);
 	}
 }

@@ -13,7 +13,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import com.realdolmen.domain.Booking;
+import com.realdolmen.domain.BookingStatus;
 import com.realdolmen.domain.User;
+import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.service.AuthService;
 import com.realdolmen.service.BookingService;
 
@@ -38,7 +40,7 @@ public class UserController implements Serializable {
 	@PostConstruct
 	private void init() {
 		loggedInUser = authService.findUserByUserName(backingBean.getUserName());
-		bookings = bookingService.findAllBookingsByUserId(loggedInUser.getId());
+		bookings = bookingService.findBookingsByUserIdWithoutStatusType(loggedInUser.getId(), BookingStatus.INACTIVE);
 	}
 
 	public BackingBean getBackingBean() {
@@ -102,4 +104,11 @@ public class UserController implements Serializable {
 
 	}
 
+	public String cancelBooking(Long bookingId) throws ConcurrentUpdateException {
+		Booking booking = bookingService.find(bookingId);
+		booking.setBookingStatus(BookingStatus.INACTIVE);
+		bookingService.update(booking);
+		bookings = bookingService.findBookingsByUserIdWithoutStatusType(loggedInUser.getId(), BookingStatus.INACTIVE);
+		return null;
+	}
 }

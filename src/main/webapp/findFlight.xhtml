@@ -10,82 +10,85 @@
 	<ui:define name="content">
 		<h1>Overview flights</h1>
 		<p:panel>
-			<h:form>
-				<p:dataTable var="flight" value="#{flightController.flights}"
-					filteredValue="#{flightController.filteredFlights}"
-					paginator="true" rows="10">
+			<h:panelGroup>
+				<h:form>
+					<p:dataTable var="flight" value="#{flightController.flights}"
+						filteredValue="#{flightController.filteredFlights}"
+						paginator="true" rows="10">
 
-					<p:column headerText="Id" sortBy="#{flight.id}"
-						filterBy="#{flight.id}" filterMatchMode="startsWith">
-						<h:outputText
-							value="#{flight.arrivalLocation.airportCode}-#{flight.id}" />
-					</p:column>
+						<p:column headerText="Id" sortBy="#{flight.id}"
+							filterBy="#{flight.id}" filterMatchMode="startsWith">
+							<h:outputText
+								value="#{flight.arrivalLocation.airportCode}-#{flight.id}" />
+						</p:column>
 
-					<p:column headerText="Departure"
-						sortBy="#{flight.departureLocation.name}"
-						filterBy="#{flight.departureLocation.name}"
-						filterMatchMode="contains">
-						<h:outputText value="#{flight.departureLocation.name}" />
-					</p:column>
+						<p:column headerText="Departure"
+							sortBy="#{flight.departureLocation.name}"
+							filterBy="#{flight.departureLocation.name}"
+							filterMatchMode="contains">
+							<h:outputText value="#{flight.departureLocation.name}" />
+						</p:column>
 
-					<p:column headerText="Departure time &lt;br/&gt;(GMT)"
-						escape="false" sortBy="#{flight.departureDateTime}">
-						<h:outputText value="#{flight.departureDateTime}" escape="false">
-							<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
-						</h:outputText>
-					</p:column>
+						<p:column headerText="Departure time &lt;br/&gt;(GMT)"
+							escape="false" sortBy="#{flight.departureDateTime}">
+							<h:outputText value="#{flight.departureDateTime}" escape="false">
+								<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+							</h:outputText>
+						</p:column>
 
-					<p:column headerText="Arrival"
-						sortBy="#{flight.arrivalLocation.name}"
-						filterBy="#{flight.arrivalLocation.name}"
-						filterMatchMode="contains">
-						<h:outputText value="#{flight.arrivalLocation.name}" />
-					</p:column>
+						<p:column headerText="Arrival"
+							sortBy="#{flight.arrivalLocation.name}"
+							filterBy="#{flight.arrivalLocation.name}"
+							filterMatchMode="contains">
+							<h:outputText value="#{flight.arrivalLocation.name}" />
+						</p:column>
 
-					<p:column headerText="Arrival time &lt;br/&gt;(GMT)" escape="false"
-						sortBy="#{flight.arrivalDateTime}">
-						<h:outputText value="#{flight.arrivalDateTime}" escape="false">
-							<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
-						</h:outputText>
-					</p:column>
+						<p:column headerText="Arrival time &lt;br/&gt;(GMT)"
+							escape="false" sortBy="#{flight.arrivalDateTime}">
+							<h:outputText value="#{flight.arrivalDateTime}" escape="false">
+								<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
+							</h:outputText>
+						</p:column>
 
-					<p:column headerText="Configured"
-						rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
-						<h:form>
-							<p:button styleClass="button"
-								outcome="filtered/partner/manageFlight" value="Manage"
-								icon="ui-icon-pencil"
-								rendered="#{backingBean.userRole eq 'PARTNER'}">
-								<f:param name="flightId" value="#{flight.id}"></f:param>
-							</p:button>
+						<p:column headerText="Configured"
+							rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}">
+							<h:form>
+								<p:button styleClass="button"
+									outcome="filtered/partner/manageFlight" value="Manage"
+									icon="ui-icon-pencil"
+									rendered="#{backingBean.userRole eq 'PARTNER'}">
+									<f:param name="flightId" value="#{flight.id}"></f:param>
+								</p:button>
 
-							<p:button styleClass="button"
-								outcome="filtered/employee/manageFlight" value="Manage"
-								icon="ui-icon-pencil"
-								rendered="#{backingBean.userRole eq 'EMPLOYEE'}">
-								<f:param name="flightId" value="#{flight.id}"></f:param>
-							</p:button>
-						</h:form>
-					</p:column>
+								<p:button styleClass="button"
+									outcome="filtered/employee/manageFlight" value="Manage"
+									icon="ui-icon-pencil"
+									rendered="#{backingBean.userRole eq 'EMPLOYEE'}">
+									<f:param name="flightId" value="#{flight.id}"></f:param>
+								</p:button>
+							</h:form>
+						</p:column>
 
-					<p:column headerText="Book"
-						rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
-						<h:form>
-							<p:button styleClass="button" outcome="bookFlight" value="Book!"
-								icon="fa fa-plane">
-								<f:param name="flightId" value="#{flight.id}"></f:param>
-							</p:button>
-						</h:form>
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		</p:panel>
-		<p:panel rendered="#{backingBean.userRole eq 'PARTNER'}">
-			<h:form>
-				<p:button styleClass="button"
-					outcome="filtered/partner/manageFlight" value="Create new flight"
-					icon="fa fa-plane" />
-			</h:form>
+						<p:column headerText="Book"
+							rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
+							<h:form>
+								<p:button styleClass="button" outcome="bookFlight" value="Book!"
+									icon="fa fa-plane">
+									<f:param name="flightId" value="#{flight.id}"></f:param>
+								</p:button>
+							</h:form>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{backingBean.userRole eq 'PARTNER'}">
+				<h:form>
+					<p:button styleClass="button"
+						outcome="filtered/partner/manageFlight" value="Create new flight"
+						icon="fa fa-plane" />
+				</h:form>
+			</h:panelGroup>
 		</p:panel>
 		<p:panel id="charts">
 			<p:chart type="line" model="#{flightController.lineModelPrices}"

@@ -38,7 +38,9 @@ public class Booking implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
 
-	private Boolean locked;
+	@Enumerated(EnumType.STRING)
+	private BookingStatus bookingStatus;
+	
 	private Double finalPrice;
 	private Double purchasePrice;
 
@@ -90,12 +92,12 @@ public class Booking implements Serializable {
 		this.paymentType = paymentType;
 	}
 
-	public Boolean getLocked() {
-		return locked;
+	public BookingStatus getBookingStatus() {
+		return bookingStatus;
 	}
 
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
+	public void setBookingStatus(BookingStatus bookingStatus) {
+		this.bookingStatus = bookingStatus;
 	}
 
 	public Double getFinalPrice() {

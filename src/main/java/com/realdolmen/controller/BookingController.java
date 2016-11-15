@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.realdolmen.domain.Booking;
+import com.realdolmen.domain.BookingStatus;
 import com.realdolmen.domain.Flight;
 import com.realdolmen.domain.FlightTravelCategory;
 import com.realdolmen.domain.PaymentType;
@@ -184,6 +185,11 @@ public class BookingController implements Serializable {
 				booking.setBookingDateTime(new Date());
 				booking.setPurchasePrice(
 						PriceCalculatorUtil.getPurchasePrice(ftg, bookFlight.getPriceRules(), amountOfCategory));
+				if (PaymentType.CREDIT_CARD.equals(this.paymentType)) {
+					booking.setBookingStatus(BookingStatus.PAID);
+				} else {
+					booking.setBookingStatus(BookingStatus.UNPAID);
+				}
 				bookingsToConfirm.add(booking);
 			}
 		}
