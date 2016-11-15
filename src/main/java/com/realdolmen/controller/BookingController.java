@@ -149,7 +149,7 @@ public class BookingController implements Serializable {
 			}
 		} else {
 			FacesContext.getCurrentInstance().getExternalContext()
-			.redirect("/rair/searchFlight.xhtml?faces-redirect=true");
+					.redirect("/rair/searchFlight.xhtml?faces-redirect=true");
 		}
 
 	}
@@ -247,6 +247,7 @@ public class BookingController implements Serializable {
 				booking.setUser(authService.findUserByUserName(backingBean.getUserName()));
 				bookingService.create(booking);
 			}
+			backingBean.getBookingsToBeConfirmed().clear();
 		} catch (ConcurrentUpdateException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",
 					"Something went wrong! Please try again."));

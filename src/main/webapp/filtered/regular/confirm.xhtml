@@ -44,8 +44,7 @@
 			action="#{bookingController.persistBooking}"
 			disabled="#{backingBean.bookingsToBeConfirmed.size() eq 0}" />
 		<p:blockUI block="confirm" trigger="confirm">
-        LOADING<br />
-
+        PROCESSING<br />
 		</p:blockUI>
 	</ui:define>
 </ui:composition>
