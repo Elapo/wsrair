@@ -68,7 +68,7 @@
 					<p:ajax process="@this" />
 				</p:calendar>
 			</p:panelGrid>
-			<p:commandButton styleClass="button" value="#{msgs['searchFlight.search']}"
+			<p:commandButton icon="fa fa-search" styleClass="button" value="#{msgs['searchFlight.search']}"
 				action="#{searchController.query()}" update="holder" />
 		</h:form>
 		<h:panelGroup id="holder" layout="block">
