@@ -95,10 +95,6 @@ public class SearchController implements Serializable {
 		this.foundFlights = foundFlights;
 	}
 
-	public Boolean checkResults() {
-		return this.foundFlights != null && this.foundFlights.size() > 0;
-	}
-
 	private void resetSearchValues() {
 		this.searchQuery = new SearchQuery(null, null, null, 1, new Date(), TravelCategory.REGULAR);
 		this.today = new Date();
