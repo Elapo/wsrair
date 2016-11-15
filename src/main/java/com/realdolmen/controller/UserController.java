@@ -94,7 +94,12 @@ public class UserController implements Serializable {
 		}
 		Booking b = bookingService.find(bookingId);
 		if (b != null && b.getUser() != null && b.getUser().getUserName().equals(backingBean.getUserName())) {
-			bookingToPrint = b;
+			if (loggedInUser != null && loggedInUser.requiredFieldsFilledIn()) {
+				bookingToPrint = b;
+				return;
+			}
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ec.redirect(ec.getRequestContextPath() + "/filtered/regular/manageaccount.xhtml");
 			return;
 		}
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

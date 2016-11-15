@@ -47,7 +47,12 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public Booking create(Booking booking) {
-		return bookingRepository.create(booking);
+		Booking b = bookingRepository.create(booking);
+		if (b.getId() != null) {
+			MailService mailService = new MailService();
+			mailService.mailBooking(b.getUser().getUserName(), "Booking " + b.getId(), b);
+		}
+		return b;
 	}
 
 	@Override
