@@ -51,11 +51,6 @@ public class FlightRepositoryTest extends JpaPersistenceTest {
 		assertEquals(1000, flights.get(0).getId().longValue());
 	}
 
-	@Test
-	public void searchQueryTest() {
-		System.out.println(getDate(11, 5, 2017, 15, 45));
-	}
-
 	private Date getDate(int day, int month, int year, int hour, int minute) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, year);

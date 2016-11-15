@@ -11,10 +11,10 @@
 		<h3>Manage account</h3>
 		<h:form id="form1">
 			<h:panelGroup id="holder" layout="block">
-						<h:outputText style="color:green"
+						<h:outputText styleClass="info" style="color:green"
 							value="Everything is filled in, you can print your ticket(s) now!"
 							rendered="#{userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
-						<h:outputText style="color:red"
+						<h:outputText styleClass="info"  style="color:red"
 							value="Personal information not complete, please complete all the fields."
 							rendered="#{not (userController.loggedInUser.requiredFieldsFilledIn())}"></h:outputText>
 					</h:panelGroup>
