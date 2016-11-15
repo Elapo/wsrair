@@ -20,24 +20,6 @@ public class FlightRepository extends AbstractRepository<Flight> {
 
 	public List<Flight> findAllFlightsBySearchCriteria(SearchQuery s) {
 		/* @formatter:off */
-		/*String query = "from Flight f"
-				+ " WHERE f.departureLocation.id = :depId"
-				+ " AND f.arrivalLocation.id = :arrId"
-				+ " AND f.departureLocation.id = :depId"
-				+ " AND f.departureLocation.id = :depId";
-		if (s.getPartnerId() != null) {
-			query += " AND f.partner.id = :partnerId";
-		}
-		TypedQuery<Flight> tq = entityManager.createQuery(query,
-				Flight.class)
-				.setParameter("depId", s.getDepId())
-				.setParameter("arrId", s.getArrId());
-		
-		if (s.getPartnerId() != null) {
-			tq.setParameter("partnerId", s.getPartnerId());
-		}
-		
-		return tq.getResultList();*/
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(s.getDepDate()); 
 		c.add(Calendar.DATE, -1);
@@ -51,20 +33,22 @@ public class FlightRepository extends AbstractRepository<Flight> {
 		Date today = new Date();
 		
 		String query = "SELECT f FROM Flight f INNER JOIN f.flightTravelCategory ftc"
-				+ " WHERE f.departureLocation.id = :depId"
-				+ " AND f.arrivalLocation.id = :arrId"
-				+ " AND f.departureDateTime BETWEEN :depDateMinusOne AND :depDatePlusOne"
+				+ " WHERE f.departureDateTime BETWEEN :depDateMinusOne AND :depDatePlusOne"
 				+ " AND ftc.travelCategory = :tC"
 				+ " AND ftc.openSeats >= :tickets"
 				+ " AND f.departureDateTime >= :today";
 		if (s.getPartnerId() != null) {
 			query += " AND f.partner.id = :partnerId";
 		}
+		if (s.getDepId() != null) {
+			query += " AND f.departureLocation.id = :depId";
+		}
+		if (s.getArrId() != null) {
+			query += " AND f.arrivalLocation.id = :arrId";
+		}
 		
 		TypedQuery<Flight> tq = entityManager.createQuery(query,
 				Flight.class)
-				.setParameter("depId", s.getDepId())
-				.setParameter("arrId", s.getArrId())
 				.setParameter("tC", s.gettCategory())
 				.setParameter("tickets", s.getTickets())
 				.setParameter("depDateMinusOne", depDateMinOneDay)
@@ -75,6 +59,12 @@ public class FlightRepository extends AbstractRepository<Flight> {
 		
 		if (s.getPartnerId() != null) {
 			tq.setParameter("partnerId", s.getPartnerId());
+		}
+		if (s.getDepId() != null) {
+			tq.setParameter("depId", s.getDepId());
+		}
+		if (s.getArrId() != null) {
+			tq.setParameter("arrId", s.getArrId());
 		}
 		
 		return tq.getResultList();

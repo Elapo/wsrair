@@ -13,13 +13,13 @@
 	<partner id="2000" name="Lufthansa" description="Blah Luft" />
 
 	<flight id="1000" depAirportId="1000" arrAirportId="1001"
-		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
+		departureDateTime="2016-11-16 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="1000" version="0" />
 	<flight id="1001" depAirportId="1000" arrAirportId="2000"
 		departureDateTime="2016-11-16 00:00:00" arrivalDateTime="2016-11-16 08:00:00"
 		partnerId="1000" version="0" />
 	<flight id="2000" depAirportId="3000" arrAirportId="1001"
-		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
+		departureDateTime="2016-11-16 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
 		partnerId="2000" version="0" />
 
 	<pricingRule id="1000" volume="4" discountValue="5.0"
