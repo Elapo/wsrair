@@ -14,19 +14,22 @@ import javax.faces.context.FacesContext;
 
 import com.realdolmen.domain.Booking;
 import com.realdolmen.domain.BookingStatus;
+import com.realdolmen.domain.FlightTravelCategory;
 import com.realdolmen.domain.User;
 import com.realdolmen.exception.ConcurrentUpdateException;
 import com.realdolmen.service.AuthService;
 import com.realdolmen.service.BookingService;
+import com.realdolmen.service.FlightTravelCategoryService;
 
 @ViewScoped
 @ManagedBean
 public class UserController implements Serializable {
 	@EJB
 	AuthService authService;
-
 	@EJB
 	BookingService bookingService;
+	@EJB
+	FlightTravelCategoryService flightTravelCategoryService;
 
 	@ManagedProperty(value = "#{backingBean}")
 	BackingBean backingBean;
@@ -114,6 +117,18 @@ public class UserController implements Serializable {
 		booking.setBookingStatus(BookingStatus.INACTIVE);
 		bookingService.update(booking);
 		bookings = bookingService.findBookingsByUserIdWithoutStatusType(loggedInUser.getId(), BookingStatus.INACTIVE);
+		
+		List<FlightTravelCategory> ftcs = booking.getFlight().getFlightTravelCategory();
+		Long ftcId = 0l;
+		for (FlightTravelCategory ftc : ftcs) {
+			if (ftc.getTravelCategory().equals(booking.getTravelCategory())) {
+				ftcId = ftc.getId();
+			}
+		}
+		FlightTravelCategory flightTravelCategory = flightTravelCategoryService.find(ftcId);
+		flightTravelCategory.setOpenSeats(flightTravelCategory.getOpenSeats() + 1);
+		flightTravelCategoryService.update(flightTravelCategory);
+		
 		return null;
 	}
 }

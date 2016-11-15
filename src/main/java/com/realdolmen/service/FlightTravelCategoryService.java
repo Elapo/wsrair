@@ -10,5 +10,6 @@ public interface FlightTravelCategoryService {
 	Integer savedMaxSeatsByTravelCategoryId(Long id);
 	Integer availableSeatsLeftByFlightTravelCategory(Long id);
 	FlightTravelCategory update(FlightTravelCategory ftg) throws ConcurrentUpdateException;
+	FlightTravelCategory find(Long id);
 
 }
