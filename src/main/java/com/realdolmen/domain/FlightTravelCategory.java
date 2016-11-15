@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class FlightTravelCategory implements Serializable {
@@ -17,14 +18,17 @@ public class FlightTravelCategory implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Version
+	private Long version;
+
 	@Enumerated(EnumType.STRING)
 	private TravelCategory travelCategory;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "flightId")
 	private Flight flight;
-	
+
 	private Double seatPrice;
 	private Double overruledPrice;
 	private Double commission;
@@ -37,6 +41,14 @@ public class FlightTravelCategory implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public TravelCategory getTravelCategory() {
@@ -62,7 +74,7 @@ public class FlightTravelCategory implements Serializable {
 	public void setMaximumSeats(Integer maximumSeats) {
 		this.maximumSeats = maximumSeats;
 	}
-	
+
 	public Integer getOpenSeats() {
 		return openSeats;
 	}
@@ -78,7 +90,7 @@ public class FlightTravelCategory implements Serializable {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
-	
+
 	public Double getOverruledPrice() {
 		return overruledPrice;
 	}
@@ -100,6 +112,4 @@ public class FlightTravelCategory implements Serializable {
 		commission = 10.0;
 	}
 
-
-	
 }

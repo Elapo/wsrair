@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 @Entity
 public class Booking implements Serializable {
@@ -20,6 +21,9 @@ public class Booking implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Version
+	private Long version;
 
 	@ManyToOne
 	@JoinColumn(name = "userId")
@@ -40,7 +44,7 @@ public class Booking implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private BookingStatus bookingStatus;
-	
+
 	private Double finalPrice;
 	private Double purchasePrice;
 
@@ -50,6 +54,14 @@ public class Booking implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public User getUser() {

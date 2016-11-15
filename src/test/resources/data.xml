@@ -14,13 +14,13 @@
 
 	<flight id="1000" depAirportId="1000" arrAirportId="1001"
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
-		partnerId="1000" />
+		partnerId="1000" version="0" />
 	<flight id="1001" depAirportId="1000" arrAirportId="2000"
 		departureDateTime="2016-11-16 00:00:00" arrivalDateTime="2016-11-16 08:00:00"
-		partnerId="1000" />
+		partnerId="1000" version="0" />
 	<flight id="2000" depAirportId="3000" arrAirportId="1001"
 		departureDateTime="2016-11-15 00:00:00" arrivalDateTime="2016-11-17 00:00:00"
-		partnerId="2000" />
+		partnerId="2000" version="0" />
 
 	<pricingRule id="1000" volume="4" discountValue="5.0"
 		flightId="1000" />
@@ -38,22 +38,22 @@
 
 	<flightTravelCategory id="1000" travelCategory="REGULAR"
 		seatPrice="50.0" overruledPrice="10.0" commission="10.0" maximumSeats="60"
-		openSeats="57" flightId="1000" />
+		openSeats="57" flightId="1000" version="0" />
 	<flightTravelCategory id="1001" travelCategory="PREMIUM"
 		seatPrice="70.0" overruledPrice="0.0" commission="10.0" maximumSeats="10"
-		openSeats="9" flightId="1000" />
+		openSeats="9" flightId="1000" version="0" />
 	<flightTravelCategory id="1100" travelCategory="REGULAR"
 		seatPrice="75.0" overruledPrice="0.0" commission="10.0" maximumSeats="40"
-		openSeats="40" flightId="1001" />
+		openSeats="40" flightId="1001" version="0" />
 	<flightTravelCategory id="1101" travelCategory="PREMIUM"
 		seatPrice="75.0" overruledPrice="20.0" commission="10.0" maximumSeats="10"
-		openSeats="10" flightId="1001" />
+		openSeats="10" flightId="1001" version="0" />
 	<flightTravelCategory id="1200" travelCategory="REGULAR"
 		seatPrice="50.0" overruledPrice="0.0" commission="10.0" maximumSeats="60"
-		openSeats="60" flightId="2000" />
+		openSeats="60" flightId="2000" version="0" />
 	<flightTravelCategory id="1201" travelCategory="PREMIUM"
 		seatPrice="70.0" overruledPrice="0.0" commission="10.0" maximumSeats="20"
-		openSeats="20" flightId="2000" />
+		openSeats="20" flightId="2000" version="0" />
 
 	<user id="1000" userName="partrans@rair.com" password="123" role="PARTNER"
 		partnerId="1000" />
@@ -64,14 +64,14 @@
 
 	<booking id="1000" bookingDateTime="2016-11-11 17:35:17"
 		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
-		paymentType="ENDORSED" bookingStatus="PAID" userId="500" />
+		paymentType="ENDORSED" bookingStatus="PAID" userId="500" version="0" />
 	<booking id="1001" bookingDateTime="2016-11-11 17:35:17"
 		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
-		paymentType="CREDIT_CARD" bookingStatus="PAID" userId="500" />
+		paymentType="CREDIT_CARD" bookingStatus="PAID" userId="500" version="0" />
 	<booking id="1002" bookingDateTime="2016-11-11 17:35:17"
 		finalPrice="47.5" purchasePrice="45" flightId="1000" travelCategory="REGULAR"
-		paymentType="CREDIT_CARD" bookingStatus="UNPAID" userId="500" />
+		paymentType="CREDIT_CARD" bookingStatus="UNPAID" userId="500" version="0" />
 	<booking id="1100" bookingDateTime="2016-11-11 17:36:17"
 		finalPrice="77.5" purchasePrice="70" flightId="1000" travelCategory="PREMIUM"
-		paymentType="ENDORSED" bookingStatus="INACTIVE" userId="500"/>
+		paymentType="ENDORSED" bookingStatus="INACTIVE" userId="500" version="0"/>
 </dataset>

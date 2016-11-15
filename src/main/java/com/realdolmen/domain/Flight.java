@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import com.realdolmen.util.PriceCalculatorUtil;
 
@@ -27,6 +28,9 @@ public class Flight implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Version
+	private Long version;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "depAirportId")
@@ -111,9 +115,17 @@ public class Flight implements Serializable {
 	public List<FlightTravelCategory> getFlightTravelCategory() {
 		return flightTravelCategory;
 	}
-	
+
 	public void setFlightTravelCategory(List<FlightTravelCategory> flightTravelCategory) {
 		this.flightTravelCategory = flightTravelCategory;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public Flight() {
@@ -146,4 +158,5 @@ public class Flight implements Serializable {
 
 		this.priceRules = pricingRules;
 	}
+
 }
