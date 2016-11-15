@@ -9,7 +9,7 @@
 	<ui:define name="content">
 		<h1>Confirm booking</h1>
 
-		<p:panel>
+		<p:panel id="panel">
 			<h2>Ticket overview</h2>
 			<p:dataTable value="#{backingBean.bookingsToBeConfirmed}"
 				var="booking">
@@ -39,9 +39,14 @@
 			<p:outputLabel for="ccv" value="CCV" />
 			<p:inputMask id="ccv" value="" size="3" />
 		</p:panel>
-		
-		<p:commandButton value="Submit" styleClass="button"
-				action="#{bookingController.persistBooking}" disabled="#{backingBean.bookingsToBeConfirmed.size() eq 0}"/>
+
+		<p:commandButton id="confirm" value="Submit" styleClass="button"
+			action="#{bookingController.persistBooking}"
+			disabled="#{backingBean.bookingsToBeConfirmed.size() eq 0}" />
+		<p:blockUI block="confirm" trigger="confirm">
+        LOADING<br />
+
+		</p:blockUI>
 	</ui:define>
 </ui:composition>
 </html>
