@@ -81,6 +81,17 @@ public final class PriceCalculatorUtil {
 		return fPrice;
 	}
 
+	public static Double getPurchasePrice(FlightTravelCategory ftg, List<PricingRule> allRules, Integer amount) {
+		Double seatPrice = ftg.getSeatPrice();
+		Double modifier = 0.0;
+		PricingRule pRule = pricingRuleToApply(amount, allRules);
+		
+		if (pRule != null) {
+			modifier = pRule.getDiscountValue();
+		}
+		return seatPrice - (seatPrice * modifier / 100);
+	}
+	
 	private PriceCalculatorUtil() {
 	}
 
