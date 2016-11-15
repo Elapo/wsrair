@@ -7,24 +7,23 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="WEB-INF/templates/templatenoredirect.xhtml">
-	<ui:define name="title">Register</ui:define>
+	<ui:define name="title">#{msgs['register.title']}</ui:define>
 	<ui:define name="content">
-		<h3>Register</h3>
-		
+		<h3>#{msgs['register.title']}</h3>		
 		<h:form>
 			<p:messages id="messages" showDetail="true" closable="true" />
 			<p:panelGrid id="panel" columns="2">
-				<p:outputLabel for="userName" value="E-mail" />
+				<p:outputLabel for="userName" value="#{msgs['register.username']}" />
 				<p:inputText id="userName" value="#{authController.registerUser.userName}" />
 
-				<p:outputLabel for="password" value="Password" />
+				<p:outputLabel for="password" value="#{msgs['register.password']}" />
 				<p:inputText id="password" value="#{authController.registerUser.password}" type="password" />
 
-				<p:outputLabel for="cPassword" value="Confirm password" />
+				<p:outputLabel for="cPassword" value="#{msgs['register.cPassword']}" />
 				<p:inputText id="cPassword" value="#{authController.confirmPassword}" type="password" />
 
-				<p:commandButton styleClass="button" value="Register" action="#{authController.register()}" update="@form" />
-				<p:commandButton styleClass="button" value="Reset">
+				<p:commandButton styleClass="button" value="#{msgs['register.submit']}" action="#{authController.register()}" update="@form" />
+				<p:commandButton styleClass="button" value="#{msgs['register.reset']}">
 					<p:ajax update="panel" resetValues="true" />
 				</p:commandButton>
 			</p:panelGrid>

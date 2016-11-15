@@ -7,13 +7,13 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
-	<ui:define name="title">Search flight</ui:define>
+	<ui:define name="title">#{msgs['searchFlight.title']}</ui:define>
 	<ui:define name="content">
-		<h3>Search a flight</h3>
+		<h3>#{msgs['searchFlight.title']}</h3>
 
 		<h:form>
 			<p:panelGrid class="ui-noborder" columns="4" layout="grid">
-				<p:outputLabel for="departure" value="Departure:" />
+				<p:outputLabel for="departure" value="#{msgs['searchFlight.departure']}" />
 				<p:selectOneMenu id="departure" effect="fold"
 					value="#{searchController.searchQuery.depId}" style="width:150px"
 					filter="true" filterMatchMode="contains">
@@ -24,7 +24,7 @@
 					<p:ajax process="@this" partialSubmit="true" />
 				</p:selectOneMenu>
 
-				<p:outputLabel for="arrival" value="Arrival:" />
+				<p:outputLabel for="arrival" value="#{msgs['searchFlight.arrival']}" />
 				<p:selectOneMenu id="arrival" effect="fold"
 					value="#{searchController.searchQuery.arrId}" style="width:150px"
 					filter="true" filterMatchMode="contains">
@@ -35,7 +35,7 @@
 					<p:ajax process="@this" partialSubmit="true" />
 				</p:selectOneMenu>
 
-				<p:outputLabel for="travelCat" value="Travel Category:" />
+				<p:outputLabel for="travelCat" value="#{msgs['searchFlight.travelCat']}" />
 				<p:selectOneMenu id="travelCat" effect="fold"
 					value="#{searchController.searchQuery.tCategory}"
 					style="width:150px">
@@ -44,7 +44,7 @@
 					<p:ajax process="@this" partialSubmit="true" />
 				</p:selectOneMenu>
 
-				<p:outputLabel for="partner" value="Prefered airline:" />
+				<p:outputLabel for="partner" value="#{msgs['searchFlight.partner']}" />
 				<p:selectOneMenu id="partner" effect="fold"
 					value="#{searchController.searchQuery.partnerId}"
 					style="width:150px" filter="true" filterMatchMode="contains">
@@ -54,58 +54,58 @@
 					<p:ajax process="@this" partialSubmit="true" />
 				</p:selectOneMenu>
 
-				<h:outputLabel for="tickets" value="Tickets: " />
+				<h:outputLabel for="tickets" value="#{msgs['searchFlight.tickets']}" />
 				<p:spinner id="tickets"
 					value="#{searchController.searchQuery.tickets}" min="1" max="100"
 					size="5">
 					<p:ajax process="@this" />
 				</p:spinner>
 
-				<h:outputLabel for="depDate" value="Departure date:" />
+				<h:outputLabel for="depDate" value="#{msgs['searchFlight.departureDate']}" />
 				<p:calendar id="depDate" effect="fold"
 					value="#{searchController.searchQuery.depDate}"
 					pattern="dd/MM/yyyy HH:mm" mindate="#{searchController.today}">
 					<p:ajax process="@this" />
 				</p:calendar>
 			</p:panelGrid>
-			<p:commandButton styleClass="button" value="Search"
+			<p:commandButton styleClass="button" value="#{msgs['searchFlight.search']}"
 				action="#{searchController.query()}" update="holder" />
 		</h:form>
 		<h:panelGroup id="holder" layout="block">
-			<p:dataTable id="searchResults" paginator="true" rows="5" emptyMessage="No flights found."
-				value="#{searchController.foundFlights}" var="flight">
-				<p:column headerText="Flight ID">
+			<p:dataTable id="searchResults" paginator="true" rows="5" emptyMessage="#{msgs['searchFlight.result.empty']}"
+				value="#{searchController.foundFlights}" var="flight" rendered="#{searchController.foundFlights ne null}">
+				<p:column headerText="#{msgs['searchFlight.result.flightId']}">
 					<h:outputText
 						value="#{flight.arrivalLocation.airportCode}-#{flight.id}" />
 				</p:column>
-				<p:column headerText="Departure location">
+				<p:column headerText="#{msgs['searchFlight.result.depLoc']}">
 					<h:outputText value="#{flight.departureLocation.name}" />
 				</p:column>
-				<p:column headerText="Arrival location">
+				<p:column headerText="#{msgs['searchFlight.result.arrLoc']}">
 					<h:outputText value="#{flight.arrivalLocation.name}" />
 				</p:column>
-				<p:column headerText="Departure">
+				<p:column headerText="#{msgs['searchFlight.result.depTime']}">
 					<h:outputText value="#{flight.departureDateTime}" escape="false">
 						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Arrival">
+				<p:column headerText="#{msgs['searchFlight.result.arrTime']}">
 					<h:outputText value="#{flight.arrivalDateTime}" escape="false">
 						<f:convertDateTime pattern="dd/MM/yyyy '&lt;br/&gt;' HH:mm" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Airline">
+				<p:column headerText="#{msgs['searchFlight.result.partner']}">
 					<h:outputText value="#{flight.partner.name}" />
 				</p:column>
-				<p:column headerText="Base price">
+				<p:column headerText="#{msgs['searchFlight.result.price']}">
 					<h:outputText value="#{searchController.basePrice(flight)}">
 						<f:convertNumber pattern="€ 0.00" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Book"
+				<p:column headerText="#{msgs['searchFlight.result.book']}"
 					rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}">
 					<h:form>
-						<p:button styleClass="button" outcome="bookFlight" value="Book!"
+						<p:button styleClass="button" outcome="bookFlight" value="#{msgs['searchFlight.result.bookButton']}"
 							icon="fa fa-plane">
 							<f:param name="flightId" value="#{flight.id}"></f:param>
 						</p:button>

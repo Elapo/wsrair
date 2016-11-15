@@ -34,20 +34,20 @@
 									action="/searchFlight.xhtml?faces-redirect=true"
 									icon="ui-icon-search" />
 
-								<p:submenu label="Manage account" icon="ui-icon-gear"
+								<p:submenu label="#{msgs['nav.manageAcc']}" icon="ui-icon-gear"
 									rendered="#{backingBean.userRole eq 'REGULAR'}">
-									<p:menuitem value="Personal info"
+									<p:menuitem value="#{msgs['nav.manageAccPersonalInfo']}"
 										action="/filtered/regular/manageaccount.xhtml?faces-redirect=true"
 										icon="ui-icon-person" />
 
-									<p:menuitem value="Confirm bookings"
+									<p:menuitem value="#{msgs['nav.manageAccConfirmBookings']}"
 										action="/filtered/regular/confirm.xhtml?faces-redirect=true"
 										icon="ui-icon-check" />
 								</p:submenu>
 
 								<f:facet name="options">
 									<h:outputText styleClass="welcome"
-										value="Welcome, #{backingBean.userName}"
+										value="#{msgs['nav.welcome']} #{backingBean.userName}"
 										rendered="#{backingBean.userName ne null}" />
 									<p:button styleClass="button" value="#{msgs['nav.login']}"
 										icon="ui-icon-extlink"
