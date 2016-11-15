@@ -87,6 +87,11 @@ public class UserController implements Serializable {
 	}
 
 	public void loadBooking() throws IOException {
+		if (bookingId == null) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ec.redirect(ec.getRequestContextPath() + "/filtered/regular/manageaccount.xhtml");
+			return;
+		}
 		Booking b = bookingService.find(bookingId);
 		if (b != null && b.getUser() != null && b.getUser().getUserName().equals(backingBean.getUserName())) {
 			bookingToPrint = b;
