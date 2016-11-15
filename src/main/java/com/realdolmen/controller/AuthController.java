@@ -113,7 +113,7 @@ public class AuthController implements Serializable {
 		this.loginPassword = loginPassword;
 	}
 
-	public String register() {
+	public String register() throws IOException {
 		if (!this.registerUser.getPassword().equals(confirmPassword)) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Passwords do not match"));
@@ -123,7 +123,8 @@ public class AuthController implements Serializable {
 			registerUser.setRole(Role.REGULAR);
 			User registeredUser = authService.createUser(registerUser);
 			backingBean.updateLoggedInUser(registeredUser);
-			return "index.xhtml?faces-redirect=true";
+			// return "index.xhtml?faces-redirect=true";
+			FacesContext.getCurrentInstance().getExternalContext().redirect(originalURL);
 		} catch (EJBTransactionRolledbackException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null,
