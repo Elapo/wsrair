@@ -31,9 +31,9 @@ public final class PriceCalculatorUtil {
 	public static PricingRule pricingRuleToApply(Integer amountOfSeats, List<PricingRule> allRules) {
 
 		if (amountOfSeats != null && amountOfSeats != 0) {
+			Collections.sort(allRules, new PriceRuleDiscountComperator());
 			Collections.sort(allRules, new PriceRuleVolumeComperator());
 			Collections.reverse(allRules);
-			Collections.sort(allRules, new PriceRuleDiscountComperator());
 			for (PricingRule pricingRule : allRules) {
 				if (pricingRule.getVolume() < amountOfSeats) {
 					return pricingRule;

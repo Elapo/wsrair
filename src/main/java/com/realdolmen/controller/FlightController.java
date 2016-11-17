@@ -180,6 +180,9 @@ public class FlightController implements Serializable {
 	}
 
 	public String createFlight() {
+		for (FlightTravelCategory ftc : editFlight.getFlightTravelCategory()) {
+			ftc.setOpenSeats(ftc.getMaximumSeats());
+		}
 		flightService.create(editFlight);
 		return "/findFlight.xhtml?faces-redirect=true";
 	}

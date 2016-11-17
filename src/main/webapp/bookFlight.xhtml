@@ -101,7 +101,7 @@
 								<h:outputText value="&lt;br/&gt;" escape="false" />
 								<p:outputLabel id="priceRuleLabel"
 									value="- Because you purchased more than #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]).volume} tickets, a discount of #{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]).discountValue}% will be applied."
-									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]) ne null}" />
+									rendered="#{bookingController.pricingRuleToApply(bookingControlle	r.amountPerCategory[category.travelCategory]) ne null}" />
 								<h:outputText value="&lt;br/&gt;" escape="false"
 									rendered="#{bookingController.pricingRuleToApply(bookingController.amountPerCategory[category.travelCategory]) ne null}" />
 								<p:outputLabel id="paymentTypeLabel"
