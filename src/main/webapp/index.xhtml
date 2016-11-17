@@ -7,28 +7,17 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">#{msgs['index.title']}</ui:define>
 	<ui:define name="content">
-		<h:form id="formid">
-			<p:inputText id="simcardNumber" value="#{backingBean.simcard.number}">
-				<p:ajax update="msgSimcard" event="keyup"></p:ajax>
-			</p:inputText>
-			<p:message id="msgSimcard" for="simcardNumber"></p:message>
-			<p:commandButton value="Add SimCard" update="@form dtSim"
-				action="#{backingBean.addSimCard()}">
-			</p:commandButton>
-			
-		</h:form>
-
-		<p:dataTable id="dtSim" var="card" value="#{backingBean.allSimCard()}"
-			tableStyle="width:auto">
-			<p:column headerText="Id">
-				<h:outputText value="#{card.id}" />
-			</p:column>
-			<p:column headerText="Number">
-				<h:outputText value="#{card.number}" />
-			</p:column>
-		</p:dataTable>
-		
-		</ui:define>
+		<h1 style="text-align: center; color: green">RAir</h1>
+		<h2 style="text-align: center;">Your Airline Ticket Broker</h2>
+		<img class="displayed" src="http://www.engagor.com/wp-content/uploads/2014/03/airline-industry.jpg" alt="plane" />
+		<br />		
+		<p>RAir is a fantastic company that sells holiday trips to its
+			customers.</p>
+		<p>RAir offers a wide gamma of destinations all over the world
+			with the help of their partners!</p>
+		<p>Every trip starts at RAir, so get your tickets now!</p>
+	</ui:define>
 </ui:composition>
 </html>

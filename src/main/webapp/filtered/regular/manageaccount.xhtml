@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="../../WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<h3>Manage account</h3>
+		<h:form id="form1">
+			<h:panelGroup id="holder" layout="block">
+				<h:outputText styleClass="info" style="color:green"
+					value="Everything is filled in, you can print your ticket(s) now!"
+					rendered="#{userController.loggedInUser.requiredFieldsFilledIn()}"></h:outputText>
+				<h:outputText styleClass="info" style="color:red"
+					value="Personal information not complete, please complete all the fields."
+					rendered="#{not (userController.loggedInUser.requiredFieldsFilledIn())}"></h:outputText>
+			</h:panelGroup>
+
+			<p:tabView>
+				<p:tab title="Manage information">
+					<p:panelGrid columns="2">
+						<p:outputLabel for="email" value="E-mail:"></p:outputLabel>
+						<p:inputText id="email"
+							value="#{userController.loggedInUser.userName}" disabled="true"></p:inputText>
+
+						<p:outputLabel for="firstname" value="First name:"></p:outputLabel>
+						<p:inputText id="firstname"
+							value="#{userController.loggedInUser.firstName}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="lastname" value="Last name:"></p:outputLabel>
+						<p:inputText id="lastname"
+							value="#{userController.loggedInUser.lastName}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="street" value="Street:"></p:outputLabel>
+						<p:inputText id="street"
+							value="#{userController.loggedInUser.street}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="hnumber" value="House number:"></p:outputLabel>
+						<p:inputText id="hnumber"
+							value="#{userController.loggedInUser.houseNumber}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="zip" value="Zipcode:"></p:outputLabel>
+						<p:inputText id="zip" value="#{userController.loggedInUser.zip}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="city" value="City:"></p:outputLabel>
+						<p:inputText id="city" value="#{userController.loggedInUser.city}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+
+						<p:outputLabel for="phone" value="Phone:"></p:outputLabel>
+						<p:inputText id="phone"
+							value="#{userController.loggedInUser.phoneNumber}">
+							<p:ajax listener="#{userController.updateUser()}"
+								update="@([id$=holder]) @([id$=print]) @([id$=cancel])" />
+						</p:inputText>
+					</p:panelGrid>
+
+
+				</p:tab>
+				<p:tab title="Manage bookings">
+					<p:dataTable value="#{userController.bookings}" var="booking"
+						tableStyle="width:auto" id="clientBookings" >
+						<p:column headerText="Booking #">
+							<h:outputText value="#{booking.id}" />
+						</p:column>
+						<p:column headerText="Flight Code">
+							<h:outputText
+								value="#{booking.flight.arrivalLocation.airportCode}-#{booking.flight.id}" />
+						</p:column>
+						<p:column headerText="Departure">
+							<h:outputText
+								value="#{booking.flight.departureLocation.country} (#{booking.flight.departureLocation.airportCode})" />
+						</p:column>
+						<p:column headerText="Departure time&lt;br/&gt;(GMT)"
+							escape="false">
+							<h:outputText value="#{booking.flight.departureDateTime}"
+								escape="false">
+								<f:convertDateTime pattern="dd/MM/yyyy'&lt;br/&gt;'HH:mm" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Arrival">
+							<h:outputText
+								value="#{booking.flight.arrivalLocation.country} (#{booking.flight.arrivalLocation.airportCode})" />
+						</p:column>
+						<p:column headerText="Arrival time&lt;br/&gt;(GMT)" escape="false">
+							<h:outputText value="#{booking.flight.arrivalDateTime}"
+								escape="false">
+								<f:convertDateTime pattern="dd/MM/yyyy'&lt;br/&gt;'HH:mm" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Price (EUR)">
+							<h:outputText value="#{booking.finalPrice}">
+								<f:convertNumber pattern="€ 0.00" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Payment&lt;br/&gt;Status">
+							<h:outputText value="#{booking.bookingStatus}" />
+						</p:column>
+						<p:column headerText="Print">
+							<p:button styleClass="button" id="print" outcome="secure.xhtml"
+								target="_blank"
+								disabled="#{not (userController.loggedInUser.requiredFieldsFilledIn())}"
+								icon="fa fa-print">
+								<f:param name="bookingId" value="#{booking.id}"></f:param>
+							</p:button>
+						</p:column>
+						<p:column headerText="Cancel">
+							<p:commandButton styleClass="button" id="cancel"
+								action="#{userController.cancelBooking(booking.id)}"
+								icon="fa fa-remove" update="clientBookings"
+								disabled="#{not (userController.loggedInUser.requiredFieldsFilledIn())}">
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

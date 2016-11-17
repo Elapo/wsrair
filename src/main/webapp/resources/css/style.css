@@ -1,0 +1,46 @@
+.content {
+	margin-top: 1em;
+	padding: 2em 3em 2em 3em;
+	background-color: #dadada;
+}
+
+img.displayed {
+	width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+
+.menu {
+	background-color: #dadada;
+}
+
+.button {
+	background-color: #70af5c !important; 
+	border: 1px solid #008000!important;
+}
+
+.info {
+	font-size: 1.5em;
+	display: flex;
+	justify-content: center
+}
+
+.welcome {
+	padding-right: 0.5em;
+}
+body {
+	background-color: #70af5c;
+}
+
+footer {
+	padding: 0.5em;
+	background-color: #868686;
+	color: white;
+	text-align: right;
+}
+
+#holder {
+	margin-top: 2em;
+}
+	
+

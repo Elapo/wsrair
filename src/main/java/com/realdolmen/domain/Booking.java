@@ -1,9 +1,10 @@
 package com.realdolmen.domain;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,32 +13,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 @Entity
-public class Booking {
+public class Booking implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Version
+	private Long version;
+
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="flightId")
+	@JoinColumn(name = "flightId")
 	private Flight flight;
-	
-	@Enumerated
+
+	@Enumerated(EnumType.STRING)
 	private TravelCategory travelCategory;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bookingDateTime;
-	
-	@Enumerated
+
+	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
-	private Boolean locked;
+
+	@Enumerated(EnumType.STRING)
+	private BookingStatus bookingStatus;
+
 	private Double finalPrice;
+	private Double purchasePrice;
 
 	public Long getId() {
 		return id;
@@ -45,6 +54,14 @@ public class Booking {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public User getUser() {
@@ -87,12 +104,12 @@ public class Booking {
 		this.paymentType = paymentType;
 	}
 
-	public Boolean getLocked() {
-		return locked;
+	public BookingStatus getBookingStatus() {
+		return bookingStatus;
 	}
 
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
+	public void setBookingStatus(BookingStatus bookingStatus) {
+		this.bookingStatus = bookingStatus;
 	}
 
 	public Double getFinalPrice() {
@@ -103,8 +120,20 @@ public class Booking {
 		this.finalPrice = finalPrice;
 	}
 
+	public Double getPurchasePrice() {
+		return purchasePrice;
+	}
+
+	public void setPurchasePrice(Double purchasePrice) {
+		this.purchasePrice = purchasePrice;
+	}
+
 	public Booking() {
 		super();
+	}
+
+	public String sHashCode() {
+		return String.valueOf(this.id + "000");
 	}
 
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view>
+	<f:loadBundle basename="com.realdolmen.Messages" var="msgs" />
+
+	<h:head>
+		<title><ui:insert name="title">Placeholder</ui:insert></title>
+		<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+		<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+		<h:outputScript library="js" name="bootstrap.min.js" />
+	</h:head>
+	<h:body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<header>
+						<h:form>
+							<p:menubar styleClass="menu">
+								<p:menuitem value="#{msgs['nav.home']}"
+									action="/index?faces-redirect=true" icon="ui-icon-home" />
+
+								<p:menuitem value="#{msgs['nav.findFlight']}"
+									rendered="#{backingBean.userRole eq 'PARTNER' or backingBean.userRole eq 'EMPLOYEE'}"
+									action="/findFlight.xhtml?faces-redirect=true"
+									icon="ui-icon-search" />
+
+								<p:menuitem value="#{msgs['nav.findFlight']}"
+									rendered="#{backingBean.userRole eq 'REGULAR' or backingBean.userRole eq null}"
+									action="/searchFlight.xhtml?faces-redirect=true"
+									icon="ui-icon-search" />
+
+								<p:submenu label="#{msgs['nav.manageAcc']}" icon="ui-icon-gear"
+									rendered="#{backingBean.userRole eq 'REGULAR'}">
+									<p:menuitem value="#{msgs['nav.manageAccPersonalInfo']}"
+										action="/filtered/regular/manageaccount.xhtml?faces-redirect=true"
+										icon="ui-icon-person" />
+
+									<p:menuitem value="#{msgs['nav.manageAccConfirmBookings']}"
+										action="/filtered/regular/confirm.xhtml?faces-redirect=true"
+										icon="ui-icon-check" />
+								</p:submenu>
+
+								<f:facet name="options">
+									<h:outputText styleClass="welcome"
+										value="#{msgs['nav.welcome']} #{backingBean.userName}"
+										rendered="#{backingBean.userName ne null}" />
+									<p:button styleClass="button" value="#{msgs['nav.login']}"
+										icon="ui-icon-extlink"
+										outcome="/login.xhtml?faces-redirect=true"
+										rendered="#{backingBean.userRole eq null}" />
+									<p:commandButton styleClass="button"
+										value="#{msgs['nav.logout']}" icon="ui-icon-extlink"
+										action="#{authController.logout()}"
+										rendered="#{backingBean.userRole ne null}" />
+								</f:facet>
+							</p:menubar>
+						</h:form>
+					</header>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="container-fluid content">
+						<ui:insert name="content">Content</ui:insert>
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<p>Copyright 2016 Realdolmen</p>
+			</footer>
+		</div>
+
+	</h:body>
+</f:view>
+</html>

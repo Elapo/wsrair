@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:metadata>
+	<f:viewParam name="bookingId" value="#{userController.bookingId}"></f:viewParam>
+	<f:event type="preRenderView" listener="#{userController.loadBooking}" />
+</f:metadata>
+<ui:composition template="../../WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<h1>Print ticket</h1>
+		<p:button styleClass="button" onclick="window.print()" value="Print!"></p:button>
+		<p:panelGrid columns="2" class="ui-noborder">
+			<p:panelGrid columns="2">
+				<h:outputText value="Scancode" />
+				<p:barcode value="#{userController.bookingToPrint.sHashCode()}"
+					type="pdf417" />
+
+				<h:outputText value="Booking number" />
+				<h:outputText value="#{userController.bookingToPrint.id}" />
+
+				<h:outputText value="Booking date" />
+				<h:outputText
+					value="#{userController.bookingToPrint.bookingDateTime}" escape="false">
+					<f:convertDateTime pattern="dd/MM/yyyy 'at' HH:mm" />
+				</h:outputText>
+
+				<h:outputText value="Payment type" />
+				<h:outputText value="#{userController.bookingToPrint.paymentType}" />
+
+				<h:outputText value="Travel category" />
+				<h:outputText
+					value="#{userController.bookingToPrint.travelCategory}" />
+
+				<h:outputText value="Price" />
+				<h:outputText value="#{userController.bookingToPrint.finalPrice}">
+					<f:convertNumber pattern="€ 0.00" />
+				</h:outputText>
+			</p:panelGrid>
+			<p:panelGrid columns="2">
+				<h:outputText value="Firstname" />
+				<h:outputText
+					value="#{userController.bookingToPrint.user.firstName}" />
+
+				<h:outputText value="Lastname" />
+				<h:outputText value="#{userController.bookingToPrint.user.lastName}" />
+
+				<h:outputText value="Street" />
+				<h:outputText
+					value="#{userController.bookingToPrint.user.street} #{userController.bookingToPrint.user.houseNumber}" />
+
+				<h:outputText value="City" />
+				<h:outputText
+					value="#{userController.bookingToPrint.user.zip} #{userController.bookingToPrint.user.city}" />
+
+				<h:outputText value="E-mail" />
+				<h:outputText value="#{userController.bookingToPrint.user.userName}" />
+
+				<h:outputText value="Phone" />
+				<h:outputText
+					value="#{userController.bookingToPrint.user.phoneNumber}" />
+			</p:panelGrid>
+		</p:panelGrid>
+		<br />
+		<p:panelGrid columns="2" class="ui-noborder">
+			<h:outputText value="Flight number" />
+			<h:outputText
+				value="#{userController.bookingToPrint.flight.arrivalLocation.airportCode}-#{userController.bookingToPrint.flight.id}" />
+
+			<h:outputText value="Departure" />
+			<h:outputText
+				value="#{userController.bookingToPrint.flight.departureLocation.country} (#{userController.bookingToPrint.flight.departureLocation.airportCode})" />
+
+			<h:outputText value="Departure time" />
+			<h:outputText
+				value="#{userController.bookingToPrint.flight.departureDateTime}"
+				escape="false">
+				<f:convertDateTime pattern="dd/MM/yyyy 'at' HH:mm" />
+			</h:outputText>
+			
+			<h:outputText value="Arrival" />
+			<h:outputText
+				value="#{userController.bookingToPrint.flight.arrivalLocation.country} (#{userController.bookingToPrint.flight.arrivalLocation.airportCode})" />
+
+			<h:outputText value="Arrival time" />
+			<h:outputText
+				value="#{userController.bookingToPrint.flight.arrivalDateTime}"
+				escape="false">
+				<f:convertDateTime pattern="dd/MM/yyyy 'at' HH:mm" />
+			</h:outputText>
+			
+			<h:outputText value="Airline" />
+			<h:outputText value="#{userController.bookingToPrint.flight.partner.name}" />
+		</p:panelGrid>
+	</ui:define>
+</ui:composition>
+</html>

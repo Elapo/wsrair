@@ -1,9 +1,13 @@
 package com.realdolmen.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,36 +16,45 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
+
+import com.realdolmen.util.PriceCalculatorUtil;
 
 @Entity
-public class Flight {
+public class Flight implements Serializable {
+
+	private static final int MAX_AMOUNT_PRICINGRULES = 3;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@Version
+	private Long version;
+
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "depAirportId")
 	private Airport departureLocation;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date departureDateTime;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
+
 	@JoinColumn(name = "arrAirportId")
 	private Airport arrivalLocation;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date arrivalDateTime;
 
-	@OneToMany
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<PricingRule> priceRules;
 
 	@ManyToOne
 	@JoinColumn(name = "partnerId")
 	private Partner partner;
 
-	@OneToMany
+	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<FlightTravelCategory> flightTravelCategory;
 
 	public Long getId() {
@@ -108,7 +121,43 @@ public class Flight {
 		this.flightTravelCategory = flightTravelCategory;
 	}
 
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
 	public Flight() {
+		List<FlightTravelCategory> flightTravelCategories = new ArrayList<FlightTravelCategory>();
+
+		for (TravelCategory travelCategory : TravelCategory.values()) {
+			FlightTravelCategory ftg = new FlightTravelCategory();
+			ftg.setMaximumSeats(0);
+			ftg.setOpenSeats(0);
+			ftg.setSeatPrice(0.0);
+			ftg.setOverruledPrice(0.0);
+			ftg.setCommission(PriceCalculatorUtil.minimumCommissionPercentageWithMargin());
+			ftg.setTravelCategory(travelCategory);
+			ftg.setFlight(this);
+			flightTravelCategories.add(ftg);
+		}
+
+		this.flightTravelCategory = flightTravelCategories;
+
+		List<PricingRule> pricingRules = new ArrayList<PricingRule>();
+
+		for (int i = 0; i < MAX_AMOUNT_PRICINGRULES; i++) {
+			PricingRule pricingRule = new PricingRule();
+			pricingRule.setDiscountValue(0.0);
+			pricingRule.setVolume(0);
+			pricingRule.setFlight(this);
+
+			pricingRules.add(pricingRule);
+		}
+
+		this.priceRules = pricingRules;
 	}
 
 }
