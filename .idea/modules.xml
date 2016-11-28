@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rair.iml" filepath="$PROJECT_DIR$/rair.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rairpresentation/rairpresentation.iml" filepath="$PROJECT_DIR$/rairpresentation/rairpresentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rairrepositories/rairrepositories.iml" filepath="$PROJECT_DIR$/rairrepositories/rairrepositories.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rairservices/rairservices.iml" filepath="$PROJECT_DIR$/rairservices/rairservices.iml" />
+    </modules>
+  </component>
+</project>
